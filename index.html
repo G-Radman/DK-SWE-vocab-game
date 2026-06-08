@@ -141,6 +141,9 @@
   .audio-btn-big:active { transform:scale(0.92); background:var(--red); }
   .audio-btn-big.speaking { background:var(--red); animation:pulse 0.6s infinite alternate; }
   .quiz-audio-hint { font-size:11px; color:var(--muted); margin-top:10px; letter-spacing:0.3px; }
+  .quiz-word-reveal { margin-top:8px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08); }
+  .qwr-da { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark); margin-right:8px; }
+  .qwr-ipa { font-size:12px; color:var(--muted); font-style:italic; }
   .sentence-word-badge { text-align:center; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
   .sentence-word-badge strong { color:var(--dark); font-style:normal; }
   .sentence-reveal { background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:12px; font-size:13px; color:var(--mid); line-height:1.5; }
@@ -770,20 +773,61 @@ let quizWords=[],quizIndex=0,quizCorrect=0,quizWrong=0,quizType="da-sv",quizAnsw
 const CATEGORIES=["Alla",...new Set(WORDS.map(w=>w.cat))];
 
 // ─── SPEECH ───────────────────────────────────────────────────
-if(window.speechSynthesis)window.speechSynthesis.onvoiceschanged=()=>{};
-function speak(text,lang,btnId){
-  if(!window.speechSynthesis)return;
-  lang=lang||"da-DK";
+let _daVoice = null;
+let _voiceWarningShown = false;
+
+function getBestDanishVoice() {
+  if (_daVoice) return _daVoice;
+  const voices = window.speechSynthesis.getVoices();
+  // Priority: exact da-DK > any da- > name contains "danish" > name contains "dan"
+  const exact   = voices.find(v => v.lang === 'da-DK');
+  const prefix  = voices.find(v => v.lang.toLowerCase().startsWith('da'));
+  const byName  = voices.find(v => v.name.toLowerCase().includes('danish') || v.name.toLowerCase().includes('dansk'));
+  const byDan   = voices.find(v => v.name.toLowerCase().includes('dan'));
+  _daVoice = exact || prefix || byName || byDan || null;
+  return _daVoice;
+}
+
+function showVoiceBanner(voice) {
+  let banner = document.getElementById('voiceBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'voiceBanner';
+    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:#1A1A1A;color:#F5F0E8;font-size:12px;padding:10px 16px;z-index:999;display:flex;align-items:center;justify-content:space-between;gap:12px;';
+    document.body.appendChild(banner);
+  }
+  if (voice) {
+    banner.innerHTML = `<span>🔊 Röst: <strong>${voice.name}</strong> (${voice.lang})</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
+  } else {
+    banner.innerHTML = `<span>⚠️ Ingen dansk röst hittades. Installera "Danish" under Systeminställningar → Tillgänglighet → Tal → Röster (Mac) eller Inställningar → Tid & språk → Tal (Windows).</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
+  }
+}
+
+function initVoices() {
+  // Voices may load async — try immediately and also on the event
+  const tryInit = () => {
+    const v = getBestDanishVoice();
+    if (!_voiceWarningShown) {
+      _voiceWarningShown = true;
+      showVoiceBanner(v);
+    }
+  };
+  if (window.speechSynthesis.getVoices().length > 0) tryInit();
+  window.speechSynthesis.onvoiceschanged = () => { _daVoice = null; tryInit(); };
+}
+
+function speak(text, lang, btnId) {
+  if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const utt=new SpeechSynthesisUtterance(text);
-  utt.lang=lang;utt.rate=0.82;
-  const voices=window.speechSynthesis.getVoices();
-  const v=voices.find(x=>x.lang.startsWith(lang.slice(0,2)));
-  if(v)utt.voice=v;
-  if(btnId){
-    const btn=document.getElementById(btnId);
-    if(btn)btn.classList.add("speaking");
-    utt.onend=utt.onerror=()=>{const b=document.getElementById(btnId);if(b)b.classList.remove("speaking");};
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'da-DK';
+  utt.rate = 0.82;
+  const voice = getBestDanishVoice();
+  if (voice) utt.voice = voice;
+  if (btnId) {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.classList.add('speaking');
+    utt.onend = utt.onerror = () => { const b = document.getElementById(btnId); if (b) b.classList.remove('speaking'); };
   }
   window.speechSynthesis.speak(utt);
 }
@@ -931,10 +975,21 @@ function renderQuizQ(){
 }
 function answerQuiz(btn,chosen,correct){
   if(quizAnswered)return;quizAnswered=true;
+  const w=quizWords[quizIndex];
   document.querySelectorAll("#quizOptions .option-btn").forEach(b=>b.classList.add("locked"));
-  if(chosen===correct){btn.classList.add("correct");quizCorrect++;streak++;document.getElementById("quizFeedback").textContent="✓ Rätt!";document.getElementById("quizFeedback").className="quiz-feedback correct-fb";}
-  else{btn.classList.add("wrong");streak=0;quizWrong++;document.querySelectorAll("#quizOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("quizFeedback").textContent="✗ Fel – rätt: "+correct;document.getElementById("quizFeedback").className="quiz-feedback wrong-fb";}
-  document.getElementById("streakBadge").textContent="🔥 "+streak;document.getElementById("quizNextBtn").classList.add("visible");updateQuizScore();quizIndex++;
+  const wordLine=`<div class="quiz-word-reveal"><span class="qwr-da">${w.da}</span>${w.ipa?`<span class="qwr-ipa">${w.ipa}</span>`:''}</div>`;
+  if(chosen===correct){
+    btn.classList.add("correct");quizCorrect++;streak++;
+    document.getElementById("quizFeedback").innerHTML="✓ Rätt! "+wordLine;
+    document.getElementById("quizFeedback").className="quiz-feedback correct-fb";
+  } else {
+    btn.classList.add("wrong");streak=0;quizWrong++;
+    document.querySelectorAll("#quizOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});
+    document.getElementById("quizFeedback").innerHTML="✗ Fel – rätt: "+correct+" "+wordLine;
+    document.getElementById("quizFeedback").className="quiz-feedback wrong-fb";
+  }
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  document.getElementById("quizNextBtn").classList.add("visible");updateQuizScore();quizIndex++;
 }
 function nextQuizQ(){renderQuizQ();}
 function showQuizResult(){
@@ -974,7 +1029,7 @@ function renderSentenceQ(){
   document.getElementById("sentenceNextBtn").classList.remove("visible");
   document.getElementById("sentenceReveal").style.display="none";
   document.getElementById("sentenceAudioBtn").classList.remove("speaking");
-  document.getElementById("sentenceWordBadge").innerHTML="Fokusord: <strong>"+s.word+"</strong>";
+  document.getElementById("sentenceWordBadge").innerHTML="";
   // Build options: correct sv + 3 other sentence translations
   const correct=s.sv;
   const pool=SENTENCES.filter(x=>x.sv!==s.sv);
@@ -986,6 +1041,8 @@ function renderSentenceQ(){
 }
 function answerSentence(btn,chosen,correct,da){
   if(sentenceAnswered)return;sentenceAnswered=true;
+  const s=sentenceWords[sentenceIndex];
+  document.getElementById("sentenceWordBadge").innerHTML="Fokusord: <strong>"+s.word+"</strong>";
   document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>b.classList.add("locked"));
   const rev=document.getElementById("sentenceReveal");
   rev.innerHTML=`<div class="da-text">🇩🇰 ${da}</div><div>🇸🇪 ${correct}</div>`;
@@ -1026,6 +1083,7 @@ window.onload=()=>{
   loadSRS();
   buildBrowseCategories();applyBrowseFilter();renderBrowseCard();
   renderGlossary();startSRSSession();
+  initVoices();
 };
 </script>
 </body>
