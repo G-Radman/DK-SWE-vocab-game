@@ -398,5 +398,245 @@
     "da": "Om lidt finder vi ud af hvad der sker",
     "sv": "Om lite tar vi reda på vad som händer",
     "word": "om lidt + finde ud af + hvad der sker"
+  },
+  {
+    "da": "Jeg savner dig virkelig meget",
+    "sv": "Jag saknar dig verkligen mycket",
+    "word": "savner (saknar!) + meget (uttal: majed)"
+  },
+  {
+    "da": "Hvad betyder det egentlig?",
+    "sv": "Vad betyder det egentligen?",
+    "word": "betyder + egentlig (reduceras i tal)"
+  },
+  {
+    "da": "Kan du forklare det en gang til?",
+    "sv": "Kan du förklara det en gång till?",
+    "word": "forklare (förklara)"
+  },
+  {
+    "da": "Jeg glemte fuldstændig at ringe",
+    "sv": "Jag glömde fullständigt att ringa",
+    "word": "glemte (glömde!) + fuldstændig"
+  },
+  {
+    "da": "Han nyder virkelig sit arbejde",
+    "sv": "Han njuter verkligen av sitt arbete",
+    "word": "nyder (njuter av!)"
+  },
+  {
+    "da": "Prøv at forestille dig det",
+    "sv": "Försök föreställa dig det",
+    "word": "forestille sig (föreställa sig!)"
+  },
+  {
+    "da": "Jeg håber du får det bedre snart",
+    "sv": "Jag hoppas du mår bättre snart",
+    "word": "håber (hoppas!) + snart"
+  },
+  {
+    "da": "Hun er begyndt at lære dansk",
+    "sv": "Hon har börjat lära sig danska",
+    "word": "begyndt (börjat!) — note: started"
+  },
+  {
+    "da": "Det lykkedes os til sidst",
+    "sv": "Det lyckades oss till slut",
+    "word": "lykkedes (lyckades!) + til sidst"
+  },
+  {
+    "da": "Jeg gider simpelthen ikke mere",
+    "sv": "Jag orkar helt enkelt inte mer",
+    "word": "gider ikke (orkar inte!) + simpelthen"
+  },
+  {
+    "da": "Vi skal nok finde ud af det",
+    "sv": "Vi ska nog lista ut det",
+    "word": "nok (nog/säkert) + finde ud af"
+  },
+  {
+    "da": "Han ved godt hvad han laver",
+    "sv": "Han vet precis vad han håller på med",
+    "word": "ved godt (vet precis) — 'godt' som förstärkare"
+  },
+  {
+    "da": "Kan du ikke bare lade mig være?",
+    "sv": "Kan du inte bara låta mig vara?",
+    "word": "lade mig være (låta mig vara!) + bare"
+  },
+  {
+    "da": "Det er svært at undgå",
+    "sv": "Det är svårt att undvika",
+    "word": "undgå (undvika!)"
+  },
+  {
+    "da": "Hun plejede at cykle til arbejde",
+    "sv": "Hon brukade cykla till jobbet",
+    "word": "plejede (brukade!) — ingen svensk nutidsform"
+  },
+  {
+    "da": "Hvad er forskellen på de to?",
+    "sv": "Vad är skillnaden mellan de två?",
+    "word": "forskellen (skillnaden!)"
+  },
+  {
+    "da": "Der er mange muligheder her",
+    "sv": "Det finns många möjligheter här",
+    "word": "muligheder (möjligheter!)"
+  },
+  {
+    "da": "Det er et godt spørgsmål",
+    "sv": "Det är en bra fråga",
+    "word": "spørgsmål (fråga!)"
+  },
+  {
+    "da": "Vi er på ferie i næste uge",
+    "sv": "Vi är på semester nästa vecka",
+    "word": "ferie (semester!)"
+  },
+  {
+    "da": "Det er et godt tilbud",
+    "sv": "Det är ett bra erbjudande",
+    "word": "tilbud (erbjudande!)"
+  },
+  {
+    "da": "Lægen sagde det var ingenting",
+    "sv": "Läkaren sa att det var ingenting",
+    "word": "lægen (läkaren!) + sagde (sa!)"
+  },
+  {
+    "da": "Kom ind i stuen og sæt dig",
+    "sv": "Kom in i vardagsrummet och sätt dig",
+    "word": "stuen (vardagsrummet!) + sæt dig"
+  },
+  {
+    "da": "Nøglen ligger på køkkenbordet",
+    "sv": "Nyckeln ligger på köksbordet",
+    "word": "nøglen (nyckeln!) + køkken (kök!)"
+  },
+  {
+    "da": "Tag en dyne og en pude med",
+    "sv": "Ta med en täcke och en kudde",
+    "word": "dyne (täcke!) + pude (kudde!)"
+  },
+  {
+    "da": "Det var en kedelig forestilling",
+    "sv": "Det var en tråkig föreställning",
+    "word": "kedelig (tråkig!) — falsk ven"
+  },
+  {
+    "da": "Vejret er skiftevis sol og regn",
+    "sv": "Vädret är omväxlande sol och regn",
+    "word": "vejret (vädret!) + skiftevis"
+  },
+  {
+    "da": "Hvad koster det på tilbud?",
+    "sv": "Vad kostar det på rea?",
+    "word": "tilbud (rea!) — helt annorlunda"
+  },
+  {
+    "da": "Jeg er nødt til at gå til lægen",
+    "sv": "Jag måste gå till läkaren",
+    "word": "lægen (läkaren!) + nødt til (måste)"
+  },
+  {
+    "da": "Det er da meningen at man prøver",
+    "sv": "Det är ju meningen att man försöker",
+    "word": "da (ju! — partikel i påståenden)"
+  },
+  {
+    "da": "Du ved da godt hvad jeg mener",
+    "sv": "Du vet ju precis vad jag menar",
+    "word": "da + ved godt (vet precis)"
+  },
+  {
+    "da": "Det er vel det bedste vi kan gøre",
+    "sv": "Det är väl det bästa vi kan göra",
+    "word": "vel (väl — söker bekräftelse)"
+  },
+  {
+    "da": "Mon han overhovedet kommer?",
+    "sv": "Månne han överhuvudtaget kommer?",
+    "word": "mon (månne!) + overhovedet"
+  },
+  {
+    "da": "Det er gu ikke nemt",
+    "sv": "Det är ju/verkligen inte lätt",
+    "word": "gu (ju/sannerligen — förstärkare)"
+  },
+  {
+    "da": "Nå da, hvis du siger det",
+    "sv": "Nåja, om du säger det",
+    "word": "nå da (nåja då) — kombination"
+  },
+  {
+    "da": "Det er vel nok det rigtige at gøre",
+    "sv": "Det är väl nog det rätta att göra",
+    "word": "vel nok (väl nog — dubbel partikel)"
+  },
+  {
+    "da": "Jeg kan slet ikke forstå hvad de siger",
+    "sv": "Jag kan inte alls förstå vad de säger",
+    "word": "slet ikke + hvad (va) — reduktion"
+  },
+  {
+    "da": "Det ved jeg ikke noget om",
+    "sv": "Det vet jag ingenting om",
+    "word": "ved ikke + noget — båda reduceras kraftigt"
+  },
+  {
+    "da": "Har du nogen sinde oplevet noget lignende?",
+    "sv": "Har du någonsin upplevt något liknande?",
+    "word": "nogen sinde (någonsin!) + noget (noe)"
+  },
+  {
+    "da": "Det er ikke noget jeg tænker over",
+    "sv": "Det är inget jag tänker på",
+    "word": "ikke noget — 'ej noe' i tal"
+  },
+  {
+    "da": "Hvad sagde han egentlig?",
+    "sv": "Vad sa han egentligen?",
+    "word": "sagde (sa! — uttalas sæde) + egentlig"
+  },
+  {
+    "da": "Jeg troede det var anderledes",
+    "sv": "Jag trodde det var annorlunda",
+    "word": "troede (trodde! — uttalas trode)"
+  },
+  {
+    "da": "Der er ikke noget at gøre ved det",
+    "sv": "Det finns ingenting att göra åt det",
+    "word": "ikke noget at gøre ved (ingenting att göra åt)"
+  },
+  {
+    "da": "Det er hverken fugl eller fisk",
+    "sv": "Det är varken fågel eller fisk",
+    "word": "hverken (varken! — H tyst)"
+  },
+  {
+    "da": "Det tager tid at vænne sig til",
+    "sv": "Det tar tid att vänja sig vid",
+    "word": "vænne sig til (vänja sig vid!) + tid"
+  },
+  {
+    "da": "Giv det en chance, det er det værd",
+    "sv": "Ge det en chans, det är det värt",
+    "word": "giv (ge! — G→J) + det værd (det värt)"
+  },
+  {
+    "da": "Hvad tænkte du på?",
+    "sv": "Vad tänkte du på?",
+    "word": "hvad (va!) + tænkte — fortidsform"
+  },
+  {
+    "da": "Det er simpelthen ikke til at forstå",
+    "sv": "Det är helt enkelt omöjligt att förstå",
+    "word": "simpelthen (helt enkelt) + ikke til at forstå"
+  },
+  {
+    "da": "Jeg synes du skal tage dig sammen",
+    "sv": "Jag tycker du ska ta dig i kragen",
+    "word": "synes (tycker — känslobaserat) + tage sig sammen"
   }
 ]
