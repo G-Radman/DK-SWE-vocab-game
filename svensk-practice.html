@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dansk Øvelse</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:#C0392B; --cream:#F5F0E8; --dark:#1A1A1A; --mid:#4A4440; --muted:#9A8E85;
+    --card-bg:#FEFCF8; --border:#E0D8CC; --correct:#2E7D52; --wrong:#C0392B;
+    --srs-new:#3B82F6; --srs-learn:#F59E0B; --srs-due:#C0392B; --srs-ok:#2E7D52;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--dark); min-height:100vh; max-width:480px; margin:0 auto; overflow-x:hidden; }
+  .header { background:var(--dark); color:var(--cream); padding:18px 20px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+  .header-title { font-family:'Playfair Display',serif; font-size:22px; letter-spacing:-0.5px; }
+  .header-title span { color:var(--red); font-style:italic; }
+  .header-sub { font-size:10px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-top:1px; }
+  .streak-badge { background:var(--red); color:white; font-size:12px; font-weight:500; padding:4px 10px; border-radius:20px; }
+  .tabs { display:flex; border-bottom:1px solid var(--border); background:var(--card-bg); position:sticky; top:61px; z-index:99; }
+  .tab { flex:1; padding:11px 4px; text-align:center; font-size:11px; font-weight:500; letter-spacing:0.3px; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.2s; user-select:none; }
+  .tab.active { color:var(--dark); border-bottom-color:var(--red); }
+  .screen { display:none; padding:16px 14px 120px; }
+  .screen.active { display:block; }
+  .srs-dash { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:18px; }
+  .srs-tile { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:10px 6px; text-align:center; }
+  .srs-tile-num { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; line-height:1; }
+  .srs-tile-label { font-size:10px; color:var(--muted); margin-top:3px; letter-spacing:0.3px; }
+  .srs-tile.new .srs-tile-num { color:var(--srs-new); }
+  .srs-tile.learning .srs-tile-num { color:var(--srs-learn); }
+  .srs-tile.due .srs-tile-num { color:var(--srs-due); }
+  .srs-tile.known .srs-tile-num { color:var(--srs-ok); }
+  .study-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .study-mode-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+  .study-count { font-size:12px; color:var(--muted); }
+  .srs-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:28px 22px; text-align:center; min-height:210px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,0.06); cursor:pointer; transition:transform 0.1s; position:relative; }
+  .srs-card:active { transform:scale(0.99); }
+  .card-badge { position:absolute; top:12px; right:14px; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; border-radius:20px; font-weight:600; }
+  .badge-new { background:#EFF6FF; color:var(--srs-new); }
+  .badge-review { background:#FEF3C7; color:var(--srs-learn); }
+  .badge-due { background:#FEF2F2; color:var(--srs-due); }
+  .card-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+  .card-word { font-family:'Playfair Display',serif; font-size:44px; font-weight:700; color:var(--dark); line-height:1.1; margin-bottom:6px; }
+  .card-ipa { font-size:12px; color:var(--muted); font-style:italic; margin-bottom:6px; }
+  .card-cat-tag { font-size:10px; background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:2px 8px; color:var(--muted); }
+  .tap-hint { font-size:11px; color:var(--muted); margin-top:14px; }
+  .card-reveal { display:none; width:100%; border-top:1px solid var(--border); padding-top:16px; margin-top:12px; }
+  .card-reveal.shown { display:block; }
+  .card-swedish { font-size:12px; color:var(--muted); margin-bottom:5px; }
+  .card-swedish strong { color:var(--mid); }
+  .card-meaning { font-size:17px; font-weight:500; color:var(--dark); margin-bottom:8px; }
+  .card-note { font-size:11px; color:var(--muted); font-style:italic; line-height:1.5; background:var(--cream); border-radius:8px; padding:7px 10px; text-align:left; }
+  .card-note strong { color:var(--red); font-style:normal; }
+  .audio-btn { width:48px; height:48px; border-radius:50%; background:var(--dark); color:var(--cream); border:none; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; transition:transform 0.1s,background 0.15s; flex-shrink:0; }
+  .audio-btn:active { transform:scale(0.92); background:var(--red); }
+  .audio-btn.speaking { background:var(--red); animation:pulse 0.6s infinite alternate; }
+  @keyframes pulse { from{transform:scale(1);}to{transform:scale(1.06);} }
+  .srs-ratings { display:flex; gap:8px; margin-top:14px; }
+  .rating-btn { flex:1; padding:13px 4px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.15s; display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .rating-btn:active { transform:scale(0.96); }
+  .rating-btn .r-emoji { font-size:18px; }
+  .rating-btn .r-label { font-size:10px; letter-spacing:0.3px; }
+  .rating-btn .r-interval { font-size:9px; color:var(--muted); }
+  .rating-btn.r-again { border-color:#FCA5A5; color:var(--wrong); }
+  .rating-btn.r-hard { border-color:#FCD34D; color:#92400E; }
+  .rating-btn.r-good { border-color:#86EFAC; color:var(--correct); }
+  .rating-btn.r-easy { border-color:#93C5FD; color:#1D4ED8; }
+  .rating-btn.r-again:active { background:#FEF2F2; }
+  .rating-btn.r-hard:active { background:#FFFBEB; }
+  .rating-btn.r-good:active { background:#F0FDF4; }
+  .rating-btn.r-easy:active { background:#EFF6FF; }
+  .done-panel { text-align:center; padding:40px 16px; }
+  .done-emoji { font-size:56px; margin-bottom:14px; }
+  .done-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; margin-bottom:6px; }
+  .done-sub { color:var(--muted); font-size:14px; margin-bottom:28px; line-height:1.5; }
+  .done-stats { display:flex; gap:12px; justify-content:center; margin-bottom:28px; }
+  .done-stat { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:14px 20px; }
+  .done-stat-num { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; color:var(--dark); }
+  .done-stat-label { font-size:11px; color:var(--muted); }
+  .categories { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px; }
+  .cat-pill { font-size:10px; font-weight:500; padding:4px 11px; border-radius:20px; border:1.5px solid var(--border); background:var(--card-bg); color:var(--mid); cursor:pointer; transition:all 0.15s; user-select:none; }
+  .cat-pill.active { background:var(--dark); color:var(--cream); border-color:var(--dark); }
+  .progress-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .progress-bar { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+  .progress-fill { height:100%; background:var(--red); border-radius:2px; transition:width 0.3s ease; }
+  .progress-text { font-size:11px; color:var(--muted); white-space:nowrap; }
+  .card-nav { display:flex; gap:10px; margin-top:14px; }
+  .nav-btn { flex:1; padding:13px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--mid); cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; gap:5px; }
+  .nav-btn.primary { background:var(--dark); color:var(--cream); border-color:var(--dark); flex:2; }
+  .score-panel { background:var(--card-bg); border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:14px; display:flex; }
+  .score-item { flex:1; text-align:center; border-right:1px solid var(--border); }
+  .score-item:last-child { border-right:none; }
+  .score-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; color:var(--dark); line-height:1; margin-bottom:3px; }
+  .score-label { font-size:10px; color:var(--muted); }
+  .qtype-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; font-size:11px; color:var(--muted); }
+  .qtype-toggle { display:flex; gap:6px; }
+  .qtype-btn { padding:4px 12px; border-radius:20px; border:1.5px solid var(--border); background:var(--card-bg); font-size:11px; font-weight:500; color:var(--mid); cursor:pointer; }
+  .qtype-btn.active { background:var(--dark); color:var(--cream); border-color:var(--dark); }
+  .quiz-question-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:7px; text-align:center; }
+  .quiz-word { font-family:'Playfair Display',serif; font-size:44px; font-weight:700; text-align:center; margin-bottom:5px; color:var(--dark); line-height:1.1; }
+  .quiz-sub { font-size:12px; color:var(--muted); text-align:center; margin-bottom:6px; font-style:italic; }
+  .quiz-audio-row { display:flex; justify-content:center; margin-bottom:20px; }
+  .quiz-options { display:flex; flex-direction:column; gap:9px; margin-bottom:16px; }
+  .option-btn { padding:14px 18px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--dark); cursor:pointer; text-align:left; transition:all 0.15s; line-height:1.3; }
+  .option-btn.correct { background:#EBF5EE; border-color:var(--correct); color:var(--correct); }
+  .option-btn.wrong { background:#FDECEA; border-color:var(--wrong); color:var(--wrong); }
+  .option-btn.locked { cursor:default; }
+  .quiz-feedback { text-align:center; font-size:13px; font-weight:500; min-height:22px; margin-bottom:10px; }
+  .quiz-feedback.correct-fb { color:var(--correct); }
+  .quiz-feedback.wrong-fb { color:var(--wrong); }
+  .quiz-next-btn { width:100%; padding:15px; border-radius:12px; background:var(--dark); color:var(--cream); border:none; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; display:none; }
+  .quiz-next-btn.visible { display:block; }
+  .result-screen { text-align:center; padding:36px 16px; }
+  .result-emoji { font-size:56px; margin-bottom:14px; }
+  .result-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; margin-bottom:6px; }
+  .result-subtitle { color:var(--muted); font-size:14px; margin-bottom:26px; }
+  .result-stats { display:flex; gap:12px; justify-content:center; margin-bottom:26px; }
+  .result-stat { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:14px 20px; text-align:center; }
+  .result-stat-num { font-family:'Playfair Display',serif; font-size:32px; font-weight:700; color:var(--dark); }
+  .result-stat-label { font-size:11px; color:var(--muted); }
+  .restart-btn { width:100%; padding:15px; border-radius:12px; background:var(--dark); color:var(--cream); border:none; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; margin-bottom:8px; }
+  .glossary-search { width:100%; padding:11px 14px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:13px; color:var(--dark); margin-bottom:14px; outline:none; }
+  .glossary-search:focus { border-color:var(--dark); }
+  .glossary-group-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); padding:10px 0 6px; border-bottom:1px solid var(--border); margin-bottom:6px; }
+  .glossary-item { display:flex; align-items:flex-start; gap:10px; padding:11px 0; border-bottom:1px solid var(--border); }
+  .g-word { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; color:var(--dark); min-width:100px; line-height:1.2; }
+  .g-details { flex:1; }
+  .g-meaning { font-size:13px; font-weight:500; color:var(--dark); margin-bottom:2px; }
+  .g-swedish { font-size:11px; color:var(--muted); }
+  .g-srs-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:6px; }
+  .g-audio-btn { width:32px; height:32px; border-radius:50%; background:var(--cream); border:1.5px solid var(--border); font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; }
+  .g-audio-btn:active { background:var(--dark); color:var(--cream); }
+  .dot-new { background:var(--srs-new); }
+  .dot-learning { background:var(--srs-learn); }
+  .dot-due { background:var(--srs-due); }
+  .dot-known { background:var(--srs-ok); }
+  .reset-link { font-size:11px; color:var(--muted); text-align:center; padding-top:16px; cursor:pointer; text-decoration:underline; }
+  .quiz-audio-big { display:flex; flex-direction:column; align-items:center; margin:20px 0 24px; }
+  .audio-btn-big { width:80px; height:80px; border-radius:50%; background:var(--dark); color:var(--cream); border:none; font-size:32px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform 0.1s, background 0.15s; box-shadow:0 4px 16px rgba(0,0,0,0.15); }
+  .audio-btn-big:active { transform:scale(0.92); background:var(--red); }
+  .audio-btn-big.speaking { background:var(--red); animation:pulse 0.6s infinite alternate; }
+  .quiz-audio-hint { font-size:11px; color:var(--muted); margin-top:10px; letter-spacing:0.3px; }
+  .quiz-word-reveal { margin-top:8px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08); }
+  .qwr-da { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark); margin-right:8px; }
+  .qwr-ipa { font-size:12px; color:var(--muted); font-style:italic; }
+  .sentence-word-badge { text-align:center; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+  .sentence-word-badge strong { color:var(--dark); font-style:normal; }
+  .sentence-reveal { background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:12px; font-size:13px; color:var(--mid); line-height:1.5; }
+  .sentence-reveal .da-text { font-family:"Playfair Display",serif; font-size:16px; color:var(--dark); margin-bottom:4px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <div class="header-title">Svensk <span>Øvelse</span></div>
+    <div class="header-sub">Dansk → Svensk</div>
+  </div>
+  <div class="streak-badge" id="streakBadge">🔥 0</div>
+</div>
+<div class="tabs">
+  <div class="tab active"  onclick="switchTab('srs')">Gentagelse</div>
+  <div class="tab"         onclick="switchTab('browse')">Gennemse</div>
+  <div class="tab"         onclick="switchTab('quiz')">Lyd-quiz</div>
+  <div class="tab"         onclick="switchTab('sentence')">Sætninger</div>
+  <div class="tab"         onclick="switchTab('glossary')">Ordliste</div>
+</div>
+<div class="screen active" id="screen-srs">
+  <div class="srs-dash" id="srsDash"></div>
+  <div id="srsStudyArea"></div>
+</div>
+<div class="screen" id="screen-browse">
+  <div class="categories" id="browseCategories"></div>
+  <div class="progress-row">
+    <div class="progress-bar"><div class="progress-fill" id="browseProgress" style="width:0%"></div></div>
+    <div class="progress-text" id="browseProgressText">0 / 0</div>
+  </div>
+  <div>
+    <div class="srs-card" id="browseCard" onclick="revealBrowse()">
+      <div class="card-label">🇸🇪 Svenska</div>
+      <button class="audio-btn" id="browseAudioBtn" onclick="event.stopPropagation();speakBrowse()">&#128266;</button>
+      <div class="card-word" id="browseWord">—</div>
+      <div class="card-ipa" id="browseIpa"></div>
+      <div class="card-cat-tag" id="browseCatTag"></div>
+      <div class="tap-hint" id="browseTapHint">Tryk for at se</div>
+      <div class="card-reveal" id="browseReveal">
+        <div class="card-swedish" id="browseSwedish"></div>
+        <div class="card-meaning" id="browseMeaning"></div>
+        <div class="card-note" id="browseNote"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-nav">
+    <button class="nav-btn" onclick="prevBrowse()">← Forrige</button>
+    <button class="nav-btn primary" onclick="nextBrowse()">Næste →</button>
+  </div>
+</div>
+<div class="screen" id="screen-quiz">
+  <div class="score-panel">
+    <div class="score-item"><div class="score-num" id="qCorrect">0</div><div class="score-label">Rigtigt</div></div>
+    <div class="score-item"><div class="score-num" id="qWrong">0</div><div class="score-label">Forkert</div></div>
+    <div class="score-item"><div class="score-num" id="qLeft">0</div><div class="score-label">Tilbage</div></div>
+  </div>
+  <div id="quizArea">
+    <div class="quiz-question-label" id="qLabel">Hvad betyder det ord du hører?</div>
+    <div class="quiz-audio-big">
+      <button class="audio-btn-big" id="quizAudioBtn" onclick="speakQuizWord()">🔊</button>
+      <div class="quiz-audio-hint">Tryk for at høre igen</div>
+    </div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuizQ()">Næste spørgsmål →</button>
+  </div>
+  <div id="quizResult" style="display:none">
+    <div class="result-screen">
+      <div class="result-emoji" id="resultEmoji">🎉</div>
+      <div class="result-title" id="resultTitle">Bra jobbat!</div>
+      <div class="result-subtitle" id="resultSubtitle"></div>
+      <div class="result-stats">
+        <div class="result-stat"><div class="result-stat-num" id="rCorrect">—</div><div class="result-stat-label">Rigtigt</div></div>
+        <div class="result-stat"><div class="result-stat-num" id="rPct">—</div><div class="result-stat-label">Procent</div></div>
+      </div>
+      <button class="restart-btn" onclick="startQuiz()">Spil igen →</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-sentence">
+  <div class="score-panel">
+    <div class="score-item"><div class="score-num" id="sqCorrect">0</div><div class="score-label">Rigtigt</div></div>
+    <div class="score-item"><div class="score-num" id="sqWrong">0</div><div class="score-label">Forkert</div></div>
+    <div class="score-item"><div class="score-num" id="sqLeft">0</div><div class="score-label">Tilbage</div></div>
+  </div>
+  <div id="sentenceArea">
+    <div class="quiz-question-label">Hvad betyder den sætning du hører?</div>
+    <div class="quiz-audio-big">
+      <button class="audio-btn-big" id="sentenceAudioBtn" onclick="speakSentence()">🔊</button>
+      <div class="quiz-audio-hint">Tryk for at høre igen</div>
+    </div>
+    <div class="sentence-word-badge" id="sentenceWordBadge"></div>
+    <div class="quiz-options" id="sentenceOptions"></div>
+    <div class="quiz-feedback" id="sentenceFeedback"></div>
+    <div class="sentence-reveal" id="sentenceReveal" style="display:none"></div>
+    <button class="quiz-next-btn" id="sentenceNextBtn" onclick="nextSentenceQ()">Næste sætning →</button>
+  </div>
+  <div id="sentenceResult" style="display:none">
+    <div class="result-screen">
+      <div class="result-emoji" id="sResultEmoji">🎉</div>
+      <div class="result-title" id="sResultTitle">Bra jobbat!</div>
+      <div class="result-subtitle" id="sResultSubtitle"></div>
+      <div class="result-stats">
+        <div class="result-stat"><div class="result-stat-num" id="srCorrect">—</div><div class="result-stat-label">Rigtigt</div></div>
+        <div class="result-stat"><div class="result-stat-num" id="srPct">—</div><div class="result-stat-label">Procent</div></div>
+      </div>
+      <button class="restart-btn" onclick="startSentenceQuiz()">Spil igen →</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-glossary">
+  <input class="glossary-search" id="glossarySearch" placeholder="Sök ord…" oninput="renderGlossary()">
+  <div id="glossaryList"></div>
+</div>
+<script>
+const WORDS=[
+  {da:"sjov / morsom",sv:"rolig",en:"funny, amusing",ipa:"[ˈruːlɪ]",cat:"Falske venner",note:"⚠️ Dansk <strong>'rolig'</strong> = rolig/stille. Svensk 'rolig' = sjov/morsom. Den klassiske faldgrube."},
+  {da:"mærkelig / underlig",sv:"rar",en:"strange, odd",ipa:"[ˈrɑːr]",cat:"Falske venner",note:"⚠️ Dansk <strong>'rar'</strong> = venlig/sød. Svensk 'rar' = mærkelig/underlig. Stik modsat!"},
+  {da:"dygtig / skarp",sv:"flink",en:"clever, skilled",ipa:"[ˈflɪŋk]",cat:"Falske venner",note:"⚠️ Dansk <strong>'flink'</strong> = venlig. Svensk 'flink' = dygtig/skarp."},
+  {da:"grusom / dyster",sv:"grim",en:"grim, cruel",ipa:"[ˈɡrɪm]",cat:"Falske venner",note:"⚠️ Dansk <strong>'grim'</strong> = grim/styg. Svensk 'grim' = grusom/dyster."},
+  {da:"kedelig",sv:"trist",en:"boring / sad",ipa:"[ˈtrɪst]",cat:"Falske venner",note:"⚠️ Dansk 'trist' = trist/ked. Svensk 'trist' = mere om kedsomhed/trist stemning."},
+  {da:"sød / venlig",sv:"snäll",en:"kind, nice",ipa:"[ˈsnɛl]",cat:"Falske venner",note:"⚠️ Dansk <strong>'snild'</strong> = listig. Svensk 'snäll' = sød/venlig. Lyder ens, betyder modsatte."},
+  {da:"ked af det / trist",sv:"ledsen",en:"sad",ipa:"[ˈleːdsən]",cat:"Falske venner",note:"⚠️ Intet direkte dansk svar. 'Jag är ledsen' = jeg er ked af det."},
+  {da:"sjovt / fedt",sv:"kul",en:"fun, cool",ipa:"[kʉːl]",cat:"Falske venner",note:"⚠️ Intet direkte dansk svar. 'Det är kul' = det er sjovt/fedt."},
+  {da:"doven",sv:"lat",en:"lazy",ipa:"[lɑːt]",cat:"Falske venner",note:"Nær dansk 'doven'. 'Han är lat' = han er doven."},
+  {da:"glad / lykkelig",sv:"glad",en:"happy, glad",ipa:"[ɡlɑːd]",cat:"Falske venner",note:"Identisk med dansk 'glad'. Sikkert ord!"},
+  {da:"muggen / gnavpotte",sv:"sur",en:"grumpy",ipa:"[sʉːr]",cat:"Falske venner",note:"'Han är sur' = han er muggen. Ligner dansk 'sur' men mere om humør."},
+  {da:"dygtig / flittig",sv:"duktig",en:"capable, hardworking",ipa:"[ˈdʉktɪɡ]",cat:"Falske venner",note:"Nær dansk 'dygtig'. 'Duktig' dækker også flittig/ordentlig."},
+  {da:"sød / nuttet",sv:"söt",en:"sweet, cute",ipa:"[søːt]",cat:"Falske venner",note:"Nær dansk 'sød'. 'Han är söt' = han er sød/nuttet."},
+  {da:"passende / tilpas",sv:"lagom",en:"just right, appropriate",ipa:"[ˈlɑːɡɔm]",cat:"Falske venner",note:"⚠️ Intet dansk svar. Centralt svensk kulturord: ikke for meget, ikke for lidt."},
+  {da:"kaffepause med kage",sv:"fika",en:"coffee break with something sweet",ipa:"[ˈfiːka]",cat:"Falske venner",note:"⚠️ Intet dansk svar. 'Fika' = uformel kaffepause. Kulturelt nøgleord."},
+  {da:"gide / have kræfter til",sv:"orka",en:"to have energy to, to bother",ipa:"[ˈɔrka]",cat:"Falske venner",note:"⚠️ 'Jag orkar inte' = jeg gider ikke / jeg har ikke kræfter til det."},
+  {da:"nå / have tid til",sv:"hinna",en:"to have time to, to manage",ipa:"[ˈhɪnːa]",cat:"Falske venner",note:"⚠️ 'Jag hann inte' = jeg nåede det ikke / jeg havde ikke tid."},
+  {da:"ret / temmelig",sv:"ganska",en:"quite, rather",ipa:"[ˈɡanska]",cat:"Falske venner",note:"'Ganska bra' = ret godt."},
+  {da:"jo / selvfølgelig",sv:"visst",en:"of course / certainly",ipa:"[ˈvɪst]",cat:"Falske venner",note:"⚠️ 'Visst!' = selvfølgelig! Men 'visst' = vist/sandt nok som adverbial."},
+  {da:"dejlig / vidunderlig",sv:"skön",en:"lovely, wonderful",ipa:"[ʃøːn]",cat:"Falske venner",note:"Nær dansk 'skøn'. 'En skön dag' = en dejlig dag."},
+  {da:"våd",sv:"blöt",en:"wet",ipa:"[bløːt]",cat:"Falske venner",note:"⚠️ Dansk 'blød' = blød/sød. Svensk 'blöt' = våd. Ligner men betyder noget andet!"},
+  {da:"tyk / fed",sv:"tjock",en:"thick, fat",ipa:"[ˈtjɔk]",cat:"Falske venner",note:"Dansk 'tyk' = tyk. Udtalen er anderledes: 'tjock'."},
+  {da:"klog / snu",sv:"slug",en:"clever, sly",ipa:"[slʉːɡ]",cat:"Falske venner",note:"'Han är slug' = han er klog/snu."},
+  {da:"grine",sv:"skratta",en:"to laugh",ipa:"[ˈskrata]",cat:"Falske venner",note:"⚠️ FALSK VEN! Dansk 'grine' = skratte. Svensk 'skratta' = grine. Husk skelnet!"},
+  {da:"jo",sv:"ju",en:"you see, after all (particle)",ipa:"[jʉː]",cat:"Frekvente ord",note:"⚠️ Svarer til dansk 'jo' som partikel. 'Det är ju roligt' = det er jo sjovt."},
+  {da:"nok / sikkert",sv:"nog",en:"probably, I suppose",ipa:"[nɔɡ]",cat:"Frekvente ord",note:"⚠️ 'Han är nog hemma' = han er nok/sikkert hjemme. Epistemisk modal."},
+  {da:"vel / nok",sv:"väl",en:"surely, I suppose",ipa:"[vɛl]",cat:"Frekvente ord",note:"⚠️ 'Det är väl bra?' = det er vel nok godt? Søger bekræftelse."},
+  {da:"allerede",sv:"redan",en:"already",ipa:"[ˈreːdan]",cat:"Frekvente ord",note:"⚠️ Dansk 'allerede' = svensk 'redan'. Helt anden form."},
+  {da:"måske",sv:"kanske",en:"maybe, perhaps",ipa:"[ˈkanʃe]",cat:"Frekvente ord",note:"⚠️ Dansk 'måske' = svensk 'kanske'. Prioritér dette ord."},
+  {da:"ellers",sv:"annars",en:"otherwise, or else",ipa:"[ˈanːaʃ]",cat:"Frekvente ord",note:"'Vad gör du annars?' = hvad laver du ellers?"},
+  {da:"faktisk",sv:"faktiskt",en:"actually, in fact",ipa:"[ˈfaktɪskt]",cat:"Frekvente ord",note:"Næsten identisk med dansk 'faktisk'. T i slutningen udtales."},
+  {da:"egentlig",sv:"egentligen",en:"actually, really",ipa:"[eˈjɛntlɪɡən]",cat:"Frekvente ord",note:"Nær dansk 'egentlig'. Længere form i svensk."},
+  {da:"ligesom / på en måde",sv:"liksom",en:"kind of, like (filler)",ipa:"[ˈliːksom]",cat:"Frekvente ord",note:"Hyppig talemarkør. 'Det var liksom bra' = det var ligesom godt."},
+  {da:"altså",sv:"alltså",en:"so, well (discourse marker)",ipa:"[ˈaltːsɔ]",cat:"Frekvente ord",note:"Identisk funktion med dansk 'altså'."},
+  {da:"rigtig godt / supert",sv:"jättebra",en:"really good, great",ipa:"[ˈjɛtːebrɑː]",cat:"Frekvente ord",note:"⚠️ 'Jätte-' er et hyppigt forstærkerpræfix. 'Jättebra!' = rigtig godt!"},
+  {da:"præcis / netop",sv:"precis",en:"exactly, precisely",ipa:"[preˈsiːs]",cat:"Frekvente ord",note:"'Precis!' = præcis! Bruges som bekræftelse."},
+  {da:"virkelig / rigtig",sv:"verkligen",en:"really, truly",ipa:"[ˈvæːklɪɡən]",cat:"Frekvente ord",note:"'Verkligen?' = virkelig? 'Det är verkligen bra' = det er virkelig godt."},
+  {da:"desuden",sv:"dessutom",en:"besides, furthermore",ipa:"[deˈsʉːtɔm]",cat:"Frekvente ord",note:"'Dessutom är det billigt' = desuden er det billigt."},
+  {da:"derimod",sv:"däremot",en:"on the other hand",ipa:"[ˈdæːrəmɔt]",cat:"Frekvente ord",note:"'Däremot är han snäll' = derimod er han sød."},
+  {da:"tværtimod",sv:"tvärtom",en:"on the contrary",ipa:"[ˈtvæːrtɔm]",cat:"Frekvente ord",note:"'Tvärtom!' = tværtimod!"},
+  {da:"omtrent / cirka",sv:"ungefär",en:"approximately",ipa:"[ˈɵŋeˌfæːr]",cat:"Frekvente ord",note:"'Ungefär tio minuter' = omtrent ti minutter."},
+  {da:"næsten",sv:"nästan",en:"almost, nearly",ipa:"[ˈnɛstan]",cat:"Frekvente ord",note:"'Nästan klar' = næsten færdig."},
+  {da:"snart",sv:"snart",en:"soon",ipa:"[snɑːt]",cat:"Frekvente ord",note:"Identisk med dansk 'snart'."},
+  {da:"aldrig",sv:"aldrig",en:"never",ipa:"[ˈaldriɡ]",cat:"Frekvente ord",note:"Nær dansk 'aldrig'. G udtales i svensk."},
+  {da:"ofte",sv:"ofta",en:"often",ipa:"[ˈɔfta]",cat:"Frekvente ord",note:"Nær dansk 'ofte'. T udtales i svensk."},
+  {da:"sjældent",sv:"sällan",en:"rarely",ipa:"[ˈsɛlan]",cat:"Frekvente ord",note:"'Det händer sällan' = det sker sjældent."},
+  {da:"stadigvæk / stadig",sv:"fortfarande",en:"still, yet",ipa:"[ˌfɔrtˈfɑːrande]",cat:"Frekvente ord",note:"⚠️ 'Jag bor fortfarande här' = jeg bor stadigvæk her."},
+  {da:"efterhånden / nu om dage",sv:"numera",en:"nowadays, by now",ipa:"[nʉːˈmeːra]",cat:"Frekvente ord",note:"'Det är numera normalt' = det er efterhånden normalt."},
+  {da:"af og til / sommetider",sv:"ibland",en:"sometimes",ipa:"[ɪˈbland]",cat:"Frekvente ord",note:"⚠️ 'Ibland' = af og til. 'Ibland tar jag tåget' = af og til tager jeg toget."},
+  {da:"endelig",sv:"äntligen",en:"finally, at last",ipa:"[ˈɛntlɪɡən]",cat:"Frekvente ord",note:"'Äntligen!' = endelig!"},
+  {da:"pludselig",sv:"plötsligt",en:"suddenly",ipa:"[ˈpløtsliɡt]",cat:"Frekvente ord",note:"Nær dansk 'pludselig'. G udtales i svensk."},
+  {da:"inden da / forinden",sv:"dessförinnan",en:"before that, previously",ipa:"[ˈdɛsˌfœrˌɪnan]",cat:"Frekvente ord",note:"'Dessförinnan hade jag...' = inden da havde jeg..."},
+  {da:"fremover",sv:"framöver",en:"going forward",ipa:"[ˈframˌøːvər]",cat:"Frekvente ord",note:"'Framöver ska vi...' = fremover skal vi..."},
+  {da:"bagefter",sv:"efteråt",en:"afterwards",ipa:"[ˈɛftərɔːt]",cat:"Frekvente ord",note:"'Efteråt gick vi hem' = bagefter gik vi hjem."},
+  {da:"ikke",sv:"inte",en:"not",ipa:"[ˈɪnte]",cat:"Udtale-faldgruber",note:"⚠️ Reduceres til 'int' eller 'in' i hurtig tale. Kritisk at genkende."},
+  {da:"hvad",sv:"vad",en:"what",ipa:"[vɑːd]",cat:"Udtale-faldgruber",note:"⚠️ D næsten stille. 'Vad heter du?' = hvad hedder du?"},
+  {da:"det",sv:"det",en:"it, that",ipa:"[deː] / [de]",cat:"Udtale-faldgruber",note:"⚠️ Udtales 'de' ubetonet. T er stille. 'Det är bra' → 'de ä bra'."},
+  {da:"noget",sv:"någonting",en:"something",ipa:"[ˈnoːɡɔntɪŋ]",cat:"Udtale-faldgruber",note:"⚠️ Reduceres til 'nånting' eller 'nåt' i daglig tale."},
+  {da:"jeg",sv:"jag",en:"I",ipa:"[jɑːɡ]",cat:"Udtale-faldgruber",note:"⚠️ G er stille. Udtales 'ja' i hurtig tale — ligesom dansk 'ja' = ja."},
+  {da:"mig",sv:"mig",en:"me",ipa:"[mɛj]",cat:"Udtale-faldgruber",note:"Udtales 'mej'. G stille. 'Hämta mig' = hent mig."},
+  {da:"dig",sv:"dig",en:"you",ipa:"[dɛj]",cat:"Udtale-faldgruber",note:"Udtales 'dej'. G stille. 'Jag ser dig' = jeg ser dig."},
+  {da:"var / var",sv:"var",en:"was / where",ipa:"[vɑːr]",cat:"Udtale-faldgruber",note:"⚠️ 'Var' = var (fortid) OG 'var' = hvor. 'Var är du?' = hvor er du?"},
+  {da:"er",sv:"är",en:"am/is/are",ipa:"[æːr]",cat:"Udtale-faldgruber",note:"⚠️ Udtales 'ä' i hurtig tale. 'Det är bra' → 'de ä bra'."},
+  {da:"gør",sv:"gör",en:"does, do, make",ipa:"[jøːr]",cat:"Udtale-faldgruber",note:"⚠️ G → J foran ø-lyd. Udtales 'jör'. 'Vad gör du?' = hvad laver du?"},
+  {da:"skal",sv:"ska",en:"shall, will",ipa:"[skɑː]",cat:"Udtale-faldgruber",note:"Kortere end dansk 'skal'. 'Jag ska hem' = jeg skal hjem."},
+  {da:"sagde",sv:"sa",en:"said",ipa:"[sɑː]",cat:"Udtale-faldgruber",note:"⚠️ Fortid af 'säga'. Meget kort: bare 'sa'. 'Han sa ingenting' = han sagde ingenting."},
+  {da:"vidste",sv:"visste",en:"knew",ipa:"[ˈvɪste]",cat:"Udtale-faldgruber",note:"⚠️ Fortid af 'veta'. 'Jag visste det inte' = jeg vidste det ikke."},
+  {da:"troede",sv:"trodde",en:"believed, thought",ipa:"[ˈtrɔde]",cat:"Udtale-faldgruber",note:"Fortid af 'tro'. 'Jag trodde...' = jeg troede..."},
+  {da:"havde",sv:"hade",en:"had",ipa:"[ˈhɑːde]",cat:"Udtale-faldgruber",note:"Fortid af 'ha'. 'Jag hade det bra' = jeg havde det godt."},
+  {da:"plejede",sv:"brukade",en:"used to",ipa:"[ˈbrɵːkade]",cat:"Udtale-faldgruber",note:"⚠️ 'Jag brukade springa' = jeg plejede at løbe."},
+  {da:"rigtig / virkelig",sv:"väldigt",en:"very, really",ipa:"[ˈvɛldɪɡt]",cat:"Udtale-faldgruber",note:"⚠️ Udtales 'veldigt'. 'Väldigt bra' = rigtig godt."},
+  {da:"synge",sv:"sjunga",en:"to sing",ipa:"[ˈʃɵŋa]",cat:"Udtale-faldgruber",note:"⚠️ SJ-lyd foran u. Udtales omtrent 'sjunge'. 'Jag sjunger' = jeg synger."},
+  {da:"grine",sv:"skratta",en:"to laugh",ipa:"[ˈskrata]",cat:"Udtale-faldgruber",note:"⚠️ Falsk ven! 'Skratta' = grine. 'Gråta' = græde."},
+  {da:"lukke",sv:"stänga",en:"to close",ipa:"[ˈstɛŋa]",cat:"Udtale-faldgruber",note:"⚠️ 'Stäng dörren!' = luk døren! Intet at associere med 'lukke'."},
+  {da:"spise",sv:"äta",en:"to eat",ipa:"[ˈɛːta]",cat:"Udtale-faldgruber",note:"⚠️ 'Äta' = spise. Udtales 'eta'. Intet at associere med 'spise'."},
+  {da:"vindue",sv:"fönster",en:"window",ipa:"[ˈfønstər]",cat:"Divergerende ord",note:"⚠️ Dansk 'vindue' = svensk 'fönster'. Intet at associere."},
+  {da:"loft (indvendigt)",sv:"tak",en:"ceiling",ipa:"[tɑːk]",cat:"Divergerende ord",note:"⚠️ Dansk 'loft' = svensk 'tak'. 'Taket' = loftet."},
+  {da:"dyne",sv:"täcke",en:"duvet",ipa:"[ˈtɛke]",cat:"Divergerende ord",note:"⚠️ Dansk 'dyne' = svensk 'täcke'."},
+  {da:"pude",sv:"kudde",en:"pillow",ipa:"[ˈkɵde]",cat:"Divergerende ord",note:"⚠️ Dansk 'pude' = svensk 'kudde'."},
+  {da:"skuffe",sv:"låda",en:"drawer",ipa:"[ˈloːda]",cat:"Divergerende ord",note:"Dansk 'skuffe' = svensk 'låda'. 'Lådan' = skuffen."},
+  {da:"stue",sv:"vardagsrum",en:"living room",ipa:"[ˈvɑːdaɡsˌrɵm]",cat:"Divergerende ord",note:"⚠️ Dansk 'stue' = svensk 'vardagsrum'."},
+  {da:"køkken",sv:"kök",en:"kitchen",ipa:"[ʃøːk]",cat:"Divergerende ord",note:"Nær dansk 'køkken'. Udtales 'kjök'."},
+  {da:"nøgle",sv:"nyckel",en:"key",ipa:"[ˈnʏkel]",cat:"Divergerende ord",note:"⚠️ Dansk 'nøgle' = svensk 'nyckel'."},
+  {da:"morgenmad",sv:"frukost",en:"breakfast",ipa:"[ˈfrɵkɔst]",cat:"Divergerende ord",note:"⚠️ Svensk 'frukost' = morgenmad. Forveksles med dansk 'frokost'!"},
+  {da:"frokost",sv:"lunch",en:"lunch",ipa:"[lɵnʃ]",cat:"Divergerende ord",note:"⚠️ Svensk 'lunch' = dansk 'frokost'. Dansk 'frokost' ≠ 'frukost'!"},
+  {da:"aftensmad",sv:"middag",en:"dinner",ipa:"[ˈmɪdɑɡ]",cat:"Divergerende ord",note:"'Äta middag' = spise aftensmad."},
+  {da:"nabo",sv:"granne",en:"neighbor",ipa:"[ˈɡrane]",cat:"Divergerende ord",note:"⚠️ Dansk 'nabo' = svensk 'granne'."},
+  {da:"tøj",sv:"kläder",en:"clothes",ipa:"[ˈklɛːdər]",cat:"Divergerende ord",note:"⚠️ Dansk 'tøj' = svensk 'kläder'."},
+  {da:"sulten",sv:"hungrig",en:"hungry",ipa:"[ˈhɵŋrɪɡ]",cat:"Divergerende ord",note:"⚠️ Dansk 'sulten' = svensk 'hungrig'."},
+  {da:"bange",sv:"rädd",en:"scared, afraid",ipa:"[rɛd]",cat:"Divergerende ord",note:"⚠️ Dansk 'bange' = svensk 'rädd'."},
+  {da:"undskyld",sv:"förlåt",en:"sorry, excuse me",ipa:"[føˈloːt]",cat:"Divergerende ord",note:"⚠️ Dansk 'undskyld' = svensk 'förlåt'."},
+  {da:"fortov",sv:"trottoar",en:"sidewalk",ipa:"[trɔtʊˈɑːr]",cat:"Divergerende ord",note:"Dansk 'fortov' = svensk 'trottoar'."},
+  {da:"vejr",sv:"väder",en:"weather",ipa:"[ˈvɛːdər]",cat:"Divergerende ord",note:"⚠️ Dansk 'vejr' = svensk 'väder'. 'Vädret är bra' = vejret er godt."},
+  {da:"forskel",sv:"skillnad",en:"difference",ipa:"[ˈʃɪlnad]",cat:"Divergerende ord",note:"⚠️ Dansk 'forskel' = svensk 'skillnad'."},
+  {da:"mulighed",sv:"möjlighet",en:"possibility",ipa:"[ˈmøjlɪɡˌheːt]",cat:"Divergerende ord",note:"'Det finns en möjlighet' = der er en mulighed."},
+  {da:"ferie",sv:"semester",en:"vacation",ipa:"[seˈmɛstər]",cat:"Divergerende ord",note:"⚠️ Dansk 'ferie' = svensk 'semester'. 'Jag är på semester' = jeg er på ferie."},
+  {da:"løn",sv:"lön",en:"salary",ipa:"[løːn]",cat:"Divergerende ord",note:"Nær dansk 'løn'."},
+  {da:"spørgsmål",sv:"fråga",en:"question",ipa:"[ˈfroːɡa]",cat:"Divergerende ord",note:"Dansk 'spørgsmål' = svensk 'fråga'."},
+  {da:"læge",sv:"läkare",en:"doctor",ipa:"[ˈlɛːkare]",cat:"Divergerende ord",note:"Dansk 'læge' = svensk 'läkare'."},
+  {da:"skrald",sv:"sopor",en:"trash, garbage",ipa:"[ˈsoːpɔr]",cat:"Divergerende ord",note:"'Kasta soporna' = smide skraldet ud."},
+  {da:"kage / småkage",sv:"kaka",en:"cake, cookie",ipa:"[ˈkɑːka]",cat:"Divergerende ord",note:"⚠️ Dansk 'kage' = svensk 'kaka' (småkage) eller 'tårta' (lagkage)."},
+  {da:"tilbud / udsalg",sv:"rea",en:"sale",ipa:"[ˈreːa]",cat:"Divergerende ord",note:"⚠️ 'På rea' = på tilbud/i udsalg. Intet direkte dansk svar."},
+  {da:"blive",sv:"bli",en:"to become, to stay",ipa:"[bliː]",cat:"Verber",note:"Nær dansk 'blive'. 'Bli hemma' = bliv hjemme."},
+  {da:"tage",sv:"ta",en:"to take",ipa:"[tɑː]",cat:"Verber",note:"Nær dansk 'tage'. 'Ta tåget' = tage toget."},
+  {da:"hedde",sv:"heta",en:"to be called",ipa:"[ˈheːta]",cat:"Verber",note:"'Vad heter du?' = hvad hedder du?"},
+  {da:"kende / føle",sv:"känna",en:"to know (person) / to feel",ipa:"[ˈʃɛna]",cat:"Verber",note:"'Känner du honom?' = kender du ham?"},
+  {da:"vide",sv:"veta",en:"to know (a fact)",ipa:"[ˈveːta]",cat:"Verber",note:"'Jag vet inte' = jeg ved det ikke."},
+  {da:"gide / have kræfter",sv:"orka",en:"to have energy to, to bother",ipa:"[ˈɔrka]",cat:"Verber",note:"⚠️ 'Jag orkar inte' = jeg gider ikke."},
+  {da:"savne / mangle",sv:"sakna",en:"to miss / to lack",ipa:"[ˈsɑːkna]",cat:"Verber",note:"'Jag saknar dig' = jeg savner dig."},
+  {da:"bruge",sv:"använda",en:"to use",ipa:"[anˈvɛnda]",cat:"Verber",note:"'Använda tid' = bruge tid."},
+  {da:"nyde",sv:"njuta",en:"to enjoy",ipa:"[ˈnjʉːta]",cat:"Verber",note:"'Njut av det!' = nyd det!"},
+  {da:"håbe",sv:"hoppas",en:"to hope",ipa:"[ˈhɔpas]",cat:"Verber",note:"'Jag hoppas det' = jeg håber det."},
+  {da:"mangle",sv:"fattas",en:"to be missing",ipa:"[ˈfatas]",cat:"Verber",note:"'Det fattas något' = der mangler noget."},
+  {da:"betyde",sv:"betyda",en:"to mean",ipa:"[beˈtʏːda]",cat:"Verber",note:"'Vad betyder det?' = hvad betyder det?"},
+  {da:"forsøge",sv:"försöka",en:"to try",ipa:"[føˈʃøːka]",cat:"Verber",note:"'Jag försöker' = jeg forsøger."},
+  {da:"opnå",sv:"uppnå",en:"to achieve",ipa:"[ˈɵpˌnoː]",cat:"Verber",note:"'Uppnå sitt mål' = opnå sit mål."},
+  {da:"undgå",sv:"undvika",en:"to avoid",ipa:"[ˈɵndˌviːka]",cat:"Verber",note:"'Undvika problem' = undgå problemer."},
+  {da:"bestemme",sv:"bestämma",en:"to decide",ipa:"[beˈstɛma]",cat:"Verber",note:"'Du bestämmer' = du bestemmer."},
+  {da:"forklare",sv:"förklara",en:"to explain",ipa:"[føˈklɑːra]",cat:"Verber",note:"'Kan du förklara det?' = kan du forklare det?"},
+  {da:"fortælle",sv:"berätta",en:"to tell",ipa:"[beˈrɛta]",cat:"Verber",note:"'Berätta för mig' = fortæl mig."},
+  {da:"lytte",sv:"lyssna",en:"to listen",ipa:"[ˈlʏsna]",cat:"Verber",note:"'Lyssna på musik' = lytte til musik."},
+  {da:"vente",sv:"vänta",en:"to wait",ipa:"[ˈvɛnta]",cat:"Verber",note:"'Vänta lite' = vent lidt."},
+  {da:"finde",sv:"hitta",en:"to find",ipa:"[ˈhɪta]",cat:"Verber",note:"'Jag kan inte hitta det' = jeg kan ikke finde det."},
+  {da:"glemme",sv:"glömma",en:"to forget",ipa:"[ˈɡlœma]",cat:"Verber",note:"'Jag glömde det' = jeg glemte det."},
+  {da:"huske",sv:"komma ihåg",en:"to remember",ipa:"[ˈkɔma ɪˈhoːɡ]",cat:"Verber",note:"⚠️ 'Komma ihåg' = huske. Flerordigt udtryk."},
+  {da:"elske",sv:"älska",en:"to love",ipa:"[ˈɛlska]",cat:"Verber",note:"'Jag älskar dig' = jeg elsker dig."},
+  {da:"hade",sv:"hata",en:"to hate",ipa:"[ˈhɑːta]",cat:"Verber",note:"'Jag hatar det' = jeg hader det."},
+  {da:"græde",sv:"gråta",en:"to cry",ipa:"[ˈɡroːta]",cat:"Verber",note:"'Gråta av glädje' = græde af glæde."},
+  {da:"smile",sv:"le",en:"to smile",ipa:"[leː]",cat:"Verber",note:"'Han ler' = han smiler."},
+  {da:"løbe",sv:"springa",en:"to run",ipa:"[ˈsprɪŋa]",cat:"Verber",note:"⚠️ Dansk 'løbe' = svensk 'springa'. Helt anderledes."},
+  {da:"sidde",sv:"sitta",en:"to sit",ipa:"[ˈsɪta]",cat:"Verber",note:"Nær dansk 'sidde'."},
+  {da:"ligge",sv:"ligga",en:"to lie (down)",ipa:"[ˈlɪɡa]",cat:"Verber",note:"Nær dansk 'ligge'."},
+  {da:"sove",sv:"sova",en:"to sleep",ipa:"[ˈsoːva]",cat:"Verber",note:"Nær dansk 'sove'."},
+  {da:"spise",sv:"äta",en:"to eat",ipa:"[ˈɛːta]",cat:"Verber",note:"⚠️ Dansk 'spise' = svensk 'äta'. Helt anderledes."},
+  {da:"drikke",sv:"dricka",en:"to drink",ipa:"[ˈdrɪka]",cat:"Verber",note:"Nær dansk 'drikke'."},
+  {da:"åbne",sv:"öppna",en:"to open",ipa:"[ˈœpna]",cat:"Verber",note:"Nær dansk 'åbne'."},
+  {da:"lukke",sv:"stänga",en:"to close",ipa:"[ˈstɛŋa]",cat:"Verber",note:"⚠️ Dansk 'lukke' = svensk 'stänga'. Intet at associere."},
+  {da:"holde",sv:"hålla",en:"to hold",ipa:"[ˈhoːla]",cat:"Verber",note:"'Håll fast' = hold fast."},
+  {da:"lægge",sv:"lägga",en:"to lay",ipa:"[ˈlɛɡa]",cat:"Verber",note:"'Lägga ned' = lægge ned."},
+  {da:"sætte",sv:"sätta",en:"to put",ipa:"[ˈsɛta]",cat:"Verber",note:"'Sätt dig' = sæt dig."},
+  {da:"flytte",sv:"flytta",en:"to move",ipa:"[ˈflʏta]",cat:"Verber",note:"'Flytta till en ny stad' = flytte til en ny by."},
+  {da:"bygge",sv:"bygga",en:"to build",ipa:"[ˈbʏɡa]",cat:"Verber",note:"'Bygga ett hus' = bygge et hus."},
+  {da:"skrive",sv:"skriva",en:"to write",ipa:"[ˈskriːva]",cat:"Verber",note:"Nær dansk 'skrive'."},
+  {da:"læse",sv:"läsa",en:"to read",ipa:"[ˈlɛːsa]",cat:"Verber",note:"Nær dansk 'læse'."},
+  {da:"spille",sv:"spela",en:"to play",ipa:"[ˈspeːla]",cat:"Verber",note:"'Spela gitarr' = spille guitar."},
+  {da:"rejse",sv:"resa",en:"to travel",ipa:"[ˈreːsa]",cat:"Verber",note:"'Resa till utlandet' = rejse til udlandet."},
+  {da:"besøge",sv:"besöka",en:"to visit",ipa:"[beˈsøːka]",cat:"Verber",note:"'Besöka sina föräldrar' = besøge sine forældre."},
+  {da:"fejre",sv:"fira",en:"to celebrate",ipa:"[ˈfiːra]",cat:"Verber",note:"'Fira sin födelsedag' = fejre sin fødselsdag."},
+  {da:"klare",sv:"klara",en:"to manage",ipa:"[ˈklɑːra]",cat:"Verber",note:"'Klara sig själv' = klare sig selv."},
+  {da:"have brug for",sv:"behöva",en:"to need",ipa:"[beˈhøːva]",cat:"Verber",note:"⚠️ 'Jag behöver kaffe' = jeg trænger til kaffe."},
+  {da:"vælge",sv:"välja",en:"to choose",ipa:"[ˈvɛlja]",cat:"Verber",note:"'Välja mellan två saker' = vælge mellem to ting."},
+  {da:"mærke",sv:"märka",en:"to notice",ipa:"[ˈmæːka]",cat:"Verber",note:"'Jag märkte det' = jeg mærkede det."},
+  {da:"skynde sig",sv:"skynda sig",en:"to hurry",ipa:"[ˈʃʏnda sɛj]",cat:"Verber",note:"'Skynda dig!' = skynd dig!"},
+  {da:"lykkes",sv:"lyckas",en:"to succeed",ipa:"[ˈlʏkas]",cat:"Verber",note:"'Det lyckades' = det lykkedes."},
+  {da:"i hvert fald",sv:"i alla fall",en:"in any case, at least",ipa:"[ɪ ˈala ˌfal]",cat:"Fraser",note:"⚠️ Dansk 'i hvert fald' = svensk 'i alla fall'. Hyppig frase."},
+  {da:"med det samme",sv:"genast",en:"right away",ipa:"[ˈjeːnast]",cat:"Fraser",note:"'Kom genast!' = kom med det samme!"},
+  {da:"for resten / i øvrigt",sv:"förresten",en:"by the way",ipa:"[ˈfœˌrɛstən]",cat:"Fraser",note:"'Förresten...' = for resten..."},
+  {da:"til gengæld",sv:"å andra sidan",en:"on the other hand",ipa:"[oː ˈandra ˈsiːdan]",cat:"Fraser",note:"'Å andra sidan är han snäll' = til gengæld er han sød."},
+  {da:"i stedet for",sv:"istället för",en:"instead of",ipa:"[ɪˈstɛlet fœr]",cat:"Fraser",note:"Nær dansk 'i stedet for'."},
+  {da:"det vil sige",sv:"det vill säga",en:"that is to say",ipa:"[de vɪl ˈsɛja]",cat:"Fraser",note:"'Det vill säga att...' = det vil sige at..."},
+  {da:"trods alt",sv:"trots allt",en:"after all",ipa:"[trɔts ˈalt]",cat:"Fraser",note:"'Trots allt gick det bra' = trods alt gik det godt."},
+  {da:"i forvejen",sv:"i förväg",en:"in advance",ipa:"[ɪ fœˈvɛːɡ]",cat:"Fraser",note:"'Det visste jag i förväg' = det vidste jeg i forvejen."},
+  {da:"overhovedet",sv:"överhuvudtaget",en:"at all",ipa:"[ˌøːvərˈhʉːvɵdˌtɑːɡet]",cat:"Fraser",note:"'Det ger överhuvudtaget ingen mening' = det giver overhovedet ikke mening."},
+  {da:"slet ikke",sv:"inte alls",en:"not at all",ipa:"[ˈɪnte ˈals]",cat:"Fraser",note:"'Inte alls bra' = slet ikke godt."},
+  {da:"på grund af",sv:"på grund av",en:"because of",ipa:"[poː ˈɡrɵnd ɑːv]",cat:"Fraser",note:"'På grund av regnet' = på grund af regnet."},
+  {da:"i løbet af",sv:"under loppet av",en:"in the course of",ipa:"[ˈɵndər ˈlɔpet ɑːv]",cat:"Fraser",note:"'Under dagens lopp' = i løbet af dagen."},
+  {da:"det kommer an på",sv:"det beror på",en:"it depends on",ipa:"[de beˈruːr poː]",cat:"Fraser",note:"'Det beror på vad du vill' = det kommer an på hvad du vil."},
+  {da:"med andre ord",sv:"med andra ord",en:"in other words",ipa:"[meː ˈandra ɔːd]",cat:"Fraser",note:"'Med andra ord...' = med andre ord..."},
+  {da:"frem for alt",sv:"framför allt",en:"above all",ipa:"[ˈframˌfœr ˈalt]",cat:"Fraser",note:"'Framför allt ska du komma ihåg...' = frem for alt skal du huske..."},
+  {da:"ikke desto mindre",sv:"inte desto mindre",en:"nonetheless",ipa:"[ˈɪnte ˈdɛstɔ ˈmɪndre]",cat:"Fraser",note:"'Inte desto mindre fortsatte han' = ikke desto mindre fortsatte han."},
+  {da:"det er ligegyldigt",sv:"det spelar ingen roll",en:"it doesn't matter",ipa:"[de ˈspeːlar ˈɪŋən rɔl]",cat:"Fraser",note:"⚠️ 'Det spelar ingen roll' = det er ligegyldigt."},
+  {da:"jeg kan lide",sv:"jag gillar",en:"I like",ipa:"[jɑː ˈjɪlar]",cat:"Fraser",note:"⚠️ 'Gillar' = synes godt om / kan lide."},
+  {da:"har du det godt?",sv:"mår du bra?",en:"are you doing well?",ipa:"[moːr dɵ brɑː]",cat:"Fraser",note:"'Mår du bra?' = har du det godt?"},
+  {da:"jeg har det godt",sv:"jag mår bra",en:"I'm doing well",ipa:"[jɑː moːr brɑː]",cat:"Fraser",note:"'Jag mår bra' = jeg har det godt."},
+  {da:"pas på",sv:"se upp",en:"be careful",ipa:"[seː ɵp]",cat:"Fraser",note:"'Se upp!' = pas på!"},
+  {da:"give op",sv:"ge upp",en:"to give up",ipa:"[jeː ɵp]",cat:"Fraser",note:"'Ge inte upp!' = giv ikke op!"},
+  {da:"tage sig af",sv:"ta hand om",en:"to take care of",ipa:"[tɑː ˈhand ɔm]",cat:"Fraser",note:"'Ta hand om barnet' = tage sig af barnet."},
+  {da:"glæde sig til",sv:"se fram emot",en:"to look forward to",ipa:"[seː fram eˈmoːt]",cat:"Fraser",note:"'Jag ser fram emot det' = jeg glæder mig til det."},
+  {da:"finde ud af",sv:"ta reda på",en:"to find out",ipa:"[tɑː ˈreːda poː]",cat:"Fraser",note:"'Jag tar reda på det' = jeg finder ud af det."},
+  {da:"synes godt om / godt lide",sv:"tycka om",en:"to like",ipa:"[ˈtʏka ɔm]",cat:"Fraser",note:"'Jag tycker om jazz' = jeg synes godt om jazz."},
+  {da:"have råd til",sv:"ha råd med",en:"to be able to afford",ipa:"[hɑː roːd me]",cat:"Fraser",note:"'Jag har inte råd' = jeg har ikke råd."},
+  {da:"af og til",sv:"ibland",en:"now and then",ipa:"[ɪˈbland]",cat:"Fraser",note:"'Ibland tar jag tåget' = af og til tager jeg toget."},
+  {da:"ikke mindst",sv:"inte minst",en:"not least",ipa:"[ˈɪnte ˈmɪnst]",cat:"Fraser",note:"'Inte minst för att...' = ikke mindst fordi..."},
+];
+
+// ─── SM-2 SRS ─────────────────────────────────────────────────
+const SRS_KEY="svensk_srs_v1";
+let srsData={};
+function loadSRS(){try{srsData=JSON.parse(localStorage.getItem(SRS_KEY))||{};}catch(e){srsData={};}}
+function saveSRS(){try{localStorage.setItem(SRS_KEY,JSON.stringify(srsData));}catch(e){}}
+function getCard(da){if(!srsData[da])srsData[da]={interval:0,reps:0,ef:2.5,nextDue:0,lapses:0};return srsData[da];}
+function rateCard(da,rating){
+  const c=getCard(da),now=Date.now(),DAY=86400000;
+  if(rating===0){c.reps=0;c.interval=1;c.lapses++;c.nextDue=now+DAY;}
+  else{
+    const q=[null,3,4,5][rating];
+    c.ef=Math.max(1.3,c.ef+0.1-(5-q)*(0.08+(5-q)*0.02));
+    if(c.reps===0)c.interval=1;
+    else if(c.reps===1)c.interval=4;
+    else c.interval=Math.round(c.interval*c.ef);
+    if(rating===3)c.interval=Math.round(c.interval*1.3);
+    if(rating===1)c.interval=Math.max(1,Math.round(c.interval*0.6));
+    c.reps++;c.nextDue=now+c.interval*DAY;
+  }
+  saveSRS();
+}
+function getIntervalLabel(da,rating){
+  const c=getCard(da),DAY=86400000;
+  if(rating===0)return"1d";
+  let interval;
+  const q=[null,3,4,5][rating];
+  const ef=Math.max(1.3,c.ef+0.1-(5-q)*(0.08+(5-q)*0.02));
+  if(c.reps===0)interval=1;
+  else if(c.reps===1)interval=4;
+  else interval=Math.round(c.interval*ef);
+  if(rating===3)interval=Math.round(interval*1.3);
+  if(rating===1)interval=Math.max(1,Math.round(interval*0.6));
+  if(interval<7)return interval+"d";
+  if(interval<30)return Math.round(interval/7)+"v";
+  return Math.round(interval/30)+"mån";
+}
+function getSRSStatus(da){
+  const c=getCard(da),now=Date.now();
+  if(c.reps===0&&c.nextDue===0)return"new";
+  if(c.nextDue<=now)return c.reps<3?"learning":"due";
+  return"known";
+}
+function getDueCounts(){
+  let n=0,l=0,d=0,k=0;
+  WORDS.forEach(w=>{const s=getSRSStatus(w.da);if(s==="new")n++;else if(s==="learning")l++;else if(s==="due")d++;else k++;});
+  return{new:n,learning:l,due:d,known:k};
+}
+function getDueWords(limit){
+  const now=Date.now();
+  const nw=WORDS.filter(w=>getSRSStatus(w.da)==="new").slice(0,5);
+  const dw=WORDS.filter(w=>{const c=getCard(w.da);return c.nextDue<=now&&c.reps>=3;}).sort((a,b)=>getCard(a.da).nextDue-getCard(b.da).nextDue);
+  const lw=WORDS.filter(w=>{const c=getCard(w.da);return c.nextDue<=now&&c.reps>0&&c.reps<3;});
+  return[...lw,...dw,...nw].slice(0,limit||20).sort(()=>Math.random()-0.3);
+}
+
+// ─── STATE ────────────────────────────────────────────────────
+let streak=0,srsQueue=[],srsQIndex=0,srsRevealed=false,srsSessionCorrect=0,srsSessionTotal=0;
+let browseCategory="Alla",browseIndex=0,browseWords=[],browseRevealed=false;
+let quizWords=[],quizIndex=0,quizCorrect=0,quizWrong=0,quizType="da-sv",quizAnswered=false;
+const CATEGORIES=["Alla",...new Set(WORDS.map(w=>w.cat))];
+
+// ─── SPEECH ───────────────────────────────────────────────────
+let _daVoice = null;
+let _voiceWarningShown = false;
+
+function getBestDanishVoice() {
+  if (_daVoice) return _daVoice;
+  const voices = window.speechSynthesis.getVoices();
+  // Priority: exact sv-SE > any sv- > name contains "swedish" > name contains "alva/oskar"
+  const exact   = voices.find(v => v.lang === 'sv-SE');
+  const prefix  = voices.find(v => v.lang.toLowerCase().startsWith('sv'));
+  const byName  = voices.find(v => v.name.toLowerCase().includes('swedish') || v.name.toLowerCase().includes('svenska'));
+  const byDan   = voices.find(v => v.name.toLowerCase().includes('alva') || v.name.toLowerCase().includes('oskar'));
+  _daVoice = exact || prefix || byName || byDan || null;
+  return _daVoice;
+}
+
+function showVoiceBanner(voice) {
+  let banner = document.getElementById('voiceBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'voiceBanner';
+    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:#1A1A1A;color:#F5F0E8;font-size:12px;padding:10px 16px;z-index:999;display:flex;align-items:center;justify-content:space-between;gap:12px;';
+    document.body.appendChild(banner);
+  }
+  if (voice) {
+    banner.innerHTML = `<span>🔊 Stemme: <strong>${voice.name}</strong> (${voice.lang})</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
+  } else {
+    banner.innerHTML = `<span>⚠️ Ingen dansk röst hittades. Installer "Swedish" under Systemindstillinger → Tillgänglighet → Tal → Röster (Mac) eller Inställningar → Tid & språk → Tal (Windows).</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
+  }
+}
+
+function initVoices() {
+  // Voices may load async — try immediately and also on the event
+  const tryInit = () => {
+    const v = getBestDanishVoice();
+    if (!_voiceWarningShown) {
+      _voiceWarningShown = true;
+      showVoiceBanner(v);
+    }
+  };
+  if (window.speechSynthesis.getVoices().length > 0) tryInit();
+  window.speechSynthesis.onvoiceschanged = () => { _daVoice = null; tryInit(); };
+}
+
+function speak(text, lang, btnId) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'sv-SE';
+  utt.rate = 0.82;
+  const voice = getBestDanishVoice();
+  if (voice) utt.voice = voice;
+  if (btnId) {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.classList.add('speaking');
+    utt.onend = utt.onerror = () => { const b = document.getElementById(btnId); if (b) b.classList.remove('speaking'); };
+  }
+  window.speechSynthesis.speak(utt);
+}
+
+// ─── TABS ─────────────────────────────────────────────────────
+function switchTab(tab){
+  ["srs","browse","quiz","sentence","glossary"].forEach((t,i)=>{
+    document.querySelectorAll(".tab")[i].classList.toggle("active",t===tab);
+    document.getElementById("screen-"+t).classList.toggle("active",t===tab);
+  });
+  if(tab==="quiz"&&quizWords.length===0)startQuiz();
+  if(tab==="sentence"&&sentenceWords.length===0)startSentenceQuiz();
+}
+
+// ─── SRS SCREEN ───────────────────────────────────────────────
+function renderSRSDash(){
+  const c=getDueCounts();
+  document.getElementById("srsDash").innerHTML=`
+    <div class="srs-tile new"><div class="srs-tile-num">${c.new}</div><div class="srs-tile-label">Nya</div></div>
+    <div class="srs-tile learning"><div class="srs-tile-num">${c.learning}</div><div class="srs-tile-label">Lär</div></div>
+    <div class="srs-tile due"><div class="srs-tile-num">${c.due}</div><div class="srs-tile-label">Repetition</div></div>
+    <div class="srs-tile known"><div class="srs-tile-num">${c.known}</div><div class="srs-tile-label">Kan</div></div>`;
+}
+function escQ(s){return s.replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
+function renderSRSStudy(){
+  const area=document.getElementById("srsStudyArea");
+  if(srsQIndex>=srsQueue.length){
+    renderSRSDash();
+    const c=getDueCounts();
+    const total=c.new+c.learning+c.due;
+    if(srsSessionTotal===0&&total===0){
+      area.innerHTML=`<div class="done-panel"><div class="done-emoji">🎉</div><div class="done-title">Allt klart!</div><div class="done-sub">Du har inga fler ord att repetera idag.<br>Kom tillbaka imorgon!</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${WORDS.filter(w=>getSRSStatus(w.da)==="known").length}</div><div class="done-stat-label">Kända ord</div></div><div class="done-stat"><div class="done-stat-num">${WORDS.length}</div><div class="done-stat-label">Totalt</div></div></div><div class="reset-link" onclick="resetSRS()">Återställ framsteg</div></div>`;
+      return;
+    }
+    area.innerHTML=`<div class="done-panel"><div class="done-emoji">✅</div><div class="done-title">Session klar!</div><div class="done-sub">${total>0?`Det finns ${total} ord kvar att öva.`:"Allt repeterat för nu!"}</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${srsSessionCorrect}</div><div class="done-stat-label">Bra svar</div></div><div class="done-stat"><div class="done-stat-num">${srsSessionTotal}</div><div class="done-stat-label">Totalt</div></div></div>${total>0?`<button class="restart-btn" onclick="startSRSSession()">Fortsätt öva →</button>`:""}<div class="reset-link" onclick="resetSRS()">Återställ framsteg</div></div>`;
+    return;
+  }
+  const w=srsQueue[srsQIndex];
+  const st=getSRSStatus(w.da);
+  const bmap={new:"badge-new",learning:"badge-review",due:"badge-due",known:"badge-due"};
+  const blbl={new:"Nyt",learning:"Lær",due:"Gentagelse",known:"Gentagelse"};
+  area.innerHTML=`
+    <div class="study-header">
+      <div class="study-mode-label">🇸🇪 Gentagelsesøvning</div>
+      <div class="study-count">${srsQIndex+1} / ${srsQueue.length}</div>
+    </div>
+    <div class="srs-card" id="srsCard" onclick="revealSRS()">
+      <div class="card-badge ${bmap[st]}">${blbl[st]}</div>
+      <div class="card-label">🇸🇪 Svenska</div>
+      <button class="audio-btn" id="srsAudioBtn" onclick="event.stopPropagation();speak('${escQ(w.sv)}','sv-SE','srsAudioBtn')">🔊</button>
+      <div class="card-word">${w.sv}</div>
+      <div class="card-ipa">${w.ipa||""}</div>
+      <div class="card-cat-tag">${w.cat}</div>
+      <div class="tap-hint" id="srsTapHint">Tryck för att visa</div>
+      <div class="card-reveal" id="srsReveal">
+        <div class="card-swedish"><strong>🇩🇰 Dansk:</strong> ${w.da}</div>
+        <div class="card-meaning">${w.en}</div>
+        ${w.note?`<div class="card-note">${w.note}</div>`:""}
+      </div>
+    </div>
+    <div id="srsRatings" style="display:none">
+      <div class="srs-ratings">
+        <button class="rating-btn r-again" onclick="rateSRS(0)"><span class="r-emoji">😬</span><span class="r-label">Igen</span><span class="r-interval">${getIntervalLabel(w.da,0)}</span></button>
+        <button class="rating-btn r-hard" onclick="rateSRS(1)"><span class="r-emoji">😅</span><span class="r-label">Svårt</span><span class="r-interval">${getIntervalLabel(w.da,1)}</span></button>
+        <button class="rating-btn r-good" onclick="rateSRS(2)"><span class="r-emoji">🙂</span><span class="r-label">Bra</span><span class="r-interval">${getIntervalLabel(w.da,2)}</span></button>
+        <button class="rating-btn r-easy" onclick="rateSRS(3)"><span class="r-emoji">😎</span><span class="r-label">Lätt</span><span class="r-interval">${getIntervalLabel(w.da,3)}</span></button>
+      </div>
+    </div>`;
+  srsRevealed=false;
+  setTimeout(()=>speak(w.sv,"sv-SE","srsAudioBtn"),300);
+}
+function revealSRS(){
+  if(srsRevealed)return;
+  srsRevealed=true;
+  document.getElementById("srsReveal").classList.add("shown");
+  document.getElementById("srsTapHint").style.display="none";
+  document.getElementById("srsRatings").style.display="";
+}
+function rateSRS(rating){
+  const w=srsQueue[srsQIndex];
+  rateCard(w.da,rating);
+  srsSessionTotal++;
+  if(rating>=2){srsSessionCorrect++;streak++;}else{streak=0;}
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  srsQIndex++;renderSRSStudy();
+}
+function startSRSSession(){
+  srsQueue=getDueWords(20);srsQIndex=0;srsSessionCorrect=0;srsSessionTotal=0;
+  renderSRSDash();renderSRSStudy();
+}
+function resetSRS(){
+  if(confirm("Nulstille alle fremskridt?")){srsData={};saveSRS();srsQueue=[];srsQIndex=0;srsSessionCorrect=0;srsSessionTotal=0;startSRSSession();}
+}
+
+// ─── BROWSE ───────────────────────────────────────────────────
+function buildBrowseCategories(){
+  document.getElementById("browseCategories").innerHTML=CATEGORIES.map(c=>`<div class="cat-pill${c===browseCategory?" active":""}" onclick="selectBrowseCategory('${c}')">${c}</div>`).join("");
+}
+function selectBrowseCategory(cat){browseCategory=cat;browseIndex=0;browseRevealed=false;buildBrowseCategories();applyBrowseFilter();renderBrowseCard();}
+function applyBrowseFilter(){
+  browseWords=browseCategory==="Alla"?[...WORDS]:WORDS.filter(w=>w.cat===browseCategory);
+  for(let i=browseWords.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[browseWords[i],browseWords[j]]=[browseWords[j],browseWords[i]];}
+}
+function renderBrowseCard(){
+  if(!browseWords.length)return;
+  const w=browseWords[browseIndex];browseRevealed=false;
+  document.getElementById("browseWord").textContent=w.sv;
+  document.getElementById("browseIpa").textContent=w.ipa||"";
+  document.getElementById("browseCatTag").textContent=w.cat;
+  document.getElementById("browseTapHint").style.display="";
+  document.getElementById("browseReveal").classList.remove("shown");
+  document.getElementById("browseSwedish").innerHTML=`<strong>🇩🇰 Dansk:</strong> ${w.da}`;
+  document.getElementById("browseMeaning").textContent=w.en;
+  document.getElementById("browseNote").innerHTML=w.note||"";
+  const pct=((browseIndex+1)/browseWords.length)*100;
+  document.getElementById("browseProgress").style.width=pct+"%";
+  document.getElementById("browseProgressText").textContent=`${browseIndex+1} / ${browseWords.length}`;
+}
+function revealBrowse(){if(!browseRevealed){browseRevealed=true;document.getElementById("browseReveal").classList.add("shown");document.getElementById("browseTapHint").style.display="none";}}
+function speakBrowse(){const w=browseWords[browseIndex];if(w)speak(w.sv,"sv-SE","browseAudioBtn");}
+function nextBrowse(){browseIndex=(browseIndex+1)%browseWords.length;renderBrowseCard();}
+function prevBrowse(){browseIndex=(browseIndex-1+browseWords.length)%browseWords.length;renderBrowseCard();}
+
+// ─── QUIZ (audio-only) ────────────────────────────────────────
+function startQuiz(){quizWords=[...WORDS].sort(()=>Math.random()-0.5).slice(0,20);quizIndex=0;quizCorrect=0;quizWrong=0;quizAnswered=false;document.getElementById("quizArea").style.display="";document.getElementById("quizResult").style.display="none";updateQuizScore();renderQuizQ();}
+function updateQuizScore(){document.getElementById("qCorrect").textContent=quizCorrect;document.getElementById("qWrong").textContent=quizWrong;document.getElementById("qLeft").textContent=quizWords.length-quizIndex;}
+function speakQuizWord(){const w=quizWords[quizIndex];if(w)speak(w.sv,"sv-SE","quizAudioBtn");}
+function renderQuizQ(){
+  if(quizIndex>=quizWords.length){showQuizResult();return;}
+  const w=quizWords[quizIndex];quizAnswered=false;
+  document.getElementById("qLabel").textContent="Hvad betyder det ord du hører?";
+  document.getElementById("quizFeedback").textContent="";
+  document.getElementById("quizFeedback").className="quiz-feedback";
+  document.getElementById("quizNextBtn").classList.remove("visible");
+  document.getElementById("quizAudioBtn").classList.remove("speaking");
+  // Four options: correct sv + 3 distractors
+  const correct=w.da;
+  const pool=WORDS.filter(x=>x.da!==w.da);
+  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.da);
+  const opts=[...dist,correct].sort(()=>Math.random()-0.5);
+  document.getElementById("quizOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerQuiz(this,'${escQ(opt)}','${escQ(correct)}')">${opt}</button>`).join("");
+  updateQuizScore();
+  // Auto-play after short delay
+  setTimeout(()=>speak(w.sv,"sv-SE","quizAudioBtn"),400);
+}
+function answerQuiz(btn,chosen,correct){
+  if(quizAnswered)return;quizAnswered=true;
+  const w=quizWords[quizIndex];
+  document.querySelectorAll("#quizOptions .option-btn").forEach(b=>b.classList.add("locked"));
+  const wordLine=`<div class="quiz-word-reveal"><span class="qwr-da">${w.sv}</span>${w.ipa?`<span class="qwr-ipa">${w.ipa}</span>`:''}</div>`;
+  if(chosen===correct){
+    btn.classList.add("correct");quizCorrect++;streak++;
+    document.getElementById("quizFeedback").innerHTML="✓ Rätt! "+wordLine;
+    document.getElementById("quizFeedback").className="quiz-feedback correct-fb";
+  } else {
+    btn.classList.add("wrong");streak=0;quizWrong++;
+    document.querySelectorAll("#quizOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});
+    document.getElementById("quizFeedback").innerHTML="✗ Fel – rätt: "+correct+" "+wordLine;
+    document.getElementById("quizFeedback").className="quiz-feedback wrong-fb";
+  }
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  document.getElementById("quizNextBtn").classList.add("visible");updateQuizScore();quizIndex++;
+}
+function nextQuizQ(){renderQuizQ();}
+function showQuizResult(){
+  document.getElementById("quizArea").style.display="none";document.getElementById("quizResult").style.display="";
+  const pct=Math.round((quizCorrect/quizWords.length)*100);
+  document.getElementById("rCorrect").textContent=quizCorrect+"/"+quizWords.length;document.getElementById("rPct").textContent=pct+"%";
+  let emoji="😐",title="Ikke dårligt",sub="Bliv ved med at øve!";
+  if(pct>=90){emoji="🏆";title="Fremragende!";sub="Perfekt lytte-forståelse!";}
+  else if(pct>=75){emoji="🎉";title="Godt arbejde!";sub="Øret begynder at genkende svensk.";}
+  else if(pct>=50){emoji="📚";title="På god vej";sub="Fokuser på udtale-faldgruber.";}
+  else{emoji="💪";title="Bliv ved!";sub="Det svenske lydbillede er svært – men det sætter sig!";}
+  document.getElementById("resultEmoji").textContent=emoji;document.getElementById("resultTitle").textContent=title;document.getElementById("resultSubtitle").textContent=sub;
+}
+
+// ─── SENTENCE QUIZ ─────────────────────────────────────────────
+
+
+const SENTENCES=[{"sv": "Det är egentligen ganska roligt", "da": "Det er egentlig ret sjovt", "word": "rolig (sjov!), ganska, egentligen"}, {"sv": "Jag orkar inte göra det nu", "da": "Jeg gider ikke gøre det nu", "word": "orkar inte (gider ikke!)"}, {"sv": "Det spelar ingen roll vad de säger", "da": "Det er ligegyldigt hvad de siger", "word": "spelar ingen roll"}, {"sv": "Kan du verkligen inte komma?", "da": "Kan du virkelig ikke komme?", "word": "verkligen / inte"}, {"sv": "Han är nog hemma redan", "da": "Han er nok hjemme allerede", "word": "nog / redan (allerede!)"}, {"sv": "Det är ju precis det jag menade", "da": "Det er jo præcis det jeg mente", "word": "ju (jo!), precis"}, {"sv": "Jag hann inte ta tåget", "da": "Jeg nåede ikke at tage toget", "word": "hann inte (nåede ikke!)"}, {"sv": "Äntligen är du här!", "da": "Endelig er du her!", "word": "äntligen (endelig!)"}, {"sv": "Jag mår faktiskt ganska bra", "da": "Jeg har det faktisk ret godt", "word": "faktiskt / ganska"}, {"sv": "Det är väl inte så farligt?", "da": "Det er vel ikke så farligt?", "word": "väl (vel)"}, {"sv": "Vad gör du egentligen på dagarna?", "da": "Hvad laver du egentlig om dagen?", "word": "gör (jör!), egentligen"}, {"sv": "Jag gillar inte det alls", "da": "Jeg kan slet ikke lide det", "word": "gillar (kan lide!), inte alls"}, {"sv": "Det beror på vädret", "da": "Det kommer an på vejret", "word": "beror på / väder (vejr!)"}, {"sv": "Förresten, visste du det?", "da": "For resten, vidste du det?", "word": "förresten / visste"}, {"sv": "Jag ser fram emot semestern", "da": "Jeg glæder mig til ferien", "word": "ser fram emot / semester (ferie!)"}, {"sv": "Det är lagom varmt idag", "da": "Det er tilpas varmt i dag", "word": "lagom (intet dansk svar!)"}, {"sv": "Han är väldigt duktig på det", "da": "Han er rigtig dygtig til det", "word": "väldigt / duktig"}, {"sv": "Det händer sällan numera", "da": "Det sker sjældent efterhånden", "word": "sällan / numera"}, {"sv": "Kan du stänga fönstret?", "da": "Kan du lukke vinduet?", "word": "stänga (lukke!) / fönstret (vinduet!)"}, {"sv": "Jag är fortfarande hungrig", "da": "Jeg er stadig sulten", "word": "fortfarande / hungrig (sulten!)"}, {"sv": "Det är inte alls vad jag menade", "da": "Det er slet ikke hvad jeg mente", "word": "inte alls (slet ikke!)"}, {"sv": "Hon är rädd för att ta fel", "da": "Hun er bange for at tage fejl", "word": "rädd (bange!)"}, {"sv": "Vi ska fika strax", "da": "Vi skal have en kaffepause straks", "word": "fika (intet dansk svar!)"}, {"sv": "Jag hittade det till slut", "da": "Jeg fandt det til sidst", "word": "hittade (fandt)"}, {"sv": "Det är jättebra att du kom", "da": "Det er rigtig godt at du kom", "word": "jättebra (rigtig godt!)"}, {"sv": "Vad heter din granne?", "da": "Hvad hedder din nabo?", "word": "heter / granne (nabo!)"}, {"sv": "Jag visste det inte", "da": "Jeg vidste det ikke", "word": "visste (vidste)"}, {"sv": "Det är trots allt inte omöjligt", "da": "Det er trods alt ikke umuligt", "word": "trots allt"}, {"sv": "Dessutom är det billigare", "da": "Desuden er det billigere", "word": "dessutom"}, {"sv": "Ibland saknar jag det", "da": "Af og til savner jeg det", "word": "ibland (af og til!) / saknar"}, {"sv": "Han sa ingenting överhuvudtaget", "da": "Han sagde ingenting overhovedet", "word": "sa (sagde!) / överhuvudtaget"}, {"sv": "Jag hade det riktigt bra", "da": "Jeg havde det rigtig godt", "word": "hade (havde)"}, {"sv": "Det är snart dags att gå", "da": "Det er snart tid til at gå", "word": "snart / dags"}, {"sv": "Trodde du det var sant?", "da": "Troede du det var sandt?", "word": "trodde (troede)"}, {"sv": "Vad tycker du om det?", "da": "Hvad synes du om det?", "word": "tycker om (synes om!)"}, {"sv": "Äta middag tog lång tid", "da": "At spise aftensmad tog lang tid", "word": "äta (spise!) / middag (aftensmad!)"}, {"sv": "Jag brukade cykla till jobbet", "da": "Jeg plejede at cykle på arbejde", "word": "brukade (plejede!)"}, {"sv": "Vad gör det om det regnar?", "da": "Hvad gør det om det regner?", "word": "gör (udtales 'jör'!)"}, {"sv": "Det är verkligen en snäll person", "da": "Det er virkelig en sød person", "word": "verkligen / snäll (sød!)"}, {"sv": "Jag mår bra, tack", "da": "Jeg har det godt, tak", "word": "mår bra (har det godt!)"}, {"sv": "Se upp, det är halt!", "da": "Pas på, det er glat!", "word": "se upp (pas på!)"}, {"sv": "Framför allt måste du komma ihåg det", "da": "Frem for alt skal du huske det", "word": "framför allt / komma ihåg (huske!)"}, {"sv": "Det är ännu inte klart", "da": "Det er endnu ikke klart", "word": "ännu (endnu)"}, {"sv": "Å andra sidan är hon snäll", "da": "Til gengæld er hun sød", "word": "å andra sidan / snäll"}, {"sv": "Jag behöver lite hjälp", "da": "Jeg trænger til lidt hjælp", "word": "behöver (trænger til!)"}, {"sv": "Ge inte upp nu!", "da": "Giv ikke op nu!", "word": "ge upp (give op!)"}, {"sv": "Plötsligt stoppade han bilen", "da": "Pludselig stoppede han bilen", "word": "plötsligt"}, {"sv": "Det är numera ganska vanligt", "da": "Det er efterhånden ret almindeligt", "word": "numera / ganska"}, {"sv": "Jag förstår inte riktigt", "da": "Jeg forstår det ikke rigtig", "word": "riktigt (rigtig)"}, {"sv": "Kan du förklara det för mig?", "da": "Kan du forklare det for mig?", "word": "förklara (forklare)"}, {"sv": "Tack så mycket", "da": "Mange tak", "word": "tack (tak) – men 'tack så mycket' ≠ 'mange tak'"}, {"sv": "Ibland är det lite kul", "da": "Af og til er det lidt sjovt", "word": "ibland / kul (sjovt!)"}, {"sv": "Jag är ledsen för det", "da": "Jeg er ked af det", "word": "ledsen (ked af det!)"}, {"sv": "Det är lite lagom för mig", "da": "Det er tilpas for mig", "word": "lagom"}, {"sv": "Vänta lite, jag kommer", "da": "Vent lidt, jeg kommer", "word": "vänta / lite (lidt)"}, {"sv": "Han är fortfarande inte hemma", "da": "Han er stadigvæk ikke hjemme", "word": "fortfarande (stadigvæk!)"}, {"sv": "Jag hoppas det går bra", "da": "Jeg håber det går godt", "word": "hoppas (håber)"}, {"sv": "Det är faktiskt inte sant", "da": "Det er faktisk ikke sandt", "word": "faktiskt (faktisk)"}, {"sv": "Kanske kan vi ses imorgon", "da": "Måske kan vi ses i morgen", "word": "kanske (måske!)"}, {"sv": "Det var verkligen roligt", "da": "Det var virkelig sjovt", "word": "rolig (sjov!!) – viktigste!"}, {"sv": "Jag gillar den nya filmen", "da": "Jeg kan godt lide den nye film", "word": "gillar (kan lide!)"}];
+
+let sentenceWords=[],sentenceIndex=0,sentenceCorrect=0,sentenceWrong=0,sentenceAnswered=false;
+
+function startSentenceQuiz(){
+  sentenceWords=[...SENTENCES].sort(()=>Math.random()-0.5).slice(0,15);
+  sentenceIndex=0;sentenceCorrect=0;sentenceWrong=0;sentenceAnswered=false;
+  document.getElementById("sentenceArea").style.display="";document.getElementById("sentenceResult").style.display="none";
+  updateSentenceScore();renderSentenceQ();
+}
+function updateSentenceScore(){
+  document.getElementById("sqCorrect").textContent=sentenceCorrect;
+  document.getElementById("sqWrong").textContent=sentenceWrong;
+  document.getElementById("sqLeft").textContent=sentenceWords.length-sentenceIndex;
+}
+function speakSentence(){const s=sentenceWords[sentenceIndex];if(s)speak(s.sv,"sv-SE","sentenceAudioBtn");}
+function renderSentenceQ(){
+  if(sentenceIndex>=sentenceWords.length){showSentenceResult();return;}
+  const s=sentenceWords[sentenceIndex];sentenceAnswered=false;
+  document.getElementById("sentenceFeedback").textContent="";
+  document.getElementById("sentenceFeedback").className="quiz-feedback";
+  document.getElementById("sentenceNextBtn").classList.remove("visible");
+  document.getElementById("sentenceReveal").style.display="none";
+  document.getElementById("sentenceAudioBtn").classList.remove("speaking");
+  document.getElementById("sentenceWordBadge").innerHTML="";
+  // Build options: correct sv + 3 other sentence translations
+  const correct=s.da;
+  const pool=SENTENCES.filter(x=>x.da!==s.da);
+  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.da);
+  const opts=[...dist,correct].sort(()=>Math.random()-0.5);
+  document.getElementById("sentenceOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerSentence(this,'${escQ(opt)}','${escQ(correct)}','${escQ(s.da)}')">${opt}</button>`).join("");
+  updateSentenceScore();
+  setTimeout(()=>speak(s.sv,"sv-SE","sentenceAudioBtn"),400);
+}
+function answerSentence(btn,chosen,correct,da){
+  if(sentenceAnswered)return;sentenceAnswered=true;
+  const s=sentenceWords[sentenceIndex];
+  document.getElementById("sentenceWordBadge").innerHTML="Fokusord: <strong>"+s.word+"</strong>";
+  document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>b.classList.add("locked"));
+  const rev=document.getElementById("sentenceReveal");
+  rev.innerHTML=`<div class="da-text">🇩🇰 ${da}</div><div>🇸🇪 ${correct}</div>`;
+  rev.style.display="";
+  if(chosen===correct){btn.classList.add("correct");sentenceCorrect++;streak++;document.getElementById("sentenceFeedback").textContent="✓ Rätt!";document.getElementById("sentenceFeedback").className="quiz-feedback correct-fb";}
+  else{btn.classList.add("wrong");streak=0;sentenceWrong++;document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("sentenceFeedback").textContent="✗ Fel!";document.getElementById("sentenceFeedback").className="quiz-feedback wrong-fb";}
+  document.getElementById("streakBadge").textContent="🔥 "+streak;document.getElementById("sentenceNextBtn").classList.add("visible");updateSentenceScore();sentenceIndex++;
+}
+function nextSentenceQ(){renderSentenceQ();}
+function showSentenceResult(){
+  document.getElementById("sentenceArea").style.display="none";document.getElementById("sentenceResult").style.display="";
+  const pct=Math.round((sentenceCorrect/sentenceWords.length)*100);
+  document.getElementById("srCorrect").textContent=sentenceCorrect+"/"+sentenceWords.length;document.getElementById("srPct").textContent=pct+"%";
+  let emoji="😐",title="Inte illa",sub="Fortsätt öva!";
+  if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Du forstår svenske sætninger!";}
+  else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Kontexten börjar ge sig.";}
+  else if(pct>=50){emoji="📚";title="På god väg";sub="Lyssna aktivt på reduktioner.";}
+  else{emoji="💪";title="Håll ut!";sub="Meningarna är hårda – men det lönar sig.";}
+  document.getElementById("sResultEmoji").textContent=emoji;document.getElementById("sResultTitle").textContent=title;document.getElementById("sResultSubtitle").textContent=sub;
+}
+
+// ─── GLOSSARY ─────────────────────────────────────────────────
+function renderGlossary(){
+  const q=document.getElementById("glossarySearch").value.toLowerCase();
+  const filtered=WORDS.filter(w=>w.da.toLowerCase().includes(q)||w.sv.toLowerCase().includes(q)||w.en.toLowerCase().includes(q));
+  const groups={};filtered.forEach(w=>{if(!groups[w.cat])groups[w.cat]=[];groups[w.cat].push(w);});
+  const container=document.getElementById("glossaryList");
+  if(!filtered.length){container.innerHTML='<p style="color:var(--muted);padding:20px 0;text-align:center">Inga ord hittades.</p>';return;}
+  const dc={new:"dot-new",learning:"dot-learning",due:"dot-due",known:"dot-known"};
+  container.innerHTML=Object.entries(groups).map(([cat,words])=>`
+    <div class="glossary-group-label">${cat}</div>
+    ${words.map(w=>`<div class="glossary-item"><div class="g-word">${w.da}</div><div class="g-details"><div class="g-meaning">${w.en}</div><div class="g-swedish">🇸🇪 ${w.sv}</div></div><div class="g-srs-dot ${dc[getSRSStatus(w.da)]}"></div><button class="g-audio-btn" onclick="speak('${escQ(w.sv)}','sv-SE')">🔊</button></div>`).join("")}
+  `).join("");
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+window.onload=()=>{
+  loadSRS();
+  buildBrowseCategories();applyBrowseFilter();renderBrowseCard();
+  renderGlossary();startSRSSession();
+  initVoices();
+};
+</script>
+</body>
+</html>
