@@ -4,8 +4,8 @@
 
 | File | Description |
 |---|---|
-| `dansk-øvelse.html` | Swedish speaker learning Danish |
-| `svensk-øvelse.html` | Danish speaker learning Swedish |
+| `dansk-practice.html` | Swedish speaker learning Danish |
+| `svensk-practice.html` | Danish speaker learning Swedish |
 | `generate_audio.py` | Generates MP3 files via ElevenLabs or Google TTS |
 | `embed_audio_map.py` | Patches the HTML files to use the generated audio |
 | `audio_manifest.json` | List of all strings that need audio (auto-generated) |
@@ -83,7 +83,7 @@ to load for any reason.
 ## Step 4 — Push to GitHub
 
 ```bash
-git add audio/ dansk-øvelse.html svensk-øvelse.html
+git add audio/ dansk-practice.html svensk-practice.html
 git commit -m "Add pre-generated audio"
 git push
 ```

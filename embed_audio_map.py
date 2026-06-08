@@ -19,8 +19,8 @@ import shutil
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 MAPPINGS_PATH = os.path.join(BASE_DIR, "audio_mappings.json")
-DA_HTML = os.path.join(BASE_DIR, "dansk-øvelse.html")
-SV_HTML = os.path.join(BASE_DIR, "svensk-øvelse.html")
+DA_HTML = os.path.join(BASE_DIR, "dansk-practice.html")
+SV_HTML = os.path.join(BASE_DIR, "svensk-practice.html")
 
 # The JS we'll inject into both files — replaces the speak() function
 # with one that plays a pre-generated MP3, falling back to TTS if not found.
@@ -199,15 +199,15 @@ def main():
     if os.path.exists(DA_HTML):
         patch_html(DA_HTML, da_word_map, da_sent_map, "da")
     else:
-        print(f"\nSkipping dansk-øvelse.html (not found)")
+        print(f"\nSkipping dansk-practice.html (not found)")
 
     if os.path.exists(SV_HTML):
         patch_html(SV_HTML, sv_word_map, sv_sent_map, "sv")
     else:
-        print(f"\nSkipping svensk-øvelse.html (not found)")
+        print(f"\nSkipping svensk-practice.html (not found)")
 
     print("\n✓ All done! Commit everything to GitHub:")
-    print("   git add audio/ dansk-øvelse.html svensk-øvelse.html")
+    print("   git add audio/ dansk-practice.html svensk-practice.html")
     print("   git commit -m 'Add pre-generated audio'")
     print("   git push")
 
