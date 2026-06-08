@@ -1,5 +1,285 @@
 [
   {
+    "da": "vindue",
+    "sv": "fönster",
+    "en": "window",
+    "ipa": "[ˈfønstər]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'vindue' = svensk 'fönster'. Intet at associere."
+  },
+  {
+    "da": "loft (indvendigt)",
+    "sv": "tak",
+    "en": "ceiling",
+    "ipa": "[tɑːk]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'loft' = svensk 'tak'. 'Taket' = loftet."
+  },
+  {
+    "da": "dyne",
+    "sv": "täcke",
+    "en": "duvet",
+    "ipa": "[ˈtɛke]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'dyne' = svensk 'täcke'."
+  },
+  {
+    "da": "pude",
+    "sv": "kudde",
+    "en": "pillow",
+    "ipa": "[ˈkɵde]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'pude' = svensk 'kudde'."
+  },
+  {
+    "da": "skuffe",
+    "sv": "låda",
+    "en": "drawer",
+    "ipa": "[ˈloːda]",
+    "cat": "Divergerende ord",
+    "note": "Dansk 'skuffe' = svensk 'låda'. 'Lådan' = skuffen."
+  },
+  {
+    "da": "stue",
+    "sv": "vardagsrum",
+    "en": "living room",
+    "ipa": "[ˈvɑːdaɡsˌrɵm]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'stue' = svensk 'vardagsrum'."
+  },
+  {
+    "da": "køkken",
+    "sv": "kök",
+    "en": "kitchen",
+    "ipa": "[ʃøːk]",
+    "cat": "Divergerende ord",
+    "note": "Nær dansk 'køkken'. Udtales 'kjök'."
+  },
+  {
+    "da": "nøgle",
+    "sv": "nyckel",
+    "en": "key",
+    "ipa": "[ˈnʏkel]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'nøgle' = svensk 'nyckel'."
+  },
+  {
+    "da": "morgenmad",
+    "sv": "frukost",
+    "en": "breakfast",
+    "ipa": "[ˈfrɵkɔst]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Svensk 'frukost' = morgenmad. Forveksles med dansk 'frokost'!"
+  },
+  {
+    "da": "frokost",
+    "sv": "lunch",
+    "en": "lunch",
+    "ipa": "[lɵnʃ]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Svensk 'lunch' = dansk 'frokost'. Dansk 'frokost' ≠ 'frukost'!"
+  },
+  {
+    "da": "aftensmad",
+    "sv": "middag",
+    "en": "dinner",
+    "ipa": "[ˈmɪdɑɡ]",
+    "cat": "Divergerende ord",
+    "note": "'Äta middag' = spise aftensmad."
+  },
+  {
+    "da": "nabo",
+    "sv": "granne",
+    "en": "neighbor",
+    "ipa": "[ˈɡrane]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'nabo' = svensk 'granne'."
+  },
+  {
+    "da": "tøj",
+    "sv": "kläder",
+    "en": "clothes",
+    "ipa": "[ˈklɛːdər]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'tøj' = svensk 'kläder'."
+  },
+  {
+    "da": "sulten",
+    "sv": "hungrig",
+    "en": "hungry",
+    "ipa": "[ˈhɵŋrɪɡ]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'sulten' = svensk 'hungrig'."
+  },
+  {
+    "da": "bange",
+    "sv": "rädd",
+    "en": "scared, afraid",
+    "ipa": "[rɛd]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'bange' = svensk 'rädd'."
+  },
+  {
+    "da": "undskyld",
+    "sv": "förlåt",
+    "en": "sorry, excuse me",
+    "ipa": "[føˈloːt]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'undskyld' = svensk 'förlåt'."
+  },
+  {
+    "da": "fortov",
+    "sv": "trottoar",
+    "en": "sidewalk",
+    "ipa": "[trɔtʊˈɑːr]",
+    "cat": "Divergerende ord",
+    "note": "Dansk 'fortov' = svensk 'trottoar'."
+  },
+  {
+    "da": "vejr",
+    "sv": "väder",
+    "en": "weather",
+    "ipa": "[ˈvɛːdər]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'vejr' = svensk 'väder'. 'Vädret är bra' = vejret er godt."
+  },
+  {
+    "da": "forskel",
+    "sv": "skillnad",
+    "en": "difference",
+    "ipa": "[ˈʃɪlnad]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'forskel' = svensk 'skillnad'."
+  },
+  {
+    "da": "mulighed",
+    "sv": "möjlighet",
+    "en": "possibility",
+    "ipa": "[ˈmøjlɪɡˌheːt]",
+    "cat": "Divergerende ord",
+    "note": "'Det finns en möjlighet' = der er en mulighed."
+  },
+  {
+    "da": "ferie",
+    "sv": "semester",
+    "en": "vacation",
+    "ipa": "[seˈmɛstər]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'ferie' = svensk 'semester'. 'Jag är på semester' = jeg er på ferie."
+  },
+  {
+    "da": "løn",
+    "sv": "lön",
+    "en": "salary",
+    "ipa": "[løːn]",
+    "cat": "Divergerende ord",
+    "note": "Nær dansk 'løn'."
+  },
+  {
+    "da": "spørgsmål",
+    "sv": "fråga",
+    "en": "question",
+    "ipa": "[ˈfroːɡa]",
+    "cat": "Divergerende ord",
+    "note": "Dansk 'spørgsmål' = svensk 'fråga'."
+  },
+  {
+    "da": "læge",
+    "sv": "läkare",
+    "en": "doctor",
+    "ipa": "[ˈlɛːkare]",
+    "cat": "Divergerende ord",
+    "note": "Dansk 'læge' = svensk 'läkare'."
+  },
+  {
+    "da": "skrald",
+    "sv": "sopor",
+    "en": "trash, garbage",
+    "ipa": "[ˈsoːpɔr]",
+    "cat": "Divergerende ord",
+    "note": "'Kasta soporna' = smide skraldet ud."
+  },
+  {
+    "da": "kage / småkage",
+    "sv": "kaka",
+    "en": "cake, cookie",
+    "ipa": "[ˈkɑːka]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'kage' = svensk 'kaka' (småkage) eller 'tårta' (lagkage)."
+  },
+  {
+    "da": "tilbud / udsalg",
+    "sv": "rea",
+    "en": "sale",
+    "ipa": "[ˈreːa]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ 'På rea' = på tilbud/i udsalg. Intet direkte dansk svar."
+  },
+  {
+    "sv": "beslut",
+    "da": "beslutning",
+    "en": "decision",
+    "ipa": "[beˈslʉːt]",
+    "cat": "Divergerende ord",
+    "note": "'Ta ett beslut' = tage en beslutning."
+  },
+  {
+    "sv": "uppgift",
+    "da": "opgave",
+    "en": "task, assignment",
+    "ipa": "[ˈɵpˌjɪft]",
+    "cat": "Divergerende ord",
+    "note": "'En svår uppgift' = en svær opgave."
+  },
+  {
+    "sv": "inställning",
+    "da": "indstilling / holdning",
+    "en": "attitude, setting",
+    "ipa": "[ˈɪnˌstɛlnɪŋ]",
+    "cat": "Divergerende ord",
+    "note": "'En positiv inställning' = en positiv indstilling."
+  },
+  {
+    "sv": "sammanhang",
+    "da": "sammenhæng",
+    "en": "context, connection",
+    "ipa": "[ˈsamanˌhaŋ]",
+    "cat": "Divergerende ord",
+    "note": "'I detta sammanhang' = i denne sammenhæng."
+  },
+  {
+    "sv": "tårta",
+    "da": "lagkage",
+    "en": "layer cake",
+    "ipa": "[ˈtoːta]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ 'Tårta' = lagkage. 'Kaka' = småkage. Skelnet er anderledes end på dansk."
+  },
+  {
+    "sv": "erbjudande",
+    "da": "tilbud",
+    "en": "offer, deal",
+    "ipa": "[erˈbjʉːdande]",
+    "cat": "Divergerende ord",
+    "note": "'Ett bra erbjudande' = et godt tilbud."
+  },
+  {
+    "sv": "sjukhus",
+    "da": "sygehus",
+    "en": "hospital",
+    "ipa": "[ˈʃʉːkˌhʉːs]",
+    "cat": "Divergerende ord",
+    "note": "Nær dansk 'sygehus'. SJ-lyd."
+  },
+  {
+    "sv": "förstå",
+    "da": "forstå",
+    "en": "to understand",
+    "ipa": "[føˈʃtoː]",
+    "cat": "Divergerende ord",
+    "note": "Nær dansk 'forstå'. SK udtales SJ. 'Jag förstår inte' = jeg forstår ikke."
+  },
+  {
     "da": "sjov / morsom",
     "sv": "rolig",
     "en": "funny, amusing",
@@ -190,6 +470,302 @@
     "ipa": "[ˈskrata]",
     "cat": "Falske venner",
     "note": "⚠️ FALSK VEN! Dansk 'grine' = skratte. Svensk 'skratta' = grine. Husk skelnet!"
+  },
+  {
+    "da": "i hvert fald",
+    "sv": "i alla fall",
+    "en": "in any case, at least",
+    "ipa": "[ɪ ˈala ˌfal]",
+    "cat": "Fraser",
+    "note": "⚠️ Dansk 'i hvert fald' = svensk 'i alla fall'. Hyppig frase."
+  },
+  {
+    "da": "med det samme",
+    "sv": "genast",
+    "en": "right away",
+    "ipa": "[ˈjeːnast]",
+    "cat": "Fraser",
+    "note": "'Kom genast!' = kom med det samme!"
+  },
+  {
+    "da": "for resten / i øvrigt",
+    "sv": "förresten",
+    "en": "by the way",
+    "ipa": "[ˈfœˌrɛstən]",
+    "cat": "Fraser",
+    "note": "'Förresten...' = for resten..."
+  },
+  {
+    "da": "til gengæld",
+    "sv": "å andra sidan",
+    "en": "on the other hand",
+    "ipa": "[oː ˈandra ˈsiːdan]",
+    "cat": "Fraser",
+    "note": "'Å andra sidan är han snäll' = til gengæld er han sød."
+  },
+  {
+    "da": "i stedet for",
+    "sv": "istället för",
+    "en": "instead of",
+    "ipa": "[ɪˈstɛlet fœr]",
+    "cat": "Fraser",
+    "note": "Nær dansk 'i stedet for'."
+  },
+  {
+    "da": "det vil sige",
+    "sv": "det vill säga",
+    "en": "that is to say",
+    "ipa": "[de vɪl ˈsɛja]",
+    "cat": "Fraser",
+    "note": "'Det vill säga att...' = det vil sige at..."
+  },
+  {
+    "da": "trods alt",
+    "sv": "trots allt",
+    "en": "after all",
+    "ipa": "[trɔts ˈalt]",
+    "cat": "Fraser",
+    "note": "'Trots allt gick det bra' = trods alt gik det godt."
+  },
+  {
+    "da": "i forvejen",
+    "sv": "i förväg",
+    "en": "in advance",
+    "ipa": "[ɪ fœˈvɛːɡ]",
+    "cat": "Fraser",
+    "note": "'Det visste jag i förväg' = det vidste jeg i forvejen."
+  },
+  {
+    "da": "overhovedet",
+    "sv": "överhuvudtaget",
+    "en": "at all",
+    "ipa": "[ˌøːvərˈhʉːvɵdˌtɑːɡet]",
+    "cat": "Fraser",
+    "note": "'Det ger överhuvudtaget ingen mening' = det giver overhovedet ikke mening."
+  },
+  {
+    "da": "slet ikke",
+    "sv": "inte alls",
+    "en": "not at all",
+    "ipa": "[ˈɪnte ˈals]",
+    "cat": "Fraser",
+    "note": "'Inte alls bra' = slet ikke godt."
+  },
+  {
+    "da": "på grund af",
+    "sv": "på grund av",
+    "en": "because of",
+    "ipa": "[poː ˈɡrɵnd ɑːv]",
+    "cat": "Fraser",
+    "note": "'På grund av regnet' = på grund af regnet."
+  },
+  {
+    "da": "i løbet af",
+    "sv": "under loppet av",
+    "en": "in the course of",
+    "ipa": "[ˈɵndər ˈlɔpet ɑːv]",
+    "cat": "Fraser",
+    "note": "'Under dagens lopp' = i løbet af dagen."
+  },
+  {
+    "da": "det kommer an på",
+    "sv": "det beror på",
+    "en": "it depends on",
+    "ipa": "[de beˈruːr poː]",
+    "cat": "Fraser",
+    "note": "'Det beror på vad du vill' = det kommer an på hvad du vil."
+  },
+  {
+    "da": "med andre ord",
+    "sv": "med andra ord",
+    "en": "in other words",
+    "ipa": "[meː ˈandra ɔːd]",
+    "cat": "Fraser",
+    "note": "'Med andra ord...' = med andre ord..."
+  },
+  {
+    "da": "frem for alt",
+    "sv": "framför allt",
+    "en": "above all",
+    "ipa": "[ˈframˌfœr ˈalt]",
+    "cat": "Fraser",
+    "note": "'Framför allt ska du komma ihåg...' = frem for alt skal du huske..."
+  },
+  {
+    "da": "ikke desto mindre",
+    "sv": "inte desto mindre",
+    "en": "nonetheless",
+    "ipa": "[ˈɪnte ˈdɛstɔ ˈmɪndre]",
+    "cat": "Fraser",
+    "note": "'Inte desto mindre fortsatte han' = ikke desto mindre fortsatte han."
+  },
+  {
+    "da": "det er ligegyldigt",
+    "sv": "det spelar ingen roll",
+    "en": "it doesn't matter",
+    "ipa": "[de ˈspeːlar ˈɪŋən rɔl]",
+    "cat": "Fraser",
+    "note": "⚠️ 'Det spelar ingen roll' = det er ligegyldigt."
+  },
+  {
+    "da": "jeg kan lide",
+    "sv": "jag gillar",
+    "en": "I like",
+    "ipa": "[jɑː ˈjɪlar]",
+    "cat": "Fraser",
+    "note": "⚠️ 'Gillar' = synes godt om / kan lide."
+  },
+  {
+    "da": "har du det godt?",
+    "sv": "mår du bra?",
+    "en": "are you doing well?",
+    "ipa": "[moːr dɵ brɑː]",
+    "cat": "Fraser",
+    "note": "'Mår du bra?' = har du det godt?"
+  },
+  {
+    "da": "jeg har det godt",
+    "sv": "jag mår bra",
+    "en": "I'm doing well",
+    "ipa": "[jɑː moːr brɑː]",
+    "cat": "Fraser",
+    "note": "'Jag mår bra' = jeg har det godt."
+  },
+  {
+    "da": "pas på",
+    "sv": "se upp",
+    "en": "be careful",
+    "ipa": "[seː ɵp]",
+    "cat": "Fraser",
+    "note": "'Se upp!' = pas på!"
+  },
+  {
+    "da": "give op",
+    "sv": "ge upp",
+    "en": "to give up",
+    "ipa": "[jeː ɵp]",
+    "cat": "Fraser",
+    "note": "'Ge inte upp!' = giv ikke op!"
+  },
+  {
+    "da": "tage sig af",
+    "sv": "ta hand om",
+    "en": "to take care of",
+    "ipa": "[tɑː ˈhand ɔm]",
+    "cat": "Fraser",
+    "note": "'Ta hand om barnet' = tage sig af barnet."
+  },
+  {
+    "da": "glæde sig til",
+    "sv": "se fram emot",
+    "en": "to look forward to",
+    "ipa": "[seː fram eˈmoːt]",
+    "cat": "Fraser",
+    "note": "'Jag ser fram emot det' = jeg glæder mig til det."
+  },
+  {
+    "da": "finde ud af",
+    "sv": "ta reda på",
+    "en": "to find out",
+    "ipa": "[tɑː ˈreːda poː]",
+    "cat": "Fraser",
+    "note": "'Jag tar reda på det' = jeg finder ud af det."
+  },
+  {
+    "da": "synes godt om / godt lide",
+    "sv": "tycka om",
+    "en": "to like",
+    "ipa": "[ˈtʏka ɔm]",
+    "cat": "Fraser",
+    "note": "'Jag tycker om jazz' = jeg synes godt om jazz."
+  },
+  {
+    "da": "have råd til",
+    "sv": "ha råd med",
+    "en": "to be able to afford",
+    "ipa": "[hɑː roːd me]",
+    "cat": "Fraser",
+    "note": "'Jag har inte råd' = jeg har ikke råd."
+  },
+  {
+    "da": "af og til",
+    "sv": "ibland",
+    "en": "now and then",
+    "ipa": "[ɪˈbland]",
+    "cat": "Fraser",
+    "note": "'Ibland tar jag tåget' = af og til tager jeg toget."
+  },
+  {
+    "da": "ikke mindst",
+    "sv": "inte minst",
+    "en": "not least",
+    "ipa": "[ˈɪnte ˈmɪnst]",
+    "cat": "Fraser",
+    "note": "'Inte minst för att...' = ikke mindst fordi..."
+  },
+  {
+    "sv": "det ordnar sig",
+    "da": "det går nok",
+    "en": "it'll be fine",
+    "ipa": "[de ˈɔːdnar sɛj]",
+    "cat": "Fraser",
+    "note": "⚠️ 'Det ordnar sig' = det går nok. Typisk trøstende frase."
+  },
+  {
+    "sv": "så att säga",
+    "da": "så at sige",
+    "en": "so to speak",
+    "ipa": "[soː at ˈsɛja]",
+    "cat": "Fraser",
+    "note": "'Det är, så att säga, omöjligt' = det er, så at sige, umuligt."
+  },
+  {
+    "sv": "i praktiken",
+    "da": "i praksis",
+    "en": "in practice",
+    "ipa": "[ɪ ˈpraktɪkən]",
+    "cat": "Fraser",
+    "note": "'I praktiken fungerar det inte' = i praksis fungerer det ikke."
+  },
+  {
+    "sv": "hur som helst",
+    "da": "i hvert fald / under alle omstændigheder",
+    "en": "anyway, in any case",
+    "ipa": "[hʉːr sɔm hɛlst]",
+    "cat": "Fraser",
+    "note": "⚠️ 'Hur som helst' = i hvert fald / under alle omstændigheder. Intet direkte dansk svar."
+  },
+  {
+    "sv": "lite till",
+    "da": "lidt mere",
+    "en": "a little more",
+    "ipa": "[liːte tɪl]",
+    "cat": "Fraser",
+    "note": "'Lite till tack' = lidt mere tak."
+  },
+  {
+    "sv": "för övrigt",
+    "da": "i øvrigt",
+    "en": "by the way, besides",
+    "ipa": "[fœr ˈøːvrɪɡt]",
+    "cat": "Fraser",
+    "note": "'För övrigt...' = i øvrigt..."
+  },
+  {
+    "sv": "det gäller",
+    "da": "det gælder / det drejer sig om",
+    "en": "it concerns, it's about",
+    "ipa": "[de ˈjɛler]",
+    "cat": "Fraser",
+    "note": "⚠️ G → J foran e. 'Det gäller att...' = det drejer sig om at..."
+  },
+  {
+    "sv": "lagom mycket",
+    "da": "tilpas meget / passende",
+    "en": "just enough, not too much",
+    "ipa": "[ˈlɑːɡɔm ˈmʏket]",
+    "cat": "Fraser",
+    "note": "⚠️ 'Lagom mycket' = tilpas meget. Ingen dansk ækvivalent til 'lagom'."
   },
   {
     "da": "jo",
@@ -432,6 +1008,22 @@
     "note": "'Efteråt gick vi hem' = bagefter gik vi hjem."
   },
   {
+    "sv": "visserligen",
+    "da": "rigtigt nok / ganske vist",
+    "en": "admittedly, true enough",
+    "ipa": "[ˌvɪsərˈlɪɡən]",
+    "cat": "Frekvente ord",
+    "note": "'Visserligen är det svårt' = rigtigt nok er det svært. Medgivende adverbial."
+  },
+  {
+    "sv": "självklart",
+    "da": "selvfølgelig",
+    "en": "of course, obviously",
+    "ipa": "[ˈʃɛlvˌklɑːt]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ Dansk 'selvfølgelig' = svensk 'självklart'. Helt anderledes form."
+  },
+  {
     "da": "ikke",
     "sv": "inte",
     "en": "not",
@@ -598,222 +1190,6 @@
     "ipa": "[ˈɛːta]",
     "cat": "Udtale-faldgruber",
     "note": "⚠️ 'Äta' = spise. Udtales 'eta'. Intet at associere med 'spise'."
-  },
-  {
-    "da": "vindue",
-    "sv": "fönster",
-    "en": "window",
-    "ipa": "[ˈfønstər]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'vindue' = svensk 'fönster'. Intet at associere."
-  },
-  {
-    "da": "loft (indvendigt)",
-    "sv": "tak",
-    "en": "ceiling",
-    "ipa": "[tɑːk]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'loft' = svensk 'tak'. 'Taket' = loftet."
-  },
-  {
-    "da": "dyne",
-    "sv": "täcke",
-    "en": "duvet",
-    "ipa": "[ˈtɛke]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'dyne' = svensk 'täcke'."
-  },
-  {
-    "da": "pude",
-    "sv": "kudde",
-    "en": "pillow",
-    "ipa": "[ˈkɵde]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'pude' = svensk 'kudde'."
-  },
-  {
-    "da": "skuffe",
-    "sv": "låda",
-    "en": "drawer",
-    "ipa": "[ˈloːda]",
-    "cat": "Divergerende ord",
-    "note": "Dansk 'skuffe' = svensk 'låda'. 'Lådan' = skuffen."
-  },
-  {
-    "da": "stue",
-    "sv": "vardagsrum",
-    "en": "living room",
-    "ipa": "[ˈvɑːdaɡsˌrɵm]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'stue' = svensk 'vardagsrum'."
-  },
-  {
-    "da": "køkken",
-    "sv": "kök",
-    "en": "kitchen",
-    "ipa": "[ʃøːk]",
-    "cat": "Divergerende ord",
-    "note": "Nær dansk 'køkken'. Udtales 'kjök'."
-  },
-  {
-    "da": "nøgle",
-    "sv": "nyckel",
-    "en": "key",
-    "ipa": "[ˈnʏkel]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'nøgle' = svensk 'nyckel'."
-  },
-  {
-    "da": "morgenmad",
-    "sv": "frukost",
-    "en": "breakfast",
-    "ipa": "[ˈfrɵkɔst]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Svensk 'frukost' = morgenmad. Forveksles med dansk 'frokost'!"
-  },
-  {
-    "da": "frokost",
-    "sv": "lunch",
-    "en": "lunch",
-    "ipa": "[lɵnʃ]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Svensk 'lunch' = dansk 'frokost'. Dansk 'frokost' ≠ 'frukost'!"
-  },
-  {
-    "da": "aftensmad",
-    "sv": "middag",
-    "en": "dinner",
-    "ipa": "[ˈmɪdɑɡ]",
-    "cat": "Divergerende ord",
-    "note": "'Äta middag' = spise aftensmad."
-  },
-  {
-    "da": "nabo",
-    "sv": "granne",
-    "en": "neighbor",
-    "ipa": "[ˈɡrane]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'nabo' = svensk 'granne'."
-  },
-  {
-    "da": "tøj",
-    "sv": "kläder",
-    "en": "clothes",
-    "ipa": "[ˈklɛːdər]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'tøj' = svensk 'kläder'."
-  },
-  {
-    "da": "sulten",
-    "sv": "hungrig",
-    "en": "hungry",
-    "ipa": "[ˈhɵŋrɪɡ]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'sulten' = svensk 'hungrig'."
-  },
-  {
-    "da": "bange",
-    "sv": "rädd",
-    "en": "scared, afraid",
-    "ipa": "[rɛd]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'bange' = svensk 'rädd'."
-  },
-  {
-    "da": "undskyld",
-    "sv": "förlåt",
-    "en": "sorry, excuse me",
-    "ipa": "[føˈloːt]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'undskyld' = svensk 'förlåt'."
-  },
-  {
-    "da": "fortov",
-    "sv": "trottoar",
-    "en": "sidewalk",
-    "ipa": "[trɔtʊˈɑːr]",
-    "cat": "Divergerende ord",
-    "note": "Dansk 'fortov' = svensk 'trottoar'."
-  },
-  {
-    "da": "vejr",
-    "sv": "väder",
-    "en": "weather",
-    "ipa": "[ˈvɛːdər]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'vejr' = svensk 'väder'. 'Vädret är bra' = vejret er godt."
-  },
-  {
-    "da": "forskel",
-    "sv": "skillnad",
-    "en": "difference",
-    "ipa": "[ˈʃɪlnad]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'forskel' = svensk 'skillnad'."
-  },
-  {
-    "da": "mulighed",
-    "sv": "möjlighet",
-    "en": "possibility",
-    "ipa": "[ˈmøjlɪɡˌheːt]",
-    "cat": "Divergerende ord",
-    "note": "'Det finns en möjlighet' = der er en mulighed."
-  },
-  {
-    "da": "ferie",
-    "sv": "semester",
-    "en": "vacation",
-    "ipa": "[seˈmɛstər]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'ferie' = svensk 'semester'. 'Jag är på semester' = jeg er på ferie."
-  },
-  {
-    "da": "løn",
-    "sv": "lön",
-    "en": "salary",
-    "ipa": "[løːn]",
-    "cat": "Divergerende ord",
-    "note": "Nær dansk 'løn'."
-  },
-  {
-    "da": "spørgsmål",
-    "sv": "fråga",
-    "en": "question",
-    "ipa": "[ˈfroːɡa]",
-    "cat": "Divergerende ord",
-    "note": "Dansk 'spørgsmål' = svensk 'fråga'."
-  },
-  {
-    "da": "læge",
-    "sv": "läkare",
-    "en": "doctor",
-    "ipa": "[ˈlɛːkare]",
-    "cat": "Divergerende ord",
-    "note": "Dansk 'læge' = svensk 'läkare'."
-  },
-  {
-    "da": "skrald",
-    "sv": "sopor",
-    "en": "trash, garbage",
-    "ipa": "[ˈsoːpɔr]",
-    "cat": "Divergerende ord",
-    "note": "'Kasta soporna' = smide skraldet ud."
-  },
-  {
-    "da": "kage / småkage",
-    "sv": "kaka",
-    "en": "cake, cookie",
-    "ipa": "[ˈkɑːka]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ Dansk 'kage' = svensk 'kaka' (småkage) eller 'tårta' (lagkage)."
-  },
-  {
-    "da": "tilbud / udsalg",
-    "sv": "rea",
-    "en": "sale",
-    "ipa": "[ˈreːa]",
-    "cat": "Divergerende ord",
-    "note": "⚠️ 'På rea' = på tilbud/i udsalg. Intet direkte dansk svar."
   },
   {
     "da": "blive",
@@ -1232,235 +1608,91 @@
     "note": "'Det lyckades' = det lykkedes."
   },
   {
-    "da": "i hvert fald",
-    "sv": "i alla fall",
-    "en": "in any case, at least",
-    "ipa": "[ɪ ˈala ˌfal]",
-    "cat": "Fraser",
-    "note": "⚠️ Dansk 'i hvert fald' = svensk 'i alla fall'. Hyppig frase."
+    "sv": "kasta",
+    "da": "smide / kaste",
+    "en": "to throw",
+    "ipa": "[ˈkasta]",
+    "cat": "Verber",
+    "note": "'Kasta bort' = smide ud."
   },
   {
-    "da": "med det samme",
-    "sv": "genast",
-    "en": "right away",
-    "ipa": "[ˈjeːnast]",
-    "cat": "Fraser",
-    "note": "'Kom genast!' = kom med det samme!"
+    "sv": "bestämma sig",
+    "da": "beslutte sig",
+    "en": "to make up one's mind",
+    "ipa": "[beˈstɛma sɛj]",
+    "cat": "Verber",
+    "note": "'Jag har bestämt mig' = jeg har bestemt mig."
   },
   {
-    "da": "for resten / i øvrigt",
-    "sv": "förresten",
-    "en": "by the way",
-    "ipa": "[ˈfœˌrɛstən]",
-    "cat": "Fraser",
-    "note": "'Förresten...' = for resten..."
+    "sv": "vänja sig vid",
+    "da": "vænne sig til",
+    "en": "to get used to",
+    "ipa": "[ˈvɛnja sɛj viːd]",
+    "cat": "Verber",
+    "note": "⚠️ 'Man vänjer sig vid det' = man vænner sig til det. 'Vid' vs dansk 'til'."
   },
   {
-    "da": "til gengæld",
-    "sv": "å andra sidan",
-    "en": "on the other hand",
-    "ipa": "[oː ˈandra ˈsiːdan]",
-    "cat": "Fraser",
-    "note": "'Å andra sidan är han snäll' = til gengæld er han sød."
+    "sv": "trivas",
+    "da": "trives",
+    "en": "to thrive, to feel at home",
+    "ipa": "[ˈtriːvas]",
+    "cat": "Verber",
+    "note": "Nær dansk 'trives'. 'Jag trivs bra här' = jeg trives godt her."
   },
   {
-    "da": "i stedet for",
-    "sv": "istället för",
-    "en": "instead of",
-    "ipa": "[ɪˈstɛlet fœr]",
-    "cat": "Fraser",
-    "note": "Nær dansk 'i stedet for'."
+    "sv": "erkänna",
+    "da": "indrømme",
+    "en": "to admit",
+    "ipa": "[erˈʃɛna]",
+    "cat": "Verber",
+    "note": "⚠️ 'Jag måste erkänna...' = jeg er nødt til at indrømme... SK → SJ-lyd."
   },
   {
-    "da": "det vil sige",
-    "sv": "det vill säga",
-    "en": "that is to say",
-    "ipa": "[de vɪl ˈsɛja]",
-    "cat": "Fraser",
-    "note": "'Det vill säga att...' = det vil sige at..."
+    "sv": "uppföra sig",
+    "da": "opføre sig",
+    "en": "to behave",
+    "ipa": "[ˈɵpˌfœra sɛj]",
+    "cat": "Verber",
+    "note": "'Uppför dig ordentligt!' = opfør dig ordentligt!"
   },
   {
-    "da": "trods alt",
-    "sv": "trots allt",
-    "en": "after all",
-    "ipa": "[trɔts ˈalt]",
-    "cat": "Fraser",
-    "note": "'Trots allt gick det bra' = trods alt gik det godt."
+    "sv": "nå fram",
+    "da": "nå frem",
+    "en": "to arrive, to reach",
+    "ipa": "[noː fram]",
+    "cat": "Verber",
+    "note": "'Hvornår når du fram?' = hvornår når du frem?"
   },
   {
-    "da": "i forvejen",
-    "sv": "i förväg",
-    "en": "in advance",
-    "ipa": "[ɪ fœˈvɛːɡ]",
-    "cat": "Fraser",
-    "note": "'Det visste jag i förväg' = det vidste jeg i forvejen."
+    "sv": "styra",
+    "da": "styre",
+    "en": "to control, to steer",
+    "ipa": "[ˈstʏːra]",
+    "cat": "Verber",
+    "note": "'Styra sina känslor' = styre sine følelser."
   },
   {
-    "da": "overhovedet",
-    "sv": "överhuvudtaget",
-    "en": "at all",
-    "ipa": "[ˌøːvərˈhʉːvɵdˌtɑːɡet]",
-    "cat": "Fraser",
-    "note": "'Det ger överhuvudtaget ingen mening' = det giver overhovedet ikke mening."
+    "sv": "räkna",
+    "da": "tælle / regne",
+    "en": "to count / to calculate",
+    "ipa": "[ˈrɛkna]",
+    "cat": "Verber",
+    "note": "⚠️ Dansk 'tælle' = svensk 'räkna'. 'Räkna till tio' = tælle til ti."
   },
   {
-    "da": "slet ikke",
-    "sv": "inte alls",
-    "en": "not at all",
-    "ipa": "[ˈɪnte ˈals]",
-    "cat": "Fraser",
-    "note": "'Inte alls bra' = slet ikke godt."
+    "sv": "ursäkta",
+    "da": "undskylde",
+    "en": "to apologize",
+    "ipa": "[ˈɵːʃɛkta]",
+    "cat": "Verber",
+    "note": "'Ursäkta mig' = undskyld mig. Uttales 'ursjecta'."
   },
   {
-    "da": "på grund af",
-    "sv": "på grund av",
-    "en": "because of",
-    "ipa": "[poː ˈɡrɵnd ɑːv]",
-    "cat": "Fraser",
-    "note": "'På grund av regnet' = på grund af regnet."
-  },
-  {
-    "da": "i løbet af",
-    "sv": "under loppet av",
-    "en": "in the course of",
-    "ipa": "[ˈɵndər ˈlɔpet ɑːv]",
-    "cat": "Fraser",
-    "note": "'Under dagens lopp' = i løbet af dagen."
-  },
-  {
-    "da": "det kommer an på",
-    "sv": "det beror på",
-    "en": "it depends on",
-    "ipa": "[de beˈruːr poː]",
-    "cat": "Fraser",
-    "note": "'Det beror på vad du vill' = det kommer an på hvad du vil."
-  },
-  {
-    "da": "med andre ord",
-    "sv": "med andra ord",
-    "en": "in other words",
-    "ipa": "[meː ˈandra ɔːd]",
-    "cat": "Fraser",
-    "note": "'Med andra ord...' = med andre ord..."
-  },
-  {
-    "da": "frem for alt",
-    "sv": "framför allt",
-    "en": "above all",
-    "ipa": "[ˈframˌfœr ˈalt]",
-    "cat": "Fraser",
-    "note": "'Framför allt ska du komma ihåg...' = frem for alt skal du huske..."
-  },
-  {
-    "da": "ikke desto mindre",
-    "sv": "inte desto mindre",
-    "en": "nonetheless",
-    "ipa": "[ˈɪnte ˈdɛstɔ ˈmɪndre]",
-    "cat": "Fraser",
-    "note": "'Inte desto mindre fortsatte han' = ikke desto mindre fortsatte han."
-  },
-  {
-    "da": "det er ligegyldigt",
-    "sv": "det spelar ingen roll",
-    "en": "it doesn't matter",
-    "ipa": "[de ˈspeːlar ˈɪŋən rɔl]",
-    "cat": "Fraser",
-    "note": "⚠️ 'Det spelar ingen roll' = det er ligegyldigt."
-  },
-  {
-    "da": "jeg kan lide",
-    "sv": "jag gillar",
-    "en": "I like",
-    "ipa": "[jɑː ˈjɪlar]",
-    "cat": "Fraser",
-    "note": "⚠️ 'Gillar' = synes godt om / kan lide."
-  },
-  {
-    "da": "har du det godt?",
-    "sv": "mår du bra?",
-    "en": "are you doing well?",
-    "ipa": "[moːr dɵ brɑː]",
-    "cat": "Fraser",
-    "note": "'Mår du bra?' = har du det godt?"
-  },
-  {
-    "da": "jeg har det godt",
-    "sv": "jag mår bra",
-    "en": "I'm doing well",
-    "ipa": "[jɑː moːr brɑː]",
-    "cat": "Fraser",
-    "note": "'Jag mår bra' = jeg har det godt."
-  },
-  {
-    "da": "pas på",
-    "sv": "se upp",
-    "en": "be careful",
-    "ipa": "[seː ɵp]",
-    "cat": "Fraser",
-    "note": "'Se upp!' = pas på!"
-  },
-  {
-    "da": "give op",
-    "sv": "ge upp",
-    "en": "to give up",
-    "ipa": "[jeː ɵp]",
-    "cat": "Fraser",
-    "note": "'Ge inte upp!' = giv ikke op!"
-  },
-  {
-    "da": "tage sig af",
-    "sv": "ta hand om",
-    "en": "to take care of",
-    "ipa": "[tɑː ˈhand ɔm]",
-    "cat": "Fraser",
-    "note": "'Ta hand om barnet' = tage sig af barnet."
-  },
-  {
-    "da": "glæde sig til",
-    "sv": "se fram emot",
-    "en": "to look forward to",
-    "ipa": "[seː fram eˈmoːt]",
-    "cat": "Fraser",
-    "note": "'Jag ser fram emot det' = jeg glæder mig til det."
-  },
-  {
-    "da": "finde ud af",
-    "sv": "ta reda på",
-    "en": "to find out",
-    "ipa": "[tɑː ˈreːda poː]",
-    "cat": "Fraser",
-    "note": "'Jag tar reda på det' = jeg finder ud af det."
-  },
-  {
-    "da": "synes godt om / godt lide",
-    "sv": "tycka om",
-    "en": "to like",
-    "ipa": "[ˈtʏka ɔm]",
-    "cat": "Fraser",
-    "note": "'Jag tycker om jazz' = jeg synes godt om jazz."
-  },
-  {
-    "da": "have råd til",
-    "sv": "ha råd med",
-    "en": "to be able to afford",
-    "ipa": "[hɑː roːd me]",
-    "cat": "Fraser",
-    "note": "'Jag har inte råd' = jeg har ikke råd."
-  },
-  {
-    "da": "af og til",
-    "sv": "ibland",
-    "en": "now and then",
-    "ipa": "[ɪˈbland]",
-    "cat": "Fraser",
-    "note": "'Ibland tar jag tåget' = af og til tager jeg toget."
-  },
-  {
-    "da": "ikke mindst",
-    "sv": "inte minst",
-    "en": "not least",
-    "ipa": "[ˈɪnte ˈmɪnst]",
-    "cat": "Fraser",
-    "note": "'Inte minst för att...' = ikke mindst fordi..."
+    "sv": "backa upp",
+    "da": "bakke op",
+    "en": "to back up, to support",
+    "ipa": "[ˈbaka ɵp]",
+    "cat": "Verber",
+    "note": "'Jag backar upp dig' = jeg bakker dig op."
   }
 ]

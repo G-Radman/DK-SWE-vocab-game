@@ -52,7 +52,6 @@ Categories in use (sv app):
 """
 
 import argparse
-import asyncio
 import hashlib
 import json
 import os
@@ -66,10 +65,6 @@ try:
     import requests
 except ImportError:
     missing.append("requests")
-try:
-    import edge_tts
-except ImportError:
-    missing.append("edge-tts")
 if missing:
     print(f"Missing dependencies. Run: pip install {' '.join(missing)}")
     sys.exit(1)
@@ -77,10 +72,31 @@ if missing:
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-ELEVENLABS_VOICE_ID = "onwK4e9ZLuTAKqWW03F9"  # Daniel
-ELEVENLABS_MODEL    = "eleven_multilingual_v2"
-EDGE_VOICE          = "sv-SE-MattiasNeural"
-EDGE_RATE           = "-10%"
+ELEVENLABS_MODEL = "eleven_multilingual_v2"
+
+# Multiple voices per language — rotated across entries for variety.
+# Each word/sentence is assigned a voice deterministically based on its text,
+# so the same word always gets the same voice (consistent across re-runs).
+ELEVENLABS_VOICES = {
+    "da": [
+        "KLwMtB9otYg9CFf7AUWc",
+        "a1TnjruAs5jTzdrjL8Vd",
+        "54Cze5LrTSyLgbO6Fhlc",
+        "rAmra0SCIYOxYmRNDSm3",
+    ],
+    "sv": [
+        "aSLKtNoVBZlxQEMsnGL2",
+        "kPdGSxhZAqy4bmPAf9iJ",
+        "FCScQnyNrlLIxPiB3Bsd",
+        "DSL3PSQNPbkOavwmnYl1",
+    ],
+}
+
+def pick_voice(text: str, lang: str) -> str:
+    """Pick a voice deterministically based on text content."""
+    voices = ELEVENLABS_VOICES[lang]
+    idx = int(hashlib.md5(text.encode()).hexdigest(), 16) % len(voices)
+    return voices[idx]
 
 FILES = {
     "da": {
@@ -131,8 +147,9 @@ def save_audio_map(audio_map: dict):
 
 
 # ── Audio generation — Danish via ElevenLabs ─────────────────────────────────
-def generate_elevenlabs(text: str, api_key: str, out_path: str) -> bool:
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{ELEVENLABS_VOICE_ID}"
+def generate_elevenlabs(text: str, lang: str, api_key: str, out_path: str) -> bool:
+    voice_id = pick_voice(text, lang)
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
     headers = {
         "xi-api-key": api_key,
         "Content-Type": "application/json",
@@ -164,13 +181,15 @@ def generate_da_audio(texts: list, subdir: str, audio_map: dict,
     new_count = 0
 
     for i, text in enumerate(texts):
-        if text in audio_map:
-            continue  # already generated
-
         filename = safe_filename(text) + ".mp3"
         rel_path = f"audio/da/{subdir}/{filename}"
         out_path = os.path.join(BASE_DIR, rel_path)
 
+        print(f"Checking: {text}")
+        print(f"  Expected file: {out_path}")
+        print(f"  Exists: {os.path.exists(out_path)}")
+
+        # File already exists -> update audio_map and skip generation
         if os.path.exists(out_path):
             audio_map[text] = rel_path
             continue
@@ -181,7 +200,7 @@ def generate_da_audio(texts: list, subdir: str, audio_map: dict,
             if attempt > 0:
                 print(f"    Retry {attempt}...")
                 time.sleep(2 ** attempt)
-            ok = generate_elevenlabs(text, api_key, out_path)
+            ok = generate_elevenlabs(text, "da", api_key, out_path)
             if ok:
                 break
 
@@ -197,30 +216,22 @@ def generate_da_audio(texts: list, subdir: str, audio_map: dict,
 
 
 # ── Audio generation — Swedish via edge-tts ───────────────────────────────────
-async def generate_edge_one(text: str, out_path: str) -> bool:
-    try:
-        communicate = edge_tts.Communicate(text, EDGE_VOICE, rate=EDGE_RATE)
-        await communicate.save(out_path)
-        return True
-    except Exception as e:
-        print(f"  edge-tts error: {e}")
-        return False
-
-
-async def generate_sv_audio(texts: list, subdir: str, audio_map: dict,
-                             is_sentence: bool = False) -> int:
+def generate_sv_audio(texts: list, subdir: str, audio_map: dict,
+                      api_key: str, is_sentence: bool = False) -> int:
     out_dir = os.path.join(BASE_DIR, "audio", "sv", subdir)
     os.makedirs(out_dir, exist_ok=True)
     new_count = 0
 
     for i, text in enumerate(texts):
-        if text in audio_map:
-            continue
-
         filename = safe_filename(text) + ".mp3"
         rel_path = f"audio/sv/{subdir}/{filename}"
         out_path = os.path.join(BASE_DIR, rel_path)
 
+        print(f"Checking: {text}")
+        print(f"  Expected file: {out_path}")
+        print(f"  Exists: {os.path.exists(out_path)}")
+
+        # File already exists -> update audio_map and skip generation
         if os.path.exists(out_path):
             audio_map[text] = rel_path
             continue
@@ -230,8 +241,10 @@ async def generate_sv_audio(texts: list, subdir: str, audio_map: dict,
         for attempt in range(3):
             if attempt > 0:
                 print(f"    Retry {attempt}...")
-                await asyncio.sleep(2 ** attempt)
-            ok = await generate_edge_one(text, out_path)
+                time.sleep(2 ** attempt)
+
+            ok = generate_elevenlabs(text, "sv", api_key, out_path)
+
             if ok:
                 break
 
@@ -240,6 +253,8 @@ async def generate_sv_audio(texts: list, subdir: str, audio_map: dict,
             new_count += 1
         else:
             print(f"  FAILED: {text}")
+
+        time.sleep(0.35)
 
     return new_count
 
@@ -367,7 +382,7 @@ def build_html(lang: str, words: list, sentences: list, audio_map: dict):
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
-async def run(lang: str, api_key: str, no_audio: bool):
+def run(lang: str, api_key: str, no_audio: bool):
     audio_map = load_audio_map()
     total_new = 0
 
@@ -388,8 +403,8 @@ async def run(lang: str, api_key: str, no_audio: bool):
                 new = generate_da_audio(word_texts, "words", audio_map, api_key)
                 new += generate_da_audio(sent_texts, "sentences", audio_map, api_key, is_sentence=True)
             else:
-                new = await generate_sv_audio(word_texts, "words", audio_map)
-                new += await generate_sv_audio(sent_texts, "sentences", audio_map, is_sentence=True)
+                new = generate_sv_audio(word_texts, "words", audio_map, api_key)
+                new += generate_sv_audio(sent_texts, "sentences", audio_map, api_key, is_sentence=True)
 
             total_new += new
             if new:
@@ -419,7 +434,7 @@ def main():
                         help="Skip audio generation, just rebuild HTML")
     args = parser.parse_args()
 
-    asyncio.run(run(args.lang, args.elevenlabs_key, args.no_audio))
+    run(args.lang, args.elevenlabs_key, args.no_audio)
 
 
 if __name__ == "__main__":
