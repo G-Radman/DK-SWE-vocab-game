@@ -167,7 +167,7 @@ def generate_da_audio(texts: list, subdir: str, audio_map: dict,
         if text in audio_map:
             continue  # already generated
 
-        filename = f"s{i:03d}.mp3" if is_sentence else safe_filename(text) + ".mp3"
+        filename = safe_filename(text) + ".mp3"
         rel_path = f"audio/da/{subdir}/{filename}"
         out_path = os.path.join(BASE_DIR, rel_path)
 
@@ -217,7 +217,7 @@ async def generate_sv_audio(texts: list, subdir: str, audio_map: dict,
         if text in audio_map:
             continue
 
-        filename = f"s{i:03d}.mp3" if is_sentence else safe_filename(text) + ".mp3"
+        filename = safe_filename(text) + ".mp3"
         rel_path = f"audio/sv/{subdir}/{filename}"
         out_path = os.path.join(BASE_DIR, rel_path)
 
