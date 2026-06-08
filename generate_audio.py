@@ -1,91 +1,70 @@
 #!/usr/bin/env python3
 """
-Audio generation script for dansk-øvelse / svensk-øvelse
-=========================================================
-Generates MP3 files for all words and sentences in both apps.
+Audio generation script for dansk-practice / svensk-practice
+=============================================================
+Uses two providers:
+  - Danish:  ElevenLabs (Daniel voice) — best quality for Danish
+  - Swedish: edge-tts (MattiasNeural)  — native Swedish, free
 
-Supports:
-  --provider elevenlabs   (default, highest quality)
-  --provider google       (good quality, generous free tier)
+Setup:
+  pip install requests edge-tts
 
 Usage:
-  pip install requests
-  python generate_audio.py --provider elevenlabs --key YOUR_API_KEY
-  python generate_audio.py --provider google     --key YOUR_API_KEY
+  python generate_audio.py --elevenlabs-key YOUR_KEY
 
-Output structure:
-  audio/
-    da/
-      words/
-        ikke.mp3
-        måske.mp3
-        ...
-      sentences/
-        s000.mp3
-        s001.mp3
-        ...
-    sv/
-      words/
-        inte.mp3
-        kanske.mp3
-        ...
-      sentences/
-        s000.mp3
-        s001.mp3
-        ...
+  # Regenerate only one language:
+  python generate_audio.py --elevenlabs-key YOUR_KEY --lang da
+  python generate_audio.py --elevenlabs-key YOUR_KEY --lang sv
 
 After running:
-  1. Commit the audio/ folder to your GitHub repo alongside the HTML files
-  2. Run: python embed_audio_map.py
-     This updates the HTML files to use the audio files instead of TTS
+  python embed_audio_map.py
+  git add audio/ dansk-practice.html svensk-practice.html
+  git commit -m "Add pre-generated audio"
+  git push
 """
 
 import argparse
+import asyncio
 import hashlib
 import json
 import os
 import re
 import sys
 import time
-import urllib.request
-import urllib.parse
 
+missing = []
 try:
     import requests
 except ImportError:
-    print("Run: pip install requests")
+    missing.append("requests")
+try:
+    import edge_tts
+except ImportError:
+    missing.append("edge-tts")
+if missing:
+    print(f"Run: pip install {' '.join(missing)}")
     sys.exit(1)
 
-# ── ElevenLabs voice IDs ──────────────────────────────────────────────────────
-# These are publicly available pre-made voices.
-# Danish: "Callum" works well, or use a Danish community voice.
-# Swedish: "Freya" or "Charlotte" work well for Swedish.
-# You can browse voices at: https://elevenlabs.io/voice-library
-# and paste any voice_id you prefer below.
-ELEVENLABS_VOICES = {
-    "da": "onwK4e9ZLuTAKqWW03F9",   # Daniel — clear, neutral, works well for Danish
-    "sv": "EXAVITQu4vr4xnSDxMaL",   # Bella — clear, works well for Swedish
-}
+# ── ElevenLabs — Danish ───────────────────────────────────────────────────────
+ELEVENLABS_VOICE_ID = "onwK4e9ZLuTAKqWW03F9"  # Daniel
+ELEVENLABS_MODEL    = "eleven_multilingual_v2"
 
-# ── Google TTS voice names ────────────────────────────────────────────────────
-GOOGLE_VOICES = {
-    "da": {"languageCode": "da-DK", "name": "da-DK-Neural2-D", "ssmlGender": "MALE"},
-    "sv": {"languageCode": "sv-SE", "name": "sv-SE-Neural2-A", "ssmlGender": "FEMALE"},
-}
+# ── edge-tts — Swedish ────────────────────────────────────────────────────────
+EDGE_VOICE = "sv-SE-MattiasNeural"
+EDGE_RATE  = "-10%"  # slightly slower for learning
 
 
 def safe_filename(text: str) -> str:
-    """Convert text to a safe filename."""
     text = text.lower().strip()
     text = re.sub(r'[^\w\s-]', '', text, flags=re.UNICODE)
-    text = re.sub(r'[\s]+', '_', text)
-    text = text[:60]  # max length
+    text = re.sub(r'\s+', '_', text)
+    text = text[:60]
     return text or hashlib.md5(text.encode()).hexdigest()[:8]
 
 
-def generate_elevenlabs(text: str, lang: str, api_key: str, out_path: str):
-    voice_id = ELEVENLABS_VOICES[lang]
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+# ── Danish via ElevenLabs ─────────────────────────────────────────────────────
+def generate_elevenlabs(text: str, api_key: str, out_path: str) -> bool:
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{ELEVENLABS_VOICE_ID}"
     headers = {
         "xi-api-key": api_key,
         "Content-Type": "application/json",
@@ -93,7 +72,7 @@ def generate_elevenlabs(text: str, lang: str, api_key: str, out_path: str):
     }
     payload = {
         "text": text,
-        "model_id": "eleven_multilingual_v2",
+        "model_id": ELEVENLABS_MODEL,
         "voice_settings": {
             "stability": 0.6,
             "similarity_boost": 0.8,
@@ -111,67 +90,31 @@ def generate_elevenlabs(text: str, lang: str, api_key: str, out_path: str):
         return False
 
 
-def generate_google(text: str, lang: str, api_key: str, out_path: str):
-    url = f"https://texttospeech.googleapis.com/v1/text:synthesize?key={api_key}"
-    voice = GOOGLE_VOICES[lang]
-    payload = {
-        "input": {"text": text},
-        "voice": voice,
-        "audioConfig": {
-            "audioEncoding": "MP3",
-            "speakingRate": 0.85,
-            "pitch": 0,
-        },
-    }
-    r = requests.post(url, json=payload, timeout=30)
-    if r.status_code == 200:
-        import base64
-        audio_b64 = r.json()["audioContent"]
-        with open(out_path, 'wb') as f:
-            f.write(base64.b64decode(audio_b64))
-        return True
-    else:
-        print(f"  Google TTS error {r.status_code}: {r.text[:200]}")
-        return False
-
-
-def generate_batch(items: list, lang: str, subdir: str, provider: str, api_key: str,
-                   base_dir: str, is_sentence: bool = False) -> dict:
-    """
-    Generate audio for a list of texts.
-    Returns a mapping of {text: relative_path}
-    """
-    out_dir = os.path.join(base_dir, "audio", lang, subdir)
+def generate_da_batch(items: list, api_key: str, subdir: str,
+                      base_dir: str, is_sentence: bool = False) -> dict:
+    out_dir = os.path.join(base_dir, "audio", "da", subdir)
     os.makedirs(out_dir, exist_ok=True)
-
     mapping = {}
     total = len(items)
 
     for i, text in enumerate(items):
-        if is_sentence:
-            filename = f"s{i:03d}.mp3"
-        else:
-            filename = safe_filename(text) + ".mp3"
-
-        rel_path = f"audio/{lang}/{subdir}/{filename}"
+        filename = f"s{i:03d}.mp3" if is_sentence else safe_filename(text) + ".mp3"
+        rel_path = f"audio/da/{subdir}/{filename}"
         out_path = os.path.join(base_dir, rel_path)
 
         if os.path.exists(out_path):
-            print(f"  [{i+1}/{total}] SKIP (exists): {text[:40]}")
+            print(f"  [{i+1}/{total}] SKIP: {text[:50]}")
             mapping[text] = rel_path
             continue
 
-        print(f"  [{i+1}/{total}] Generating: {text[:50]}")
+        print(f"  [{i+1}/{total}] {text[:60]}")
 
         ok = False
         for attempt in range(3):
             if attempt > 0:
                 print(f"    Retry {attempt}...")
                 time.sleep(2 ** attempt)
-            if provider == "elevenlabs":
-                ok = generate_elevenlabs(text, lang, api_key, out_path)
-            else:
-                ok = generate_google(text, lang, api_key, out_path)
+            ok = generate_elevenlabs(text, api_key, out_path)
             if ok:
                 break
 
@@ -180,68 +123,112 @@ def generate_batch(items: list, lang: str, subdir: str, provider: str, api_key: 
         else:
             print(f"  FAILED: {text}")
 
-        # Rate limiting
-        if provider == "elevenlabs":
-            time.sleep(0.3)   # ElevenLabs: ~3 req/sec on free tier
-        else:
-            time.sleep(0.05)  # Google: generous limits
+        time.sleep(0.35)  # ElevenLabs free tier: ~3 req/sec
 
     return mapping
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Generate audio for language apps")
-    parser.add_argument("--provider", choices=["elevenlabs", "google"], default="elevenlabs")
-    parser.add_argument("--key", required=True, help="API key")
-    parser.add_argument("--base-dir", default=".", help="Directory containing the HTML files")
-    parser.add_argument("--lang", choices=["da", "sv", "both"], default="both",
-                        help="Which language to generate (default: both)")
-    args = parser.parse_args()
+# ── Swedish via edge-tts ──────────────────────────────────────────────────────
+async def generate_edge(text: str, out_path: str) -> bool:
+    try:
+        communicate = edge_tts.Communicate(text, EDGE_VOICE, rate=EDGE_RATE)
+        await communicate.save(out_path)
+        return True
+    except Exception as e:
+        print(f"  edge-tts error: {e}")
+        return False
 
-    manifest_path = os.path.join(os.path.dirname(__file__), "audio_manifest.json")
+
+async def generate_sv_batch(items: list, subdir: str,
+                            base_dir: str, is_sentence: bool = False) -> dict:
+    out_dir = os.path.join(base_dir, "audio", "sv", subdir)
+    os.makedirs(out_dir, exist_ok=True)
+    mapping = {}
+    total = len(items)
+
+    for i, text in enumerate(items):
+        filename = f"s{i:03d}.mp3" if is_sentence else safe_filename(text) + ".mp3"
+        rel_path = f"audio/sv/{subdir}/{filename}"
+        out_path = os.path.join(base_dir, rel_path)
+
+        if os.path.exists(out_path):
+            print(f"  [{i+1}/{total}] SKIP: {text[:50]}")
+            mapping[text] = rel_path
+            continue
+
+        print(f"  [{i+1}/{total}] {text[:60]}")
+
+        ok = False
+        for attempt in range(3):
+            if attempt > 0:
+                print(f"    Retry {attempt}...")
+                await asyncio.sleep(2 ** attempt)
+            ok = await generate_edge(text, out_path)
+            if ok:
+                break
+
+        if ok:
+            mapping[text] = rel_path
+        else:
+            print(f"  FAILED: {text}")
+
+    return mapping
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+async def main_async(lang: str, base_dir: str, elevenlabs_key: str):
+    manifest_path = os.path.join(base_dir, "audio_manifest.json")
     if not os.path.exists(manifest_path):
-        print(f"audio_manifest.json not found at {manifest_path}")
-        print("Run this script from the directory containing your HTML files.")
+        print(f"audio_manifest.json not found in {base_dir}")
+        print("Make sure you're running from the folder containing the HTML files.")
         sys.exit(1)
 
     with open(manifest_path, encoding='utf-8') as f:
         manifest = json.load(f)
 
-    all_mappings = {}
+    mappings_path = os.path.join(base_dir, "audio_mappings.json")
+    if os.path.exists(mappings_path):
+        with open(mappings_path, encoding='utf-8') as f:
+            all_mappings = json.load(f)
+    else:
+        all_mappings = {}
 
-    if args.lang in ("da", "both"):
-        print(f"\n── Danish words ({len(manifest['da_words'])}) ──────────────────")
-        da_word_map = generate_batch(
-            manifest["da_words"], "da", "words", args.provider, args.key, args.base_dir)
+    if lang in ("da", "both"):
+        print(f"\n── Danish words ({len(manifest['da_words'])}) — ElevenLabs/Daniel ──")
+        all_mappings["da_words"] = generate_da_batch(
+            manifest["da_words"], elevenlabs_key, "words", base_dir)
 
-        print(f"\n── Danish sentences ({len(manifest['da_sentences'])}) ─────────")
-        da_sent_map = generate_batch(
-            manifest["da_sentences"], "da", "sentences", args.provider, args.key,
-            args.base_dir, is_sentence=True)
+        print(f"\n── Danish sentences ({len(manifest['da_sentences'])}) — ElevenLabs/Daniel ──")
+        all_mappings["da_sentences"] = generate_da_batch(
+            manifest["da_sentences"], elevenlabs_key, "sentences", base_dir, is_sentence=True)
 
-        all_mappings["da_words"] = da_word_map
-        all_mappings["da_sentences"] = da_sent_map
+    if lang in ("sv", "both"):
+        print(f"\n── Swedish words ({len(manifest['sv_words'])}) — edge-tts/Mattias ──")
+        all_mappings["sv_words"] = await generate_sv_batch(
+            manifest["sv_words"], "words", base_dir)
 
-    if args.lang in ("sv", "both"):
-        print(f"\n── Swedish words ({len(manifest['sv_words'])}) ──────────────────")
-        sv_word_map = generate_batch(
-            manifest["sv_words"], "sv", "words", args.provider, args.key, args.base_dir)
+        print(f"\n── Swedish sentences ({len(manifest['sv_sentences'])}) — edge-tts/Mattias ──")
+        all_mappings["sv_sentences"] = await generate_sv_batch(
+            manifest["sv_sentences"], "sentences", base_dir, is_sentence=True)
 
-        print(f"\n── Swedish sentences ({len(manifest['sv_sentences'])}) ─────────")
-        sv_sent_map = generate_batch(
-            manifest["sv_sentences"], "sv", "sentences", args.provider, args.key,
-            args.base_dir, is_sentence=True)
-
-        all_mappings["sv_words"] = sv_word_map
-        all_mappings["sv_sentences"] = sv_sent_map
-
-    # Save the mappings for the embed script
-    mappings_path = os.path.join(args.base_dir, "audio_mappings.json")
     with open(mappings_path, 'w', encoding='utf-8') as f:
         json.dump(all_mappings, f, ensure_ascii=False, indent=2)
 
-    print(f"\n✓ Done. Mappings saved to {mappings_path}")
-    print("Next step: run  python embed_audio_map.py")
+    total_ok = sum(len(v) for v in all_mappings.values())
+    print(f"\n✓ Done — {total_ok} audio files ready.")
+    print(f"\nNext step: python embed_audio_map.py")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Generate audio for language practice apps")
+    parser.add_argument("--elevenlabs-key", required=True, help="ElevenLabs API key")
+    parser.add_argument("--lang", choices=["da", "sv", "both"], default="both",
+                        help="Which language to generate (default: both)")
+    parser.add_argument("--base-dir", default=".",
+                        help="Directory containing the HTML files (default: current folder)")
+    args = parser.parse_args()
+
+    asyncio.run(main_async(args.lang, args.base_dir, args.elevenlabs_key))
 
 
 if __name__ == "__main__":

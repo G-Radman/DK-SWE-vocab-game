@@ -6,117 +6,105 @@
 |---|---|
 | `dansk-practice.html` | Swedish speaker learning Danish |
 | `svensk-practice.html` | Danish speaker learning Swedish |
-| `generate_audio.py` | Generates MP3 files via ElevenLabs or Google TTS |
+| `generate_audio.py` | Generates MP3 files |
 | `embed_audio_map.py` | Patches the HTML files to use the generated audio |
-| `audio_manifest.json` | List of all strings that need audio (auto-generated) |
+| `audio_manifest.json` | List of all strings that need audio |
 
 ---
 
-## Step 1 — Get an API key
+## Audio providers
 
-**Option A: ElevenLabs** (recommended — best quality)
-1. Sign up at https://elevenlabs.io
-2. Free tier gives 10,000 characters/month — enough to generate all audio once
-3. Find your API key at https://elevenlabs.io/profile → API Key
-4. The script uses `eleven_multilingual_v2` which handles both Danish and Swedish naturally
-
-**Option B: Google Cloud TTS** (also excellent)
-1. Go to https://console.cloud.google.com
-2. Enable the "Cloud Text-to-Speech API"
-3. Create an API key under APIs & Services → Credentials
-4. Free tier: 1 million characters/month for WaveNet voices
+| Language | Provider | Voice |
+|---|---|---|
+| Danish | ElevenLabs (free tier) | Daniel — `onwK4e9ZLuTAKqWW03F9` |
+| Swedish | edge-tts (free, no account) | MattiasNeural |
 
 ---
 
-## Step 2 — Generate the audio
+## Step 1 — Install dependencies
 
-Make sure you have Python 3 and the `requests` library:
-
-```bash
-pip install requests
+```powershell
+pip install requests edge-tts
 ```
-
-Run the generation script from the folder containing the HTML files:
-
-```bash
-# ElevenLabs
-python generate_audio.py --provider elevenlabs --key YOUR_API_KEY
-
-# Google TTS
-python generate_audio.py --provider google --key YOUR_API_KEY
-
-# Generate only one language
-python generate_audio.py --provider elevenlabs --key YOUR_KEY --lang da
-python generate_audio.py --provider elevenlabs --key YOUR_KEY --lang sv
-```
-
-This creates an `audio/` folder:
-```
-audio/
-  da/
-    words/      ← one MP3 per Danish word
-    sentences/  ← one MP3 per Danish sentence
-  sv/
-    words/      ← one MP3 per Swedish word
-    sentences/  ← one MP3 per Swedish sentence
-```
-
-It's safe to run multiple times — already-generated files are skipped.
 
 ---
 
-## Step 3 — Patch the HTML files
+## Step 2 — Get your ElevenLabs API key
 
-```bash
+1. Sign up / log in at https://elevenlabs.io
+2. Go to your profile → API Key
+3. Copy the key
+
+---
+
+## Step 3 — Generate the audio
+
+Run from the folder containing the HTML files:
+
+```powershell
+python generate_audio.py --elevenlabs-key YOUR_KEY
+```
+
+Regenerate only one language:
+
+```powershell
+python generate_audio.py --elevenlabs-key YOUR_KEY --lang da
+python generate_audio.py --elevenlabs-key YOUR_KEY --lang sv
+```
+
+Already-generated files are skipped, so it's safe to interrupt and resume.
+
+---
+
+## Step 4 — Patch the HTML files
+
+```powershell
 python embed_audio_map.py
 ```
 
-This updates `dansk-øvelse.html` and `svensk-øvelse.html` to play the MP3 files
-instead of using the browser's built-in TTS. Original files are backed up as
-`*.original.html`.
-
-The patched apps fall back to browser TTS automatically if an audio file fails
-to load for any reason.
+Updates both HTML files to play the MP3s instead of browser TTS.
+Originals are backed up as `*.original.html`.
 
 ---
 
-## Step 4 — Push to GitHub
+## Step 5 — Push to GitHub
 
-```bash
+```powershell
 git add audio/ dansk-practice.html svensk-practice.html
 git commit -m "Add pre-generated audio"
 git push
 ```
 
-GitHub Pages will serve the MP3 files directly. The apps work on any browser
-on any device, online or offline (once cached).
-
 ---
 
-## Changing voice
+## Changing a voice
 
-**ElevenLabs:** Browse voices at https://elevenlabs.io/voice-library
-Find a voice you like, copy its ID from the URL, and update `ELEVENLABS_VOICES`
-in `generate_audio.py`:
+Edit `ELEVENLABS_VOICE_ID` or `EDGE_VOICE` at the top of `generate_audio.py`,
+delete the relevant `audio/da/` or `audio/sv/` folder, then re-run:
 
-```python
-ELEVENLABS_VOICES = {
-    "da": "PASTE_DANISH_VOICE_ID_HERE",
-    "sv": "PASTE_SWEDISH_VOICE_ID_HERE",
-}
+```powershell
+python generate_audio.py --elevenlabs-key YOUR_KEY --lang da   # or --lang sv
+python embed_audio_map.py
+git add audio/ dansk-practice.html svensk-practice.html
+git commit -m "Update voice"
+git push
 ```
 
-Then delete the `audio/` folder and run `generate_audio.py` again.
+Other ElevenLabs built-in voices (all free, all work well for Danish):
+- Daniel: `onwK4e9ZLuTAKqWW03F9` (default)
+- Callum: `N2lVS1w4EtoT3dr4eOWO`
+- Adam:   `pNInz6obpgDQGcFmaJgB`
 
-**Google:** Update `GOOGLE_VOICES` in `generate_audio.py`. Available voices:
-- Danish: `da-DK-Neural2-D` (male), `da-DK-Neural2-F` (female)  
-- Swedish: `sv-SE-Neural2-A` (female), `sv-SE-Neural2-B` (male)
+Other edge-tts Swedish voices:
+- `sv-SE-MattiasNeural` (male, default)
+- `sv-SE-SofieNeural`   (female)
 
 ---
 
 ## Notes
 
 - The `audio/` folder will be roughly **15–25 MB** total (744 MP3 files)
-- GitHub Pages has a soft limit of 1 GB per repo — well within range
-- If you add new words to the app later, re-run `generate_audio.py`
-  (it skips existing files) then `embed_audio_map.py` again
+- ElevenLabs free tier gives 10,000 characters/month — enough to generate
+  all Danish audio once (≈4,500 chars) with room to spare
+- If you add new words later, re-run `generate_audio.py` (skips existing
+  files), then `embed_audio_map.py`, then push
