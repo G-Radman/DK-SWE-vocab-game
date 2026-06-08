@@ -1,27 +1,23 @@
-# Language Apps — Audio Setup
+# Language Practice Apps
 
 ## Files in this repo
 
 | File | Description |
 |---|---|
-| `dansk-practice.html` | Swedish speaker learning Danish |
-| `svensk-practice.html` | Danish speaker learning Swedish |
-| `generate_audio.py` | Generates MP3 files |
-| `embed_audio_map.py` | Patches the HTML files to use the generated audio |
-| `audio_manifest.json` | List of all strings that need audio |
+| `dansk-practice.html` | Swedish speaker learning Danish ← **generated, don't edit** |
+| `svensk-practice.html` | Danish speaker learning Swedish ← **generated, don't edit** |
+| `template_da.html` | HTML template for the Danish app |
+| `template_sv.html` | HTML template for the Swedish app |
+| `words_da.json` | ✏️ Word list for the Danish app — **edit this** |
+| `words_sv.json` | ✏️ Word list for the Swedish app — **edit this** |
+| `sentences_da.json` | ✏️ Sentence list for the Danish app — **edit this** |
+| `sentences_sv.json` | ✏️ Sentence list for the Swedish app — **edit this** |
+| `audio_map.json` | Generated — maps text to audio file paths |
+| `update.py` | Single script: generates audio + rebuilds HTML |
 
 ---
 
-## Audio providers
-
-| Language | Provider | Voice |
-|---|---|---|
-| Danish | ElevenLabs (free tier) | Daniel — `onwK4e9ZLuTAKqWW03F9` |
-| Swedish | edge-tts (free, no account) | MattiasNeural |
-
----
-
-## Step 1 — Install dependencies
+## Setup (first time only)
 
 ```powershell
 pip install requests edge-tts
@@ -29,82 +25,85 @@ pip install requests edge-tts
 
 ---
 
-## Step 2 — Get your ElevenLabs API key
+## Updating the word or sentence lists
 
-1. Sign up / log in at https://elevenlabs.io
-2. Go to your profile → API Key
-3. Copy the key
+### 1. Edit the JSON file
 
----
+Open `words_da.json`, `words_sv.json`, `sentences_da.json`, or `sentences_sv.json`
+and add, remove, or edit entries.
 
-## Step 3 — Generate the audio
-
-Run from the folder containing the HTML files:
-
-```powershell
-python generate_audio.py --elevenlabs-key YOUR_KEY
+**Word entry format:**
+```json
+{
+  "da":   "rolig",
+  "sv":   "lugn / stilla",
+  "en":   "calm, quiet",
+  "ipa":  "[ˈʁoˀli]",
+  "cat":  "Falska vänner",
+  "note": "⚠️ Svenska <strong>'rolig'</strong> = kul. Danska 'rolig' = lugn."
+}
 ```
 
-Regenerate only one language:
-
-```powershell
-python generate_audio.py --elevenlabs-key YOUR_KEY --lang da
-python generate_audio.py --elevenlabs-key YOUR_KEY --lang sv
+**Sentence entry format:**
+```json
+{
+  "da":   "Jeg er egentlig ret træt i dag",
+  "sv":   "Jag är egentligen ganska trött idag",
+  "word": "egentlig / ret / træt"
+}
 ```
 
-Already-generated files are skipped, so it's safe to interrupt and resume.
+Categories in use:
+- Danish app: `Falska vänner`, `Frekventa ord`, `Uttal-fällor`, `Divergent ordförråd`, `Verb`, `Fraser`
+- Swedish app: `Falske venner`, `Frekvente ord`, `Udtale-faldgruber`, `Divergerende ord`, `Verber`, `Fraser`
 
----
-
-## Step 4 — Patch the HTML files
+### 2. Run update.py
 
 ```powershell
-python embed_audio_map.py
+python update.py --elevenlabs-key YOUR_KEY
 ```
 
-Updates both HTML files to play the MP3s instead of browser TTS.
-Originals are backed up as `*.original.html`.
+This will:
+- Generate audio for any new entries (skipping existing files)
+- Rebuild both HTML files with the updated content
 
----
+One language only:
+```powershell
+python update.py --elevenlabs-key YOUR_KEY --lang da
+python update.py --elevenlabs-key YOUR_KEY --lang sv
+```
 
-## Step 5 — Push to GitHub
+Rebuild HTML without generating new audio (e.g. after fixing a typo):
+```powershell
+python update.py --elevenlabs-key YOUR_KEY --no-audio
+```
+
+### 3. Push to GitHub
 
 ```powershell
-git add audio/ dansk-practice.html svensk-practice.html
-git commit -m "Add pre-generated audio"
+git add .
+git commit -m "Add new words"
 git push
 ```
 
 ---
 
-## Changing a voice
+## Audio providers
 
-Edit `ELEVENLABS_VOICE_ID` or `EDGE_VOICE` at the top of `generate_audio.py`,
-delete the relevant `audio/da/` or `audio/sv/` folder, then re-run:
+| Language | Provider | Voice |
+|---|---|---|
+| Danish | ElevenLabs free tier | Daniel (`onwK4e9ZLuTAKqWW03F9`) |
+| Swedish | edge-tts (free, no account) | MattiasNeural |
 
-```powershell
-python generate_audio.py --elevenlabs-key YOUR_KEY --lang da   # or --lang sv
-python embed_audio_map.py
-git add audio/ dansk-practice.html svensk-practice.html
-git commit -m "Update voice"
-git push
-```
-
-Other ElevenLabs built-in voices (all free, all work well for Danish):
-- Daniel: `onwK4e9ZLuTAKqWW03F9` (default)
-- Callum: `N2lVS1w4EtoT3dr4eOWO`
-- Adam:   `pNInz6obpgDQGcFmaJgB`
-
-Other edge-tts Swedish voices:
-- `sv-SE-MattiasNeural` (male, default)
-- `sv-SE-SofieNeural`   (female)
+To change a voice, update `ELEVENLABS_VOICE_ID` or `EDGE_VOICE` at the top
+of `update.py`, delete the relevant `audio/da/` or `audio/sv/` folder,
+and re-run `update.py`.
 
 ---
 
 ## Notes
 
-- The `audio/` folder will be roughly **15–25 MB** total (744 MP3 files)
-- ElevenLabs free tier gives 10,000 characters/month — enough to generate
-  all Danish audio once (≈4,500 chars) with room to spare
-- If you add new words later, re-run `generate_audio.py` (skips existing
-  files), then `embed_audio_map.py`, then push
+- The `audio/` folder will be roughly **15–25 MB** total
+- ElevenLabs free tier: 10,000 characters/month (~4,500 chars for all Danish audio)
+- Already-generated audio files are never regenerated — only new entries cost credits
+- The HTML files are fully rebuilt each time, so it's always in sync with the JSON

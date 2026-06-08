@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dansk Øvelse</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:#C0392B; --cream:#F5F0E8; --dark:#1A1A1A; --mid:#4A4440; --muted:#9A8E85;
+    --card-bg:#FEFCF8; --border:#E0D8CC; --correct:#2E7D52; --wrong:#C0392B;
+    --srs-new:#3B82F6; --srs-learn:#F59E0B; --srs-due:#C0392B; --srs-ok:#2E7D52;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--dark); min-height:100vh; max-width:480px; margin:0 auto; overflow-x:hidden; }
+  .header { background:var(--dark); color:var(--cream); padding:18px 20px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+  .header-title { font-family:'Playfair Display',serif; font-size:22px; letter-spacing:-0.5px; }
+  .header-title span { color:var(--red); font-style:italic; }
+  .header-sub { font-size:10px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-top:1px; }
+  .streak-badge { background:var(--red); color:white; font-size:12px; font-weight:500; padding:4px 10px; border-radius:20px; }
+  .tabs { display:flex; border-bottom:1px solid var(--border); background:var(--card-bg); position:sticky; top:61px; z-index:99; }
+  .tab { flex:1; padding:11px 4px; text-align:center; font-size:11px; font-weight:500; letter-spacing:0.3px; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.2s; user-select:none; }
+  .tab.active { color:var(--dark); border-bottom-color:var(--red); }
+  .screen { display:none; padding:16px 14px 120px; }
+  .screen.active { display:block; }
+  .srs-dash { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:18px; }
+  .srs-tile { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:10px 6px; text-align:center; }
+  .srs-tile-num { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; line-height:1; }
+  .srs-tile-label { font-size:10px; color:var(--muted); margin-top:3px; letter-spacing:0.3px; }
+  .srs-tile.new .srs-tile-num { color:var(--srs-new); }
+  .srs-tile.learning .srs-tile-num { color:var(--srs-learn); }
+  .srs-tile.due .srs-tile-num { color:var(--srs-due); }
+  .srs-tile.known .srs-tile-num { color:var(--srs-ok); }
+  .study-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .study-mode-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+  .study-count { font-size:12px; color:var(--muted); }
+  .srs-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:28px 22px; text-align:center; min-height:210px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,0.06); cursor:pointer; transition:transform 0.1s; position:relative; }
+  .srs-card:active { transform:scale(0.99); }
+  .card-badge { position:absolute; top:12px; right:14px; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; border-radius:20px; font-weight:600; }
+  .badge-new { background:#EFF6FF; color:var(--srs-new); }
+  .badge-review { background:#FEF3C7; color:var(--srs-learn); }
+  .badge-due { background:#FEF2F2; color:var(--srs-due); }
+  .card-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+  .card-word { font-family:'Playfair Display',serif; font-size:44px; font-weight:700; color:var(--dark); line-height:1.1; margin-bottom:6px; }
+  .card-ipa { font-size:12px; color:var(--muted); font-style:italic; margin-bottom:6px; }
+  .card-cat-tag { font-size:10px; background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:2px 8px; color:var(--muted); }
+  .tap-hint { font-size:11px; color:var(--muted); margin-top:14px; }
+  .card-reveal { display:none; width:100%; border-top:1px solid var(--border); padding-top:16px; margin-top:12px; }
+  .card-reveal.shown { display:block; }
+  .card-swedish { font-size:12px; color:var(--muted); margin-bottom:5px; }
+  .card-swedish strong { color:var(--mid); }
+  .card-meaning { font-size:17px; font-weight:500; color:var(--dark); margin-bottom:8px; }
+  .card-note { font-size:11px; color:var(--muted); font-style:italic; line-height:1.5; background:var(--cream); border-radius:8px; padding:7px 10px; text-align:left; }
+  .card-note strong { color:var(--red); font-style:normal; }
+  .audio-btn { width:48px; height:48px; border-radius:50%; background:var(--dark); color:var(--cream); border:none; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; transition:transform 0.1s,background 0.15s; flex-shrink:0; }
+  .audio-btn:active { transform:scale(0.92); background:var(--red); }
+  .audio-btn.speaking { background:var(--red); animation:pulse 0.6s infinite alternate; }
+  @keyframes pulse { from{transform:scale(1);}to{transform:scale(1.06);} }
+  .srs-ratings { display:flex; gap:8px; margin-top:14px; }
+  .rating-btn { flex:1; padding:13px 4px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.15s; display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .rating-btn:active { transform:scale(0.96); }
+  .rating-btn .r-emoji { font-size:18px; }
+  .rating-btn .r-label { font-size:10px; letter-spacing:0.3px; }
+  .rating-btn .r-interval { font-size:9px; color:var(--muted); }
+  .rating-btn.r-again { border-color:#FCA5A5; color:var(--wrong); }
+  .rating-btn.r-hard { border-color:#FCD34D; color:#92400E; }
+  .rating-btn.r-good { border-color:#86EFAC; color:var(--correct); }
+  .rating-btn.r-easy { border-color:#93C5FD; color:#1D4ED8; }
+  .rating-btn.r-again:active { background:#FEF2F2; }
+  .rating-btn.r-hard:active { background:#FFFBEB; }
+  .rating-btn.r-good:active { background:#F0FDF4; }
+  .rating-btn.r-easy:active { background:#EFF6FF; }
+  .done-panel { text-align:center; padding:40px 16px; }
+  .done-emoji { font-size:56px; margin-bottom:14px; }
+  .done-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; margin-bottom:6px; }
+  .done-sub { color:var(--muted); font-size:14px; margin-bottom:28px; line-height:1.5; }
+  .done-stats { display:flex; gap:12px; justify-content:center; margin-bottom:28px; }
+  .done-stat { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:14px 20px; }
+  .done-stat-num { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; color:var(--dark); }
+  .done-stat-label { font-size:11px; color:var(--muted); }
+  .categories { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px; }
+  .cat-pill { font-size:10px; font-weight:500; padding:4px 11px; border-radius:20px; border:1.5px solid var(--border); background:var(--card-bg); color:var(--mid); cursor:pointer; transition:all 0.15s; user-select:none; }
+  .cat-pill.active { background:var(--dark); color:var(--cream); border-color:var(--dark); }
+  .progress-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .progress-bar { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+  .progress-fill { height:100%; background:var(--red); border-radius:2px; transition:width 0.3s ease; }
+  .progress-text { font-size:11px; color:var(--muted); white-space:nowrap; }
+  .card-nav { display:flex; gap:10px; margin-top:14px; }
+  .nav-btn { flex:1; padding:13px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--mid); cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; gap:5px; }
+  .nav-btn.primary { background:var(--dark); color:var(--cream); border-color:var(--dark); flex:2; }
+  .score-panel { background:var(--card-bg); border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:14px; display:flex; }
+  .score-item { flex:1; text-align:center; border-right:1px solid var(--border); }
+  .score-item:last-child { border-right:none; }
+  .score-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; color:var(--dark); line-height:1; margin-bottom:3px; }
+  .score-label { font-size:10px; color:var(--muted); }
+  .qtype-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; font-size:11px; color:var(--muted); }
+  .qtype-toggle { display:flex; gap:6px; }
+  .qtype-btn { padding:4px 12px; border-radius:20px; border:1.5px solid var(--border); background:var(--card-bg); font-size:11px; font-weight:500; color:var(--mid); cursor:pointer; }
+  .qtype-btn.active { background:var(--dark); color:var(--cream); border-color:var(--dark); }
+  .quiz-question-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:7px; text-align:center; }
+  .quiz-word { font-family:'Playfair Display',serif; font-size:44px; font-weight:700; text-align:center; margin-bottom:5px; color:var(--dark); line-height:1.1; }
+  .quiz-sub { font-size:12px; color:var(--muted); text-align:center; margin-bottom:6px; font-style:italic; }
+  .quiz-audio-row { display:flex; justify-content:center; margin-bottom:20px; }
+  .quiz-options { display:flex; flex-direction:column; gap:9px; margin-bottom:16px; }
+  .option-btn { padding:14px 18px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--dark); cursor:pointer; text-align:left; transition:all 0.15s; line-height:1.3; }
+  .option-btn.correct { background:#EBF5EE; border-color:var(--correct); color:var(--correct); }
+  .option-btn.wrong { background:#FDECEA; border-color:var(--wrong); color:var(--wrong); }
+  .option-btn.locked { cursor:default; }
+  .quiz-feedback { text-align:center; font-size:13px; font-weight:500; min-height:22px; margin-bottom:10px; }
+  .quiz-feedback.correct-fb { color:var(--correct); }
+  .quiz-feedback.wrong-fb { color:var(--wrong); }
+  .quiz-next-btn { width:100%; padding:15px; border-radius:12px; background:var(--dark); color:var(--cream); border:none; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; display:none; }
+  .quiz-next-btn.visible { display:block; }
+  .result-screen { text-align:center; padding:36px 16px; }
+  .result-emoji { font-size:56px; margin-bottom:14px; }
+  .result-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; margin-bottom:6px; }
+  .result-subtitle { color:var(--muted); font-size:14px; margin-bottom:26px; }
+  .result-stats { display:flex; gap:12px; justify-content:center; margin-bottom:26px; }
+  .result-stat { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:14px 20px; text-align:center; }
+  .result-stat-num { font-family:'Playfair Display',serif; font-size:32px; font-weight:700; color:var(--dark); }
+  .result-stat-label { font-size:11px; color:var(--muted); }
+  .restart-btn { width:100%; padding:15px; border-radius:12px; background:var(--dark); color:var(--cream); border:none; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; margin-bottom:8px; }
+  .glossary-search { width:100%; padding:11px 14px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:13px; color:var(--dark); margin-bottom:14px; outline:none; }
+  .glossary-search:focus { border-color:var(--dark); }
+  .glossary-group-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); padding:10px 0 6px; border-bottom:1px solid var(--border); margin-bottom:6px; }
+  .glossary-item { display:flex; align-items:flex-start; gap:10px; padding:11px 0; border-bottom:1px solid var(--border); }
+  .g-word { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; color:var(--dark); min-width:100px; line-height:1.2; }
+  .g-details { flex:1; }
+  .g-meaning { font-size:13px; font-weight:500; color:var(--dark); margin-bottom:2px; }
+  .g-swedish { font-size:11px; color:var(--muted); }
+  .g-srs-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:6px; }
+  .g-audio-btn { width:32px; height:32px; border-radius:50%; background:var(--cream); border:1.5px solid var(--border); font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; }
+  .g-audio-btn:active { background:var(--dark); color:var(--cream); }
+  .dot-new { background:var(--srs-new); }
+  .dot-learning { background:var(--srs-learn); }
+  .dot-due { background:var(--srs-due); }
+  .dot-known { background:var(--srs-ok); }
+  .reset-link { font-size:11px; color:var(--muted); text-align:center; padding-top:16px; cursor:pointer; text-decoration:underline; }
+  .quiz-audio-big { display:flex; flex-direction:column; align-items:center; margin:20px 0 24px; }
+  .audio-btn-big { width:80px; height:80px; border-radius:50%; background:var(--dark); color:var(--cream); border:none; font-size:32px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform 0.1s, background 0.15s; box-shadow:0 4px 16px rgba(0,0,0,0.15); }
+  .audio-btn-big:active { transform:scale(0.92); background:var(--red); }
+  .audio-btn-big.speaking { background:var(--red); animation:pulse 0.6s infinite alternate; }
+  .quiz-audio-hint { font-size:11px; color:var(--muted); margin-top:10px; letter-spacing:0.3px; }
+  .quiz-word-reveal { margin-top:8px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08); }
+  .qwr-da { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark); margin-right:8px; }
+  .qwr-ipa { font-size:12px; color:var(--muted); font-style:italic; }
+  .sentence-word-badge { text-align:center; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+  .sentence-word-badge strong { color:var(--dark); font-style:normal; }
+  .sentence-reveal { background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:12px; font-size:13px; color:var(--mid); line-height:1.5; }
+  .sentence-reveal .da-text { font-family:"Playfair Display",serif; font-size:16px; color:var(--dark); margin-bottom:4px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <div class="header-title">Dansk <span>Øvelse</span></div>
+    <div class="header-sub">Svenska → Dansk · v1.2</div>
+  </div>
+  <div class="streak-badge" id="streakBadge">🔥 0</div>
+</div>
+<div class="tabs">
+  <div class="tab active"  onclick="switchTab('srs')">Upprepning</div>
+  <div class="tab"         onclick="switchTab('browse')">Bläddra</div>
+  <div class="tab"         onclick="switchTab('quiz')">Ljud-quiz</div>
+  <div class="tab"         onclick="switchTab('sentence')">Meningar</div>
+  <div class="tab"         onclick="switchTab('glossary')">Ordlista</div>
+</div>
+<div class="screen active" id="screen-srs">
+  <div class="srs-dash" id="srsDash"></div>
+  <div id="srsStudyArea"></div>
+</div>
+<div class="screen" id="screen-browse">
+  <div class="categories" id="browseCategories"></div>
+  <div class="progress-row">
+    <div class="progress-bar"><div class="progress-fill" id="browseProgress" style="width:0%"></div></div>
+    <div class="progress-text" id="browseProgressText">0 / 0</div>
+  </div>
+  <div>
+    <div class="srs-card" id="browseCard" onclick="revealBrowse()">
+      <div class="card-label">🇩🇰 Danska</div>
+      <button class="audio-btn" id="browseAudioBtn" onclick="event.stopPropagation();speakBrowse()">&#128266;</button>
+      <div class="card-word" id="browseWord">—</div>
+      <div class="card-ipa" id="browseIpa"></div>
+      <div class="card-cat-tag" id="browseCatTag"></div>
+      <div class="tap-hint" id="browseTapHint">Tryck för att visa</div>
+      <div class="card-reveal" id="browseReveal">
+        <div class="card-swedish" id="browseSwedish"></div>
+        <div class="card-meaning" id="browseMeaning"></div>
+        <div class="card-note" id="browseNote"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-nav">
+    <button class="nav-btn" onclick="prevBrowse()">← Föregående</button>
+    <button class="nav-btn primary" onclick="nextBrowse()">Nästa →</button>
+  </div>
+</div>
+<div class="screen" id="screen-quiz">
+  <div class="score-panel">
+    <div class="score-item"><div class="score-num" id="qCorrect">0</div><div class="score-label">Rätt</div></div>
+    <div class="score-item"><div class="score-num" id="qWrong">0</div><div class="score-label">Fel</div></div>
+    <div class="score-item"><div class="score-num" id="qLeft">0</div><div class="score-label">Kvar</div></div>
+  </div>
+  <div id="quizArea">
+    <div class="quiz-question-label" id="qLabel">Vad betyder ordet du hör?</div>
+    <div class="quiz-audio-big">
+      <button class="audio-btn-big" id="quizAudioBtn" onclick="speakQuizWord()">🔊</button>
+      <div class="quiz-audio-hint">Tryck för att höra igen</div>
+    </div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuizQ()">Nästa fråga →</button>
+  </div>
+  <div id="quizResult" style="display:none">
+    <div class="result-screen">
+      <div class="result-emoji" id="resultEmoji">🎉</div>
+      <div class="result-title" id="resultTitle">Bra jobbat!</div>
+      <div class="result-subtitle" id="resultSubtitle"></div>
+      <div class="result-stats">
+        <div class="result-stat"><div class="result-stat-num" id="rCorrect">—</div><div class="result-stat-label">Rätt</div></div>
+        <div class="result-stat"><div class="result-stat-num" id="rPct">—</div><div class="result-stat-label">Procent</div></div>
+      </div>
+      <button class="restart-btn" onclick="startQuiz()">Spela igen →</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-sentence">
+  <div class="score-panel">
+    <div class="score-item"><div class="score-num" id="sqCorrect">0</div><div class="score-label">Rätt</div></div>
+    <div class="score-item"><div class="score-num" id="sqWrong">0</div><div class="score-label">Fel</div></div>
+    <div class="score-item"><div class="score-num" id="sqLeft">0</div><div class="score-label">Kvar</div></div>
+  </div>
+  <div id="sentenceArea">
+    <div class="quiz-question-label">Vad betyder meningen du hör?</div>
+    <div class="quiz-audio-big">
+      <button class="audio-btn-big" id="sentenceAudioBtn" onclick="speakSentence()">🔊</button>
+      <div class="quiz-audio-hint">Tryck för att höra igen</div>
+    </div>
+    <div class="sentence-word-badge" id="sentenceWordBadge"></div>
+    <div class="quiz-options" id="sentenceOptions"></div>
+    <div class="quiz-feedback" id="sentenceFeedback"></div>
+    <div class="sentence-reveal" id="sentenceReveal" style="display:none"></div>
+    <button class="quiz-next-btn" id="sentenceNextBtn" onclick="nextSentenceQ()">Nästa mening →</button>
+  </div>
+  <div id="sentenceResult" style="display:none">
+    <div class="result-screen">
+      <div class="result-emoji" id="sResultEmoji">🎉</div>
+      <div class="result-title" id="sResultTitle">Bra jobbat!</div>
+      <div class="result-subtitle" id="sResultSubtitle"></div>
+      <div class="result-stats">
+        <div class="result-stat"><div class="result-stat-num" id="srCorrect">—</div><div class="result-stat-label">Rätt</div></div>
+        <div class="result-stat"><div class="result-stat-num" id="srPct">—</div><div class="result-stat-label">Procent</div></div>
+      </div>
+      <button class="restart-btn" onclick="startSentenceQuiz()">Spela igen →</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-glossary">
+  <input class="glossary-search" id="glossarySearch" placeholder="Sök ord…" oninput="renderGlossary()">
+  <div id="glossaryList"></div>
+</div>
+<script>
+/*WORDS_PLACEHOLDER*/
+
+// ─── SM-2 SRS ─────────────────────────────────────────────────
+const SRS_KEY="dansk_srs_v2";
+let srsData={};
+function loadSRS(){try{srsData=JSON.parse(localStorage.getItem(SRS_KEY))||{};}catch(e){srsData={};}}
+function saveSRS(){try{localStorage.setItem(SRS_KEY,JSON.stringify(srsData));}catch(e){}}
+function getCard(da){if(!srsData[da])srsData[da]={interval:0,reps:0,ef:2.5,nextDue:0,lapses:0};return srsData[da];}
+function rateCard(da,rating){
+  const c=getCard(da),now=Date.now(),DAY=86400000;
+  if(rating===0){c.reps=0;c.interval=1;c.lapses++;c.nextDue=now+DAY;}
+  else{
+    const q=[null,3,4,5][rating];
+    c.ef=Math.max(1.3,c.ef+0.1-(5-q)*(0.08+(5-q)*0.02));
+    if(c.reps===0)c.interval=1;
+    else if(c.reps===1)c.interval=4;
+    else c.interval=Math.round(c.interval*c.ef);
+    if(rating===3)c.interval=Math.round(c.interval*1.3);
+    if(rating===1)c.interval=Math.max(1,Math.round(c.interval*0.6));
+    c.reps++;c.nextDue=now+c.interval*DAY;
+  }
+  saveSRS();
+}
+function getIntervalLabel(da,rating){
+  const c=getCard(da),DAY=86400000;
+  if(rating===0)return"1d";
+  let interval;
+  const q=[null,3,4,5][rating];
+  const ef=Math.max(1.3,c.ef+0.1-(5-q)*(0.08+(5-q)*0.02));
+  if(c.reps===0)interval=1;
+  else if(c.reps===1)interval=4;
+  else interval=Math.round(c.interval*ef);
+  if(rating===3)interval=Math.round(interval*1.3);
+  if(rating===1)interval=Math.max(1,Math.round(interval*0.6));
+  if(interval<7)return interval+"d";
+  if(interval<30)return Math.round(interval/7)+"v";
+  return Math.round(interval/30)+"mån";
+}
+function getSRSStatus(da){
+  const c=getCard(da),now=Date.now();
+  if(c.reps===0&&c.nextDue===0)return"new";
+  if(c.nextDue<=now)return c.reps<3?"learning":"due";
+  return"known";
+}
+function getDueCounts(){
+  let n=0,l=0,d=0,k=0;
+  WORDS.forEach(w=>{const s=getSRSStatus(w.da);if(s==="new")n++;else if(s==="learning")l++;else if(s==="due")d++;else k++;});
+  return{new:n,learning:l,due:d,known:k};
+}
+function getDueWords(limit){
+  const now=Date.now();
+  const nw=WORDS.filter(w=>getSRSStatus(w.da)==="new").slice(0,5);
+  const dw=WORDS.filter(w=>{const c=getCard(w.da);return c.nextDue<=now&&c.reps>=3;}).sort((a,b)=>getCard(a.da).nextDue-getCard(b.da).nextDue);
+  const lw=WORDS.filter(w=>{const c=getCard(w.da);return c.nextDue<=now&&c.reps>0&&c.reps<3;});
+  return[...lw,...dw,...nw].slice(0,limit||20).sort(()=>Math.random()-0.3);
+}
+
+// ─── STATE ────────────────────────────────────────────────────
+let streak=0,srsQueue=[],srsQIndex=0,srsRevealed=false,srsSessionCorrect=0,srsSessionTotal=0;
+let browseCategory="Alla",browseIndex=0,browseWords=[],browseRevealed=false;
+let quizWords=[],quizIndex=0,quizCorrect=0,quizWrong=0,quizType="da-sv",quizAnswered=false;
+const CATEGORIES=["Alla",...new Set(WORDS.map(w=>w.cat))];
+
+// ─── SPEECH ───────────────────────────────────────────────────
+let _daVoice = null;
+let _voiceWarningShown = false;
+
+function getBestDanishVoice() {
+  if (_daVoice) return _daVoice;
+  const voices = window.speechSynthesis.getVoices();
+  // Priority: exact da-DK > any da- > name contains "danish" > name contains "dan"
+  const exact   = voices.find(v => v.lang === 'da-DK');
+  const prefix  = voices.find(v => v.lang.toLowerCase().startsWith('da'));
+  const byName  = voices.find(v => v.name.toLowerCase().includes('danish') || v.name.toLowerCase().includes('dansk'));
+  const byDan   = voices.find(v => v.name.toLowerCase().includes('dan'));
+  _daVoice = exact || prefix || byName || byDan || null;
+  return _daVoice;
+}
+
+function showVoiceBanner(voice) {
+  let banner = document.getElementById('voiceBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'voiceBanner';
+    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:#1A1A1A;color:#F5F0E8;font-size:12px;padding:10px 16px;z-index:999;display:flex;align-items:center;justify-content:space-between;gap:12px;';
+    document.body.appendChild(banner);
+  }
+  if (voice) {
+    banner.innerHTML = `<span>🔊 Röst: <strong>${voice.name}</strong> (${voice.lang})</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
+  } else {
+    banner.innerHTML = `<span>⚠️ Ingen dansk röst hittades. Installera "Danish" under Systeminställningar → Tillgänglighet → Tal → Röster (Mac) eller Inställningar → Tid & språk → Tal (Windows).</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
+  }
+}
+
+function initVoices() {
+  // Voices may load async — try immediately and also on the event
+  const tryInit = () => {
+    const v = getBestDanishVoice();
+    if (!_voiceWarningShown) {
+      _voiceWarningShown = true;
+      showVoiceBanner(v);
+    }
+  };
+  if (window.speechSynthesis.getVoices().length > 0) tryInit();
+  window.speechSynthesis.onvoiceschanged = () => { _daVoice = null; tryInit(); };
+}
+
+function speak(text, lang, btnId) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'da-DK';
+  utt.rate = 0.82;
+  const voice = getBestDanishVoice();
+  if (voice) utt.voice = voice;
+  if (btnId) {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.classList.add('speaking');
+    utt.onend = utt.onerror = () => { const b = document.getElementById(btnId); if (b) b.classList.remove('speaking'); };
+  }
+  window.speechSynthesis.speak(utt);
+}
+
+// ─── TABS ─────────────────────────────────────────────────────
+function switchTab(tab){
+  ["srs","browse","quiz","sentence","glossary"].forEach((t,i)=>{
+    document.querySelectorAll(".tab")[i].classList.toggle("active",t===tab);
+    document.getElementById("screen-"+t).classList.toggle("active",t===tab);
+  });
+  if(tab==="quiz"&&quizWords.length===0)startQuiz();
+  if(tab==="sentence"&&sentenceWords.length===0)startSentenceQuiz();
+}
+
+// ─── SRS SCREEN ───────────────────────────────────────────────
+function renderSRSDash(){
+  const c=getDueCounts();
+  document.getElementById("srsDash").innerHTML=`
+    <div class="srs-tile new"><div class="srs-tile-num">${c.new}</div><div class="srs-tile-label">Nya</div></div>
+    <div class="srs-tile learning"><div class="srs-tile-num">${c.learning}</div><div class="srs-tile-label">Lär</div></div>
+    <div class="srs-tile due"><div class="srs-tile-num">${c.due}</div><div class="srs-tile-label">Repetition</div></div>
+    <div class="srs-tile known"><div class="srs-tile-num">${c.known}</div><div class="srs-tile-label">Kan</div></div>`;
+}
+function escQ(s){return s.replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
+function renderSRSStudy(){
+  const area=document.getElementById("srsStudyArea");
+  if(srsQIndex>=srsQueue.length){
+    renderSRSDash();
+    const c=getDueCounts();
+    const total=c.new+c.learning+c.due;
+    if(srsSessionTotal===0&&total===0){
+      area.innerHTML=`<div class="done-panel"><div class="done-emoji">🎉</div><div class="done-title">Allt klart!</div><div class="done-sub">Du har inga fler ord att repetera idag.<br>Kom tillbaka imorgon!</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${WORDS.filter(w=>getSRSStatus(w.da)==="known").length}</div><div class="done-stat-label">Kända ord</div></div><div class="done-stat"><div class="done-stat-num">${WORDS.length}</div><div class="done-stat-label">Totalt</div></div></div><div class="reset-link" onclick="resetSRS()">Återställ framsteg</div></div>`;
+      return;
+    }
+    area.innerHTML=`<div class="done-panel"><div class="done-emoji">✅</div><div class="done-title">Session klar!</div><div class="done-sub">${total>0?`Det finns ${total} ord kvar att öva.`:"Allt repeterat för nu!"}</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${srsSessionCorrect}</div><div class="done-stat-label">Bra svar</div></div><div class="done-stat"><div class="done-stat-num">${srsSessionTotal}</div><div class="done-stat-label">Totalt</div></div></div>${total>0?`<button class="restart-btn" onclick="startSRSSession()">Fortsätt öva →</button>`:""}<div class="reset-link" onclick="resetSRS()">Återställ framsteg</div></div>`;
+    return;
+  }
+  const w=srsQueue[srsQIndex];
+  const st=getSRSStatus(w.da);
+  const bmap={new:"badge-new",learning:"badge-review",due:"badge-due",known:"badge-due"};
+  const blbl={new:"Nytt",learning:"Lär",due:"Repetition",known:"Repetition"};
+  area.innerHTML=`
+    <div class="study-header">
+      <div class="study-mode-label">🇩🇰 Upprepningsövning</div>
+      <div class="study-count">${srsQIndex+1} / ${srsQueue.length}</div>
+    </div>
+    <div class="srs-card" id="srsCard" onclick="revealSRS()">
+      <div class="card-badge ${bmap[st]}">${blbl[st]}</div>
+      <div class="card-label">🇩🇰 Danska</div>
+      <button class="audio-btn" id="srsAudioBtn" onclick="event.stopPropagation();speak('${escQ(w.da)}','da-DK','srsAudioBtn')">🔊</button>
+      <div class="card-word">${w.da}</div>
+      <div class="card-ipa">${w.ipa||""}</div>
+      <div class="card-cat-tag">${w.cat}</div>
+      <div class="tap-hint" id="srsTapHint">Tryck för att visa</div>
+      <div class="card-reveal" id="srsReveal">
+        <div class="card-swedish"><strong>🇸🇪 Svenska:</strong> ${w.sv}</div>
+        <div class="card-meaning">${w.en}</div>
+        ${w.note?`<div class="card-note">${w.note}</div>`:""}
+      </div>
+    </div>
+    <div id="srsRatings" style="display:none">
+      <div class="srs-ratings">
+        <button class="rating-btn r-again" onclick="rateSRS(0)"><span class="r-emoji">😬</span><span class="r-label">Igen</span><span class="r-interval">${getIntervalLabel(w.da,0)}</span></button>
+        <button class="rating-btn r-hard" onclick="rateSRS(1)"><span class="r-emoji">😅</span><span class="r-label">Svårt</span><span class="r-interval">${getIntervalLabel(w.da,1)}</span></button>
+        <button class="rating-btn r-good" onclick="rateSRS(2)"><span class="r-emoji">🙂</span><span class="r-label">Bra</span><span class="r-interval">${getIntervalLabel(w.da,2)}</span></button>
+        <button class="rating-btn r-easy" onclick="rateSRS(3)"><span class="r-emoji">😎</span><span class="r-label">Lätt</span><span class="r-interval">${getIntervalLabel(w.da,3)}</span></button>
+      </div>
+    </div>`;
+  srsRevealed=false;
+  setTimeout(()=>speak(w.da,"da-DK","srsAudioBtn"),300);
+}
+function revealSRS(){
+  if(srsRevealed)return;
+  srsRevealed=true;
+  document.getElementById("srsReveal").classList.add("shown");
+  document.getElementById("srsTapHint").style.display="none";
+  document.getElementById("srsRatings").style.display="";
+}
+function rateSRS(rating){
+  const w=srsQueue[srsQIndex];
+  rateCard(w.da,rating);
+  srsSessionTotal++;
+  if(rating>=2){srsSessionCorrect++;streak++;}else{streak=0;}
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  srsQIndex++;renderSRSStudy();
+}
+function startSRSSession(){
+  srsQueue=getDueWords(20);srsQIndex=0;srsSessionCorrect=0;srsSessionTotal=0;
+  renderSRSDash();renderSRSStudy();
+}
+function resetSRS(){
+  if(confirm("Återställa alla framsteg?")){srsData={};saveSRS();srsQueue=[];srsQIndex=0;srsSessionCorrect=0;srsSessionTotal=0;startSRSSession();}
+}
+
+// ─── BROWSE ───────────────────────────────────────────────────
+function buildBrowseCategories(){
+  document.getElementById("browseCategories").innerHTML=CATEGORIES.map(c=>`<div class="cat-pill${c===browseCategory?" active":""}" onclick="selectBrowseCategory('${c}')">${c}</div>`).join("");
+}
+function selectBrowseCategory(cat){browseCategory=cat;browseIndex=0;browseRevealed=false;buildBrowseCategories();applyBrowseFilter();renderBrowseCard();}
+function applyBrowseFilter(){
+  browseWords=browseCategory==="Alla"?[...WORDS]:WORDS.filter(w=>w.cat===browseCategory);
+  for(let i=browseWords.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[browseWords[i],browseWords[j]]=[browseWords[j],browseWords[i]];}
+}
+function renderBrowseCard(){
+  if(!browseWords.length)return;
+  const w=browseWords[browseIndex];browseRevealed=false;
+  document.getElementById("browseWord").textContent=w.da;
+  document.getElementById("browseIpa").textContent=w.ipa||"";
+  document.getElementById("browseCatTag").textContent=w.cat;
+  document.getElementById("browseTapHint").style.display="";
+  document.getElementById("browseReveal").classList.remove("shown");
+  document.getElementById("browseSwedish").innerHTML=`<strong>🇸🇪 Svenska:</strong> ${w.sv}`;
+  document.getElementById("browseMeaning").textContent=w.en;
+  document.getElementById("browseNote").innerHTML=w.note||"";
+  const pct=((browseIndex+1)/browseWords.length)*100;
+  document.getElementById("browseProgress").style.width=pct+"%";
+  document.getElementById("browseProgressText").textContent=`${browseIndex+1} / ${browseWords.length}`;
+}
+function revealBrowse(){if(!browseRevealed){browseRevealed=true;document.getElementById("browseReveal").classList.add("shown");document.getElementById("browseTapHint").style.display="none";}}
+function speakBrowse(){const w=browseWords[browseIndex];if(w)speak(w.da,"da-DK","browseAudioBtn");}
+function nextBrowse(){browseIndex=(browseIndex+1)%browseWords.length;renderBrowseCard();}
+function prevBrowse(){browseIndex=(browseIndex-1+browseWords.length)%browseWords.length;renderBrowseCard();}
+
+// ─── QUIZ (audio-only) ────────────────────────────────────────
+function startQuiz(){quizWords=[...WORDS].sort(()=>Math.random()-0.5).slice(0,20);quizIndex=0;quizCorrect=0;quizWrong=0;quizAnswered=false;document.getElementById("quizArea").style.display="";document.getElementById("quizResult").style.display="none";updateQuizScore();renderQuizQ();}
+function updateQuizScore(){document.getElementById("qCorrect").textContent=quizCorrect;document.getElementById("qWrong").textContent=quizWrong;document.getElementById("qLeft").textContent=quizWords.length-quizIndex;}
+function speakQuizWord(){const w=quizWords[quizIndex];if(w)speak(w.da,"da-DK","quizAudioBtn");}
+function renderQuizQ(){
+  if(quizIndex>=quizWords.length){showQuizResult();return;}
+  const w=quizWords[quizIndex];quizAnswered=false;
+  document.getElementById("qLabel").textContent="Vad betyder ordet du hör?";
+  document.getElementById("quizFeedback").textContent="";
+  document.getElementById("quizFeedback").className="quiz-feedback";
+  document.getElementById("quizNextBtn").classList.remove("visible");
+  document.getElementById("quizAudioBtn").classList.remove("speaking");
+  // Four options: correct sv + 3 distractors
+  const correct=w.sv;
+  const pool=WORDS.filter(x=>x.sv!==w.sv);
+  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.sv);
+  const opts=[...dist,correct].sort(()=>Math.random()-0.5);
+  document.getElementById("quizOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerQuiz(this,'${escQ(opt)}','${escQ(correct)}')">${opt}</button>`).join("");
+  updateQuizScore();
+  // Auto-play after short delay
+  setTimeout(()=>speak(w.da,"da-DK","quizAudioBtn"),400);
+}
+function answerQuiz(btn,chosen,correct){
+  if(quizAnswered)return;quizAnswered=true;
+  const w=quizWords[quizIndex];
+  document.querySelectorAll("#quizOptions .option-btn").forEach(b=>b.classList.add("locked"));
+  const wordLine=`<div class="quiz-word-reveal"><span class="qwr-da">${w.da}</span>${w.ipa?`<span class="qwr-ipa">${w.ipa}</span>`:''}</div>`;
+  if(chosen===correct){
+    btn.classList.add("correct");quizCorrect++;streak++;
+    document.getElementById("quizFeedback").innerHTML="✓ Rätt! "+wordLine;
+    document.getElementById("quizFeedback").className="quiz-feedback correct-fb";
+  } else {
+    btn.classList.add("wrong");streak=0;quizWrong++;
+    document.querySelectorAll("#quizOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});
+    document.getElementById("quizFeedback").innerHTML="✗ Fel – rätt: "+correct+" "+wordLine;
+    document.getElementById("quizFeedback").className="quiz-feedback wrong-fb";
+  }
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  document.getElementById("quizNextBtn").classList.add("visible");updateQuizScore();quizIndex++;
+}
+function nextQuizQ(){renderQuizQ();}
+function showQuizResult(){
+  document.getElementById("quizArea").style.display="none";document.getElementById("quizResult").style.display="";
+  const pct=Math.round((quizCorrect/quizWords.length)*100);
+  document.getElementById("rCorrect").textContent=quizCorrect+"/"+quizWords.length;document.getElementById("rPct").textContent=pct+"%";
+  let emoji="😐",title="Inte illa",sub="Fortsätt öva!";
+  if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Perfekt hörförståelse!";}
+  else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Örat börjar känna igen danskan.";}
+  else if(pct>=50){emoji="📚";title="På god väg";sub="Fokusera på uttal-fällorna.";}
+  else{emoji="💪";title="Fortsätt kämpa!";sub="Det danska ljudet är svårt – men det sätter sig!";}
+  document.getElementById("resultEmoji").textContent=emoji;document.getElementById("resultTitle").textContent=title;document.getElementById("resultSubtitle").textContent=sub;
+}
+
+// ─── SENTENCE QUIZ ─────────────────────────────────────────────
+/*SENTENCES_PLACEHOLDER*/
+
+let sentenceWords=[],sentenceIndex=0,sentenceCorrect=0,sentenceWrong=0,sentenceAnswered=false;
+
+function startSentenceQuiz(){
+  sentenceWords=[...SENTENCES].sort(()=>Math.random()-0.5).slice(0,15);
+  sentenceIndex=0;sentenceCorrect=0;sentenceWrong=0;sentenceAnswered=false;
+  document.getElementById("sentenceArea").style.display="";document.getElementById("sentenceResult").style.display="none";
+  updateSentenceScore();renderSentenceQ();
+}
+function updateSentenceScore(){
+  document.getElementById("sqCorrect").textContent=sentenceCorrect;
+  document.getElementById("sqWrong").textContent=sentenceWrong;
+  document.getElementById("sqLeft").textContent=sentenceWords.length-sentenceIndex;
+}
+function speakSentence(){const s=sentenceWords[sentenceIndex];if(s)speak(s.da,"da-DK","sentenceAudioBtn");}
+function renderSentenceQ(){
+  if(sentenceIndex>=sentenceWords.length){showSentenceResult();return;}
+  const s=sentenceWords[sentenceIndex];sentenceAnswered=false;
+  document.getElementById("sentenceFeedback").textContent="";
+  document.getElementById("sentenceFeedback").className="quiz-feedback";
+  document.getElementById("sentenceNextBtn").classList.remove("visible");
+  document.getElementById("sentenceReveal").style.display="none";
+  document.getElementById("sentenceAudioBtn").classList.remove("speaking");
+  document.getElementById("sentenceWordBadge").innerHTML="";
+  // Build options: correct sv + 3 other sentence translations
+  const correct=s.sv;
+  const pool=SENTENCES.filter(x=>x.sv!==s.sv);
+  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.sv);
+  const opts=[...dist,correct].sort(()=>Math.random()-0.5);
+  document.getElementById("sentenceOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerSentence(this,'${escQ(opt)}','${escQ(correct)}','${escQ(s.da)}')">${opt}</button>`).join("");
+  updateSentenceScore();
+  setTimeout(()=>speak(s.da,"da-DK","sentenceAudioBtn"),400);
+}
+function answerSentence(btn,chosen,correct,da){
+  if(sentenceAnswered)return;sentenceAnswered=true;
+  const s=sentenceWords[sentenceIndex];
+  document.getElementById("sentenceWordBadge").innerHTML="Fokusord: <strong>"+s.word+"</strong>";
+  document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>b.classList.add("locked"));
+  const rev=document.getElementById("sentenceReveal");
+  rev.innerHTML=`<div class="da-text">🇩🇰 ${da}</div><div>🇸🇪 ${correct}</div>`;
+  rev.style.display="";
+  if(chosen===correct){btn.classList.add("correct");sentenceCorrect++;streak++;document.getElementById("sentenceFeedback").textContent="✓ Rätt!";document.getElementById("sentenceFeedback").className="quiz-feedback correct-fb";}
+  else{btn.classList.add("wrong");streak=0;sentenceWrong++;document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("sentenceFeedback").textContent="✗ Fel!";document.getElementById("sentenceFeedback").className="quiz-feedback wrong-fb";}
+  document.getElementById("streakBadge").textContent="🔥 "+streak;document.getElementById("sentenceNextBtn").classList.add("visible");updateSentenceScore();sentenceIndex++;
+}
+function nextSentenceQ(){renderSentenceQ();}
+function showSentenceResult(){
+  document.getElementById("sentenceArea").style.display="none";document.getElementById("sentenceResult").style.display="";
+  const pct=Math.round((sentenceCorrect/sentenceWords.length)*100);
+  document.getElementById("srCorrect").textContent=sentenceCorrect+"/"+sentenceWords.length;document.getElementById("srPct").textContent=pct+"%";
+  let emoji="😐",title="Inte illa",sub="Fortsätt öva!";
+  if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Du förstår danska meningar!";}
+  else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Kontexten börjar ge sig.";}
+  else if(pct>=50){emoji="📚";title="På god väg";sub="Lyssna aktivt på reduktioner.";}
+  else{emoji="💪";title="Håll ut!";sub="Meningarna är hårda – men det lönar sig.";}
+  document.getElementById("sResultEmoji").textContent=emoji;document.getElementById("sResultTitle").textContent=title;document.getElementById("sResultSubtitle").textContent=sub;
+}
+
+// ─── GLOSSARY ─────────────────────────────────────────────────
+function renderGlossary(){
+  const q=document.getElementById("glossarySearch").value.toLowerCase();
+  const filtered=WORDS.filter(w=>w.da.toLowerCase().includes(q)||w.sv.toLowerCase().includes(q)||w.en.toLowerCase().includes(q));
+  const groups={};filtered.forEach(w=>{if(!groups[w.cat])groups[w.cat]=[];groups[w.cat].push(w);});
+  const container=document.getElementById("glossaryList");
+  if(!filtered.length){container.innerHTML='<p style="color:var(--muted);padding:20px 0;text-align:center">Inga ord hittades.</p>';return;}
+  const dc={new:"dot-new",learning:"dot-learning",due:"dot-due",known:"dot-known"};
+  container.innerHTML=Object.entries(groups).map(([cat,words])=>`
+    <div class="glossary-group-label">${cat}</div>
+    ${words.map(w=>`<div class="glossary-item"><div class="g-word">${w.da}</div><div class="g-details"><div class="g-meaning">${w.en}</div><div class="g-swedish">🇸🇪 ${w.sv}</div></div><div class="g-srs-dot ${dc[getSRSStatus(w.da)]}"></div><button class="g-audio-btn" onclick="speak('${escQ(w.da)}','da-DK')">🔊</button></div>`).join("")}
+  `).join("");
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+window.onload=()=>{
+  loadSRS();
+  buildBrowseCategories();applyBrowseFilter();renderBrowseCard();
+  renderGlossary();startSRSSession();
+  initVoices();
+};
+</script>
+</body>
+</html>

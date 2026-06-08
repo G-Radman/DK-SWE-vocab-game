@@ -1,0 +1,307 @@
+[
+  {
+    "sv": "Det är egentligen ganska roligt",
+    "da": "Det er egentlig ret sjovt",
+    "word": "rolig (sjov!), ganska, egentligen"
+  },
+  {
+    "sv": "Jag orkar inte göra det nu",
+    "da": "Jeg gider ikke gøre det nu",
+    "word": "orkar inte (gider ikke!)"
+  },
+  {
+    "sv": "Det spelar ingen roll vad de säger",
+    "da": "Det er ligegyldigt hvad de siger",
+    "word": "spelar ingen roll"
+  },
+  {
+    "sv": "Kan du verkligen inte komma?",
+    "da": "Kan du virkelig ikke komme?",
+    "word": "verkligen / inte"
+  },
+  {
+    "sv": "Han är nog hemma redan",
+    "da": "Han er nok hjemme allerede",
+    "word": "nog / redan (allerede!)"
+  },
+  {
+    "sv": "Det är ju precis det jag menade",
+    "da": "Det er jo præcis det jeg mente",
+    "word": "ju (jo!), precis"
+  },
+  {
+    "sv": "Jag hann inte ta tåget",
+    "da": "Jeg nåede ikke at tage toget",
+    "word": "hann inte (nåede ikke!)"
+  },
+  {
+    "sv": "Äntligen är du här!",
+    "da": "Endelig er du her!",
+    "word": "äntligen (endelig!)"
+  },
+  {
+    "sv": "Jag mår faktiskt ganska bra",
+    "da": "Jeg har det faktisk ret godt",
+    "word": "faktiskt / ganska"
+  },
+  {
+    "sv": "Det är väl inte så farligt?",
+    "da": "Det er vel ikke så farligt?",
+    "word": "väl (vel)"
+  },
+  {
+    "sv": "Vad gör du egentligen på dagarna?",
+    "da": "Hvad laver du egentlig om dagen?",
+    "word": "gör (jör!), egentligen"
+  },
+  {
+    "sv": "Jag gillar inte det alls",
+    "da": "Jeg kan slet ikke lide det",
+    "word": "gillar (kan lide!), inte alls"
+  },
+  {
+    "sv": "Det beror på vädret",
+    "da": "Det kommer an på vejret",
+    "word": "beror på / väder (vejr!)"
+  },
+  {
+    "sv": "Förresten, visste du det?",
+    "da": "For resten, vidste du det?",
+    "word": "förresten / visste"
+  },
+  {
+    "sv": "Jag ser fram emot semestern",
+    "da": "Jeg glæder mig til ferien",
+    "word": "ser fram emot / semester (ferie!)"
+  },
+  {
+    "sv": "Det är lagom varmt idag",
+    "da": "Det er tilpas varmt i dag",
+    "word": "lagom (intet dansk svar!)"
+  },
+  {
+    "sv": "Han är väldigt duktig på det",
+    "da": "Han er rigtig dygtig til det",
+    "word": "väldigt / duktig"
+  },
+  {
+    "sv": "Det händer sällan numera",
+    "da": "Det sker sjældent efterhånden",
+    "word": "sällan / numera"
+  },
+  {
+    "sv": "Kan du stänga fönstret?",
+    "da": "Kan du lukke vinduet?",
+    "word": "stänga (lukke!) / fönstret (vinduet!)"
+  },
+  {
+    "sv": "Jag är fortfarande hungrig",
+    "da": "Jeg er stadig sulten",
+    "word": "fortfarande / hungrig (sulten!)"
+  },
+  {
+    "sv": "Det är inte alls vad jag menade",
+    "da": "Det er slet ikke hvad jeg mente",
+    "word": "inte alls (slet ikke!)"
+  },
+  {
+    "sv": "Hon är rädd för att ta fel",
+    "da": "Hun er bange for at tage fejl",
+    "word": "rädd (bange!)"
+  },
+  {
+    "sv": "Vi ska fika strax",
+    "da": "Vi skal have en kaffepause straks",
+    "word": "fika (intet dansk svar!)"
+  },
+  {
+    "sv": "Jag hittade det till slut",
+    "da": "Jeg fandt det til sidst",
+    "word": "hittade (fandt)"
+  },
+  {
+    "sv": "Det är jättebra att du kom",
+    "da": "Det er rigtig godt at du kom",
+    "word": "jättebra (rigtig godt!)"
+  },
+  {
+    "sv": "Vad heter din granne?",
+    "da": "Hvad hedder din nabo?",
+    "word": "heter / granne (nabo!)"
+  },
+  {
+    "sv": "Jag visste det inte",
+    "da": "Jeg vidste det ikke",
+    "word": "visste (vidste)"
+  },
+  {
+    "sv": "Det är trots allt inte omöjligt",
+    "da": "Det er trods alt ikke umuligt",
+    "word": "trots allt"
+  },
+  {
+    "sv": "Dessutom är det billigare",
+    "da": "Desuden er det billigere",
+    "word": "dessutom"
+  },
+  {
+    "sv": "Ibland saknar jag det",
+    "da": "Af og til savner jeg det",
+    "word": "ibland (af og til!) / saknar"
+  },
+  {
+    "sv": "Han sa ingenting överhuvudtaget",
+    "da": "Han sagde ingenting overhovedet",
+    "word": "sa (sagde!) / överhuvudtaget"
+  },
+  {
+    "sv": "Jag hade det riktigt bra",
+    "da": "Jeg havde det rigtig godt",
+    "word": "hade (havde)"
+  },
+  {
+    "sv": "Det är snart dags att gå",
+    "da": "Det er snart tid til at gå",
+    "word": "snart / dags"
+  },
+  {
+    "sv": "Trodde du det var sant?",
+    "da": "Troede du det var sandt?",
+    "word": "trodde (troede)"
+  },
+  {
+    "sv": "Vad tycker du om det?",
+    "da": "Hvad synes du om det?",
+    "word": "tycker om (synes om!)"
+  },
+  {
+    "sv": "Äta middag tog lång tid",
+    "da": "At spise aftensmad tog lang tid",
+    "word": "äta (spise!) / middag (aftensmad!)"
+  },
+  {
+    "sv": "Jag brukade cykla till jobbet",
+    "da": "Jeg plejede at cykle på arbejde",
+    "word": "brukade (plejede!)"
+  },
+  {
+    "sv": "Vad gör det om det regnar?",
+    "da": "Hvad gør det om det regner?",
+    "word": "gör (udtales 'jör'!)"
+  },
+  {
+    "sv": "Det är verkligen en snäll person",
+    "da": "Det er virkelig en sød person",
+    "word": "verkligen / snäll (sød!)"
+  },
+  {
+    "sv": "Jag mår bra, tack",
+    "da": "Jeg har det godt, tak",
+    "word": "mår bra (har det godt!)"
+  },
+  {
+    "sv": "Se upp, det är halt!",
+    "da": "Pas på, det er glat!",
+    "word": "se upp (pas på!)"
+  },
+  {
+    "sv": "Framför allt måste du komma ihåg det",
+    "da": "Frem for alt skal du huske det",
+    "word": "framför allt / komma ihåg (huske!)"
+  },
+  {
+    "sv": "Det är ännu inte klart",
+    "da": "Det er endnu ikke klart",
+    "word": "ännu (endnu)"
+  },
+  {
+    "sv": "Å andra sidan är hon snäll",
+    "da": "Til gengæld er hun sød",
+    "word": "å andra sidan / snäll"
+  },
+  {
+    "sv": "Jag behöver lite hjälp",
+    "da": "Jeg trænger til lidt hjælp",
+    "word": "behöver (trænger til!)"
+  },
+  {
+    "sv": "Ge inte upp nu!",
+    "da": "Giv ikke op nu!",
+    "word": "ge upp (give op!)"
+  },
+  {
+    "sv": "Plötsligt stoppade han bilen",
+    "da": "Pludselig stoppede han bilen",
+    "word": "plötsligt"
+  },
+  {
+    "sv": "Det är numera ganska vanligt",
+    "da": "Det er efterhånden ret almindeligt",
+    "word": "numera / ganska"
+  },
+  {
+    "sv": "Jag förstår inte riktigt",
+    "da": "Jeg forstår det ikke rigtig",
+    "word": "riktigt (rigtig)"
+  },
+  {
+    "sv": "Kan du förklara det för mig?",
+    "da": "Kan du forklare det for mig?",
+    "word": "förklara (forklare)"
+  },
+  {
+    "sv": "Tack så mycket",
+    "da": "Mange tak",
+    "word": "tack (tak) – men 'tack så mycket' ≠ 'mange tak'"
+  },
+  {
+    "sv": "Ibland är det lite kul",
+    "da": "Af og til er det lidt sjovt",
+    "word": "ibland / kul (sjovt!)"
+  },
+  {
+    "sv": "Jag är ledsen för det",
+    "da": "Jeg er ked af det",
+    "word": "ledsen (ked af det!)"
+  },
+  {
+    "sv": "Det är lite lagom för mig",
+    "da": "Det er tilpas for mig",
+    "word": "lagom"
+  },
+  {
+    "sv": "Vänta lite, jag kommer",
+    "da": "Vent lidt, jeg kommer",
+    "word": "vänta / lite (lidt)"
+  },
+  {
+    "sv": "Han är fortfarande inte hemma",
+    "da": "Han er stadigvæk ikke hjemme",
+    "word": "fortfarande (stadigvæk!)"
+  },
+  {
+    "sv": "Jag hoppas det går bra",
+    "da": "Jeg håber det går godt",
+    "word": "hoppas (håber)"
+  },
+  {
+    "sv": "Det är faktiskt inte sant",
+    "da": "Det er faktisk ikke sandt",
+    "word": "faktiskt (faktisk)"
+  },
+  {
+    "sv": "Kanske kan vi ses imorgon",
+    "da": "Måske kan vi ses i morgen",
+    "word": "kanske (måske!)"
+  },
+  {
+    "sv": "Det var verkligen roligt",
+    "da": "Det var virkelig sjovt",
+    "word": "rolig (sjov!!) – viktigste!"
+  },
+  {
+    "sv": "Jag gillar den nya filmen",
+    "da": "Jeg kan godt lide den nye film",
+    "word": "gillar (kan lide!)"
+  }
+]

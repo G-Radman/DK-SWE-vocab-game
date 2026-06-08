@@ -1,0 +1,1466 @@
+[
+  {
+    "da": "sjov / morsom",
+    "sv": "rolig",
+    "en": "funny, amusing",
+    "ipa": "[ˈruːlɪ]",
+    "cat": "Falske venner",
+    "note": "⚠️ Dansk <strong>'rolig'</strong> = rolig/stille. Svensk 'rolig' = sjov/morsom. Den klassiske faldgrube."
+  },
+  {
+    "da": "mærkelig / underlig",
+    "sv": "rar",
+    "en": "strange, odd",
+    "ipa": "[ˈrɑːr]",
+    "cat": "Falske venner",
+    "note": "⚠️ Dansk <strong>'rar'</strong> = venlig/sød. Svensk 'rar' = mærkelig/underlig. Stik modsat!"
+  },
+  {
+    "da": "dygtig / skarp",
+    "sv": "flink",
+    "en": "clever, skilled",
+    "ipa": "[ˈflɪŋk]",
+    "cat": "Falske venner",
+    "note": "⚠️ Dansk <strong>'flink'</strong> = venlig. Svensk 'flink' = dygtig/skarp."
+  },
+  {
+    "da": "grusom / dyster",
+    "sv": "grim",
+    "en": "grim, cruel",
+    "ipa": "[ˈɡrɪm]",
+    "cat": "Falske venner",
+    "note": "⚠️ Dansk <strong>'grim'</strong> = grim/styg. Svensk 'grim' = grusom/dyster."
+  },
+  {
+    "da": "kedelig",
+    "sv": "trist",
+    "en": "boring / sad",
+    "ipa": "[ˈtrɪst]",
+    "cat": "Falske venner",
+    "note": "⚠️ Dansk 'trist' = trist/ked. Svensk 'trist' = mere om kedsomhed/trist stemning."
+  },
+  {
+    "da": "sød / venlig",
+    "sv": "snäll",
+    "en": "kind, nice",
+    "ipa": "[ˈsnɛl]",
+    "cat": "Falske venner",
+    "note": "⚠️ Dansk <strong>'snild'</strong> = listig. Svensk 'snäll' = sød/venlig. Lyder ens, betyder modsatte."
+  },
+  {
+    "da": "ked af det / trist",
+    "sv": "ledsen",
+    "en": "sad",
+    "ipa": "[ˈleːdsən]",
+    "cat": "Falske venner",
+    "note": "⚠️ Intet direkte dansk svar. 'Jag är ledsen' = jeg er ked af det."
+  },
+  {
+    "da": "sjovt / fedt",
+    "sv": "kul",
+    "en": "fun, cool",
+    "ipa": "[kʉːl]",
+    "cat": "Falske venner",
+    "note": "⚠️ Intet direkte dansk svar. 'Det är kul' = det er sjovt/fedt."
+  },
+  {
+    "da": "doven",
+    "sv": "lat",
+    "en": "lazy",
+    "ipa": "[lɑːt]",
+    "cat": "Falske venner",
+    "note": "Nær dansk 'doven'. 'Han är lat' = han er doven."
+  },
+  {
+    "da": "glad / lykkelig",
+    "sv": "glad",
+    "en": "happy, glad",
+    "ipa": "[ɡlɑːd]",
+    "cat": "Falske venner",
+    "note": "Identisk med dansk 'glad'. Sikkert ord!"
+  },
+  {
+    "da": "muggen / gnavpotte",
+    "sv": "sur",
+    "en": "grumpy",
+    "ipa": "[sʉːr]",
+    "cat": "Falske venner",
+    "note": "'Han är sur' = han er muggen. Ligner dansk 'sur' men mere om humør."
+  },
+  {
+    "da": "dygtig / flittig",
+    "sv": "duktig",
+    "en": "capable, hardworking",
+    "ipa": "[ˈdʉktɪɡ]",
+    "cat": "Falske venner",
+    "note": "Nær dansk 'dygtig'. 'Duktig' dækker også flittig/ordentlig."
+  },
+  {
+    "da": "sød / nuttet",
+    "sv": "söt",
+    "en": "sweet, cute",
+    "ipa": "[søːt]",
+    "cat": "Falske venner",
+    "note": "Nær dansk 'sød'. 'Han är söt' = han er sød/nuttet."
+  },
+  {
+    "da": "passende / tilpas",
+    "sv": "lagom",
+    "en": "just right, appropriate",
+    "ipa": "[ˈlɑːɡɔm]",
+    "cat": "Falske venner",
+    "note": "⚠️ Intet dansk svar. Centralt svensk kulturord: ikke for meget, ikke for lidt."
+  },
+  {
+    "da": "kaffepause med kage",
+    "sv": "fika",
+    "en": "coffee break with something sweet",
+    "ipa": "[ˈfiːka]",
+    "cat": "Falske venner",
+    "note": "⚠️ Intet dansk svar. 'Fika' = uformel kaffepause. Kulturelt nøgleord."
+  },
+  {
+    "da": "gide / have kræfter til",
+    "sv": "orka",
+    "en": "to have energy to, to bother",
+    "ipa": "[ˈɔrka]",
+    "cat": "Falske venner",
+    "note": "⚠️ 'Jag orkar inte' = jeg gider ikke / jeg har ikke kræfter til det."
+  },
+  {
+    "da": "nå / have tid til",
+    "sv": "hinna",
+    "en": "to have time to, to manage",
+    "ipa": "[ˈhɪnːa]",
+    "cat": "Falske venner",
+    "note": "⚠️ 'Jag hann inte' = jeg nåede det ikke / jeg havde ikke tid."
+  },
+  {
+    "da": "ret / temmelig",
+    "sv": "ganska",
+    "en": "quite, rather",
+    "ipa": "[ˈɡanska]",
+    "cat": "Falske venner",
+    "note": "'Ganska bra' = ret godt."
+  },
+  {
+    "da": "jo / selvfølgelig",
+    "sv": "visst",
+    "en": "of course / certainly",
+    "ipa": "[ˈvɪst]",
+    "cat": "Falske venner",
+    "note": "⚠️ 'Visst!' = selvfølgelig! Men 'visst' = vist/sandt nok som adverbial."
+  },
+  {
+    "da": "dejlig / vidunderlig",
+    "sv": "skön",
+    "en": "lovely, wonderful",
+    "ipa": "[ʃøːn]",
+    "cat": "Falske venner",
+    "note": "Nær dansk 'skøn'. 'En skön dag' = en dejlig dag."
+  },
+  {
+    "da": "våd",
+    "sv": "blöt",
+    "en": "wet",
+    "ipa": "[bløːt]",
+    "cat": "Falske venner",
+    "note": "⚠️ Dansk 'blød' = blød/sød. Svensk 'blöt' = våd. Ligner men betyder noget andet!"
+  },
+  {
+    "da": "tyk / fed",
+    "sv": "tjock",
+    "en": "thick, fat",
+    "ipa": "[ˈtjɔk]",
+    "cat": "Falske venner",
+    "note": "Dansk 'tyk' = tyk. Udtalen er anderledes: 'tjock'."
+  },
+  {
+    "da": "klog / snu",
+    "sv": "slug",
+    "en": "clever, sly",
+    "ipa": "[slʉːɡ]",
+    "cat": "Falske venner",
+    "note": "'Han är slug' = han er klog/snu."
+  },
+  {
+    "da": "grine",
+    "sv": "skratta",
+    "en": "to laugh",
+    "ipa": "[ˈskrata]",
+    "cat": "Falske venner",
+    "note": "⚠️ FALSK VEN! Dansk 'grine' = skratte. Svensk 'skratta' = grine. Husk skelnet!"
+  },
+  {
+    "da": "jo",
+    "sv": "ju",
+    "en": "you see, after all (particle)",
+    "ipa": "[jʉː]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ Svarer til dansk 'jo' som partikel. 'Det är ju roligt' = det er jo sjovt."
+  },
+  {
+    "da": "nok / sikkert",
+    "sv": "nog",
+    "en": "probably, I suppose",
+    "ipa": "[nɔɡ]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ 'Han är nog hemma' = han er nok/sikkert hjemme. Epistemisk modal."
+  },
+  {
+    "da": "vel / nok",
+    "sv": "väl",
+    "en": "surely, I suppose",
+    "ipa": "[vɛl]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ 'Det är väl bra?' = det er vel nok godt? Søger bekræftelse."
+  },
+  {
+    "da": "allerede",
+    "sv": "redan",
+    "en": "already",
+    "ipa": "[ˈreːdan]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ Dansk 'allerede' = svensk 'redan'. Helt anden form."
+  },
+  {
+    "da": "måske",
+    "sv": "kanske",
+    "en": "maybe, perhaps",
+    "ipa": "[ˈkanʃe]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ Dansk 'måske' = svensk 'kanske'. Prioritér dette ord."
+  },
+  {
+    "da": "ellers",
+    "sv": "annars",
+    "en": "otherwise, or else",
+    "ipa": "[ˈanːaʃ]",
+    "cat": "Frekvente ord",
+    "note": "'Vad gör du annars?' = hvad laver du ellers?"
+  },
+  {
+    "da": "faktisk",
+    "sv": "faktiskt",
+    "en": "actually, in fact",
+    "ipa": "[ˈfaktɪskt]",
+    "cat": "Frekvente ord",
+    "note": "Næsten identisk med dansk 'faktisk'. T i slutningen udtales."
+  },
+  {
+    "da": "egentlig",
+    "sv": "egentligen",
+    "en": "actually, really",
+    "ipa": "[eˈjɛntlɪɡən]",
+    "cat": "Frekvente ord",
+    "note": "Nær dansk 'egentlig'. Længere form i svensk."
+  },
+  {
+    "da": "ligesom / på en måde",
+    "sv": "liksom",
+    "en": "kind of, like (filler)",
+    "ipa": "[ˈliːksom]",
+    "cat": "Frekvente ord",
+    "note": "Hyppig talemarkør. 'Det var liksom bra' = det var ligesom godt."
+  },
+  {
+    "da": "altså",
+    "sv": "alltså",
+    "en": "so, well (discourse marker)",
+    "ipa": "[ˈaltːsɔ]",
+    "cat": "Frekvente ord",
+    "note": "Identisk funktion med dansk 'altså'."
+  },
+  {
+    "da": "rigtig godt / supert",
+    "sv": "jättebra",
+    "en": "really good, great",
+    "ipa": "[ˈjɛtːebrɑː]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ 'Jätte-' er et hyppigt forstærkerpræfix. 'Jättebra!' = rigtig godt!"
+  },
+  {
+    "da": "præcis / netop",
+    "sv": "precis",
+    "en": "exactly, precisely",
+    "ipa": "[preˈsiːs]",
+    "cat": "Frekvente ord",
+    "note": "'Precis!' = præcis! Bruges som bekræftelse."
+  },
+  {
+    "da": "virkelig / rigtig",
+    "sv": "verkligen",
+    "en": "really, truly",
+    "ipa": "[ˈvæːklɪɡən]",
+    "cat": "Frekvente ord",
+    "note": "'Verkligen?' = virkelig? 'Det är verkligen bra' = det er virkelig godt."
+  },
+  {
+    "da": "desuden",
+    "sv": "dessutom",
+    "en": "besides, furthermore",
+    "ipa": "[deˈsʉːtɔm]",
+    "cat": "Frekvente ord",
+    "note": "'Dessutom är det billigt' = desuden er det billigt."
+  },
+  {
+    "da": "derimod",
+    "sv": "däremot",
+    "en": "on the other hand",
+    "ipa": "[ˈdæːrəmɔt]",
+    "cat": "Frekvente ord",
+    "note": "'Däremot är han snäll' = derimod er han sød."
+  },
+  {
+    "da": "tværtimod",
+    "sv": "tvärtom",
+    "en": "on the contrary",
+    "ipa": "[ˈtvæːrtɔm]",
+    "cat": "Frekvente ord",
+    "note": "'Tvärtom!' = tværtimod!"
+  },
+  {
+    "da": "omtrent / cirka",
+    "sv": "ungefär",
+    "en": "approximately",
+    "ipa": "[ˈɵŋeˌfæːr]",
+    "cat": "Frekvente ord",
+    "note": "'Ungefär tio minuter' = omtrent ti minutter."
+  },
+  {
+    "da": "næsten",
+    "sv": "nästan",
+    "en": "almost, nearly",
+    "ipa": "[ˈnɛstan]",
+    "cat": "Frekvente ord",
+    "note": "'Nästan klar' = næsten færdig."
+  },
+  {
+    "da": "snart",
+    "sv": "snart",
+    "en": "soon",
+    "ipa": "[snɑːt]",
+    "cat": "Frekvente ord",
+    "note": "Identisk med dansk 'snart'."
+  },
+  {
+    "da": "aldrig",
+    "sv": "aldrig",
+    "en": "never",
+    "ipa": "[ˈaldriɡ]",
+    "cat": "Frekvente ord",
+    "note": "Nær dansk 'aldrig'. G udtales i svensk."
+  },
+  {
+    "da": "ofte",
+    "sv": "ofta",
+    "en": "often",
+    "ipa": "[ˈɔfta]",
+    "cat": "Frekvente ord",
+    "note": "Nær dansk 'ofte'. T udtales i svensk."
+  },
+  {
+    "da": "sjældent",
+    "sv": "sällan",
+    "en": "rarely",
+    "ipa": "[ˈsɛlan]",
+    "cat": "Frekvente ord",
+    "note": "'Det händer sällan' = det sker sjældent."
+  },
+  {
+    "da": "stadigvæk / stadig",
+    "sv": "fortfarande",
+    "en": "still, yet",
+    "ipa": "[ˌfɔrtˈfɑːrande]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ 'Jag bor fortfarande här' = jeg bor stadigvæk her."
+  },
+  {
+    "da": "efterhånden / nu om dage",
+    "sv": "numera",
+    "en": "nowadays, by now",
+    "ipa": "[nʉːˈmeːra]",
+    "cat": "Frekvente ord",
+    "note": "'Det är numera normalt' = det er efterhånden normalt."
+  },
+  {
+    "da": "af og til / sommetider",
+    "sv": "ibland",
+    "en": "sometimes",
+    "ipa": "[ɪˈbland]",
+    "cat": "Frekvente ord",
+    "note": "⚠️ 'Ibland' = af og til. 'Ibland tar jag tåget' = af og til tager jeg toget."
+  },
+  {
+    "da": "endelig",
+    "sv": "äntligen",
+    "en": "finally, at last",
+    "ipa": "[ˈɛntlɪɡən]",
+    "cat": "Frekvente ord",
+    "note": "'Äntligen!' = endelig!"
+  },
+  {
+    "da": "pludselig",
+    "sv": "plötsligt",
+    "en": "suddenly",
+    "ipa": "[ˈpløtsliɡt]",
+    "cat": "Frekvente ord",
+    "note": "Nær dansk 'pludselig'. G udtales i svensk."
+  },
+  {
+    "da": "inden da / forinden",
+    "sv": "dessförinnan",
+    "en": "before that, previously",
+    "ipa": "[ˈdɛsˌfœrˌɪnan]",
+    "cat": "Frekvente ord",
+    "note": "'Dessförinnan hade jag...' = inden da havde jeg..."
+  },
+  {
+    "da": "fremover",
+    "sv": "framöver",
+    "en": "going forward",
+    "ipa": "[ˈframˌøːvər]",
+    "cat": "Frekvente ord",
+    "note": "'Framöver ska vi...' = fremover skal vi..."
+  },
+  {
+    "da": "bagefter",
+    "sv": "efteråt",
+    "en": "afterwards",
+    "ipa": "[ˈɛftərɔːt]",
+    "cat": "Frekvente ord",
+    "note": "'Efteråt gick vi hem' = bagefter gik vi hjem."
+  },
+  {
+    "da": "ikke",
+    "sv": "inte",
+    "en": "not",
+    "ipa": "[ˈɪnte]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ Reduceres til 'int' eller 'in' i hurtig tale. Kritisk at genkende."
+  },
+  {
+    "da": "hvad",
+    "sv": "vad",
+    "en": "what",
+    "ipa": "[vɑːd]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ D næsten stille. 'Vad heter du?' = hvad hedder du?"
+  },
+  {
+    "da": "det",
+    "sv": "det",
+    "en": "it, that",
+    "ipa": "[deː] / [de]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ Udtales 'de' ubetonet. T er stille. 'Det är bra' → 'de ä bra'."
+  },
+  {
+    "da": "noget",
+    "sv": "någonting",
+    "en": "something",
+    "ipa": "[ˈnoːɡɔntɪŋ]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ Reduceres til 'nånting' eller 'nåt' i daglig tale."
+  },
+  {
+    "da": "jeg",
+    "sv": "jag",
+    "en": "I",
+    "ipa": "[jɑːɡ]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ G er stille. Udtales 'ja' i hurtig tale — ligesom dansk 'ja' = ja."
+  },
+  {
+    "da": "mig",
+    "sv": "mig",
+    "en": "me",
+    "ipa": "[mɛj]",
+    "cat": "Udtale-faldgruber",
+    "note": "Udtales 'mej'. G stille. 'Hämta mig' = hent mig."
+  },
+  {
+    "da": "dig",
+    "sv": "dig",
+    "en": "you",
+    "ipa": "[dɛj]",
+    "cat": "Udtale-faldgruber",
+    "note": "Udtales 'dej'. G stille. 'Jag ser dig' = jeg ser dig."
+  },
+  {
+    "da": "var / var",
+    "sv": "var",
+    "en": "was / where",
+    "ipa": "[vɑːr]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ 'Var' = var (fortid) OG 'var' = hvor. 'Var är du?' = hvor er du?"
+  },
+  {
+    "da": "er",
+    "sv": "är",
+    "en": "am/is/are",
+    "ipa": "[æːr]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ Udtales 'ä' i hurtig tale. 'Det är bra' → 'de ä bra'."
+  },
+  {
+    "da": "gør",
+    "sv": "gör",
+    "en": "does, do, make",
+    "ipa": "[jøːr]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ G → J foran ø-lyd. Udtales 'jör'. 'Vad gör du?' = hvad laver du?"
+  },
+  {
+    "da": "skal",
+    "sv": "ska",
+    "en": "shall, will",
+    "ipa": "[skɑː]",
+    "cat": "Udtale-faldgruber",
+    "note": "Kortere end dansk 'skal'. 'Jag ska hem' = jeg skal hjem."
+  },
+  {
+    "da": "sagde",
+    "sv": "sa",
+    "en": "said",
+    "ipa": "[sɑː]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ Fortid af 'säga'. Meget kort: bare 'sa'. 'Han sa ingenting' = han sagde ingenting."
+  },
+  {
+    "da": "vidste",
+    "sv": "visste",
+    "en": "knew",
+    "ipa": "[ˈvɪste]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ Fortid af 'veta'. 'Jag visste det inte' = jeg vidste det ikke."
+  },
+  {
+    "da": "troede",
+    "sv": "trodde",
+    "en": "believed, thought",
+    "ipa": "[ˈtrɔde]",
+    "cat": "Udtale-faldgruber",
+    "note": "Fortid af 'tro'. 'Jag trodde...' = jeg troede..."
+  },
+  {
+    "da": "havde",
+    "sv": "hade",
+    "en": "had",
+    "ipa": "[ˈhɑːde]",
+    "cat": "Udtale-faldgruber",
+    "note": "Fortid af 'ha'. 'Jag hade det bra' = jeg havde det godt."
+  },
+  {
+    "da": "plejede",
+    "sv": "brukade",
+    "en": "used to",
+    "ipa": "[ˈbrɵːkade]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ 'Jag brukade springa' = jeg plejede at løbe."
+  },
+  {
+    "da": "rigtig / virkelig",
+    "sv": "väldigt",
+    "en": "very, really",
+    "ipa": "[ˈvɛldɪɡt]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ Udtales 'veldigt'. 'Väldigt bra' = rigtig godt."
+  },
+  {
+    "da": "synge",
+    "sv": "sjunga",
+    "en": "to sing",
+    "ipa": "[ˈʃɵŋa]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ SJ-lyd foran u. Udtales omtrent 'sjunge'. 'Jag sjunger' = jeg synger."
+  },
+  {
+    "da": "grine",
+    "sv": "skratta",
+    "en": "to laugh",
+    "ipa": "[ˈskrata]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ Falsk ven! 'Skratta' = grine. 'Gråta' = græde."
+  },
+  {
+    "da": "lukke",
+    "sv": "stänga",
+    "en": "to close",
+    "ipa": "[ˈstɛŋa]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ 'Stäng dörren!' = luk døren! Intet at associere med 'lukke'."
+  },
+  {
+    "da": "spise",
+    "sv": "äta",
+    "en": "to eat",
+    "ipa": "[ˈɛːta]",
+    "cat": "Udtale-faldgruber",
+    "note": "⚠️ 'Äta' = spise. Udtales 'eta'. Intet at associere med 'spise'."
+  },
+  {
+    "da": "vindue",
+    "sv": "fönster",
+    "en": "window",
+    "ipa": "[ˈfønstər]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'vindue' = svensk 'fönster'. Intet at associere."
+  },
+  {
+    "da": "loft (indvendigt)",
+    "sv": "tak",
+    "en": "ceiling",
+    "ipa": "[tɑːk]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'loft' = svensk 'tak'. 'Taket' = loftet."
+  },
+  {
+    "da": "dyne",
+    "sv": "täcke",
+    "en": "duvet",
+    "ipa": "[ˈtɛke]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'dyne' = svensk 'täcke'."
+  },
+  {
+    "da": "pude",
+    "sv": "kudde",
+    "en": "pillow",
+    "ipa": "[ˈkɵde]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'pude' = svensk 'kudde'."
+  },
+  {
+    "da": "skuffe",
+    "sv": "låda",
+    "en": "drawer",
+    "ipa": "[ˈloːda]",
+    "cat": "Divergerende ord",
+    "note": "Dansk 'skuffe' = svensk 'låda'. 'Lådan' = skuffen."
+  },
+  {
+    "da": "stue",
+    "sv": "vardagsrum",
+    "en": "living room",
+    "ipa": "[ˈvɑːdaɡsˌrɵm]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'stue' = svensk 'vardagsrum'."
+  },
+  {
+    "da": "køkken",
+    "sv": "kök",
+    "en": "kitchen",
+    "ipa": "[ʃøːk]",
+    "cat": "Divergerende ord",
+    "note": "Nær dansk 'køkken'. Udtales 'kjök'."
+  },
+  {
+    "da": "nøgle",
+    "sv": "nyckel",
+    "en": "key",
+    "ipa": "[ˈnʏkel]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'nøgle' = svensk 'nyckel'."
+  },
+  {
+    "da": "morgenmad",
+    "sv": "frukost",
+    "en": "breakfast",
+    "ipa": "[ˈfrɵkɔst]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Svensk 'frukost' = morgenmad. Forveksles med dansk 'frokost'!"
+  },
+  {
+    "da": "frokost",
+    "sv": "lunch",
+    "en": "lunch",
+    "ipa": "[lɵnʃ]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Svensk 'lunch' = dansk 'frokost'. Dansk 'frokost' ≠ 'frukost'!"
+  },
+  {
+    "da": "aftensmad",
+    "sv": "middag",
+    "en": "dinner",
+    "ipa": "[ˈmɪdɑɡ]",
+    "cat": "Divergerende ord",
+    "note": "'Äta middag' = spise aftensmad."
+  },
+  {
+    "da": "nabo",
+    "sv": "granne",
+    "en": "neighbor",
+    "ipa": "[ˈɡrane]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'nabo' = svensk 'granne'."
+  },
+  {
+    "da": "tøj",
+    "sv": "kläder",
+    "en": "clothes",
+    "ipa": "[ˈklɛːdər]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'tøj' = svensk 'kläder'."
+  },
+  {
+    "da": "sulten",
+    "sv": "hungrig",
+    "en": "hungry",
+    "ipa": "[ˈhɵŋrɪɡ]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'sulten' = svensk 'hungrig'."
+  },
+  {
+    "da": "bange",
+    "sv": "rädd",
+    "en": "scared, afraid",
+    "ipa": "[rɛd]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'bange' = svensk 'rädd'."
+  },
+  {
+    "da": "undskyld",
+    "sv": "förlåt",
+    "en": "sorry, excuse me",
+    "ipa": "[føˈloːt]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'undskyld' = svensk 'förlåt'."
+  },
+  {
+    "da": "fortov",
+    "sv": "trottoar",
+    "en": "sidewalk",
+    "ipa": "[trɔtʊˈɑːr]",
+    "cat": "Divergerende ord",
+    "note": "Dansk 'fortov' = svensk 'trottoar'."
+  },
+  {
+    "da": "vejr",
+    "sv": "väder",
+    "en": "weather",
+    "ipa": "[ˈvɛːdər]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'vejr' = svensk 'väder'. 'Vädret är bra' = vejret er godt."
+  },
+  {
+    "da": "forskel",
+    "sv": "skillnad",
+    "en": "difference",
+    "ipa": "[ˈʃɪlnad]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'forskel' = svensk 'skillnad'."
+  },
+  {
+    "da": "mulighed",
+    "sv": "möjlighet",
+    "en": "possibility",
+    "ipa": "[ˈmøjlɪɡˌheːt]",
+    "cat": "Divergerende ord",
+    "note": "'Det finns en möjlighet' = der er en mulighed."
+  },
+  {
+    "da": "ferie",
+    "sv": "semester",
+    "en": "vacation",
+    "ipa": "[seˈmɛstər]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'ferie' = svensk 'semester'. 'Jag är på semester' = jeg er på ferie."
+  },
+  {
+    "da": "løn",
+    "sv": "lön",
+    "en": "salary",
+    "ipa": "[løːn]",
+    "cat": "Divergerende ord",
+    "note": "Nær dansk 'løn'."
+  },
+  {
+    "da": "spørgsmål",
+    "sv": "fråga",
+    "en": "question",
+    "ipa": "[ˈfroːɡa]",
+    "cat": "Divergerende ord",
+    "note": "Dansk 'spørgsmål' = svensk 'fråga'."
+  },
+  {
+    "da": "læge",
+    "sv": "läkare",
+    "en": "doctor",
+    "ipa": "[ˈlɛːkare]",
+    "cat": "Divergerende ord",
+    "note": "Dansk 'læge' = svensk 'läkare'."
+  },
+  {
+    "da": "skrald",
+    "sv": "sopor",
+    "en": "trash, garbage",
+    "ipa": "[ˈsoːpɔr]",
+    "cat": "Divergerende ord",
+    "note": "'Kasta soporna' = smide skraldet ud."
+  },
+  {
+    "da": "kage / småkage",
+    "sv": "kaka",
+    "en": "cake, cookie",
+    "ipa": "[ˈkɑːka]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ Dansk 'kage' = svensk 'kaka' (småkage) eller 'tårta' (lagkage)."
+  },
+  {
+    "da": "tilbud / udsalg",
+    "sv": "rea",
+    "en": "sale",
+    "ipa": "[ˈreːa]",
+    "cat": "Divergerende ord",
+    "note": "⚠️ 'På rea' = på tilbud/i udsalg. Intet direkte dansk svar."
+  },
+  {
+    "da": "blive",
+    "sv": "bli",
+    "en": "to become, to stay",
+    "ipa": "[bliː]",
+    "cat": "Verber",
+    "note": "Nær dansk 'blive'. 'Bli hemma' = bliv hjemme."
+  },
+  {
+    "da": "tage",
+    "sv": "ta",
+    "en": "to take",
+    "ipa": "[tɑː]",
+    "cat": "Verber",
+    "note": "Nær dansk 'tage'. 'Ta tåget' = tage toget."
+  },
+  {
+    "da": "hedde",
+    "sv": "heta",
+    "en": "to be called",
+    "ipa": "[ˈheːta]",
+    "cat": "Verber",
+    "note": "'Vad heter du?' = hvad hedder du?"
+  },
+  {
+    "da": "kende / føle",
+    "sv": "känna",
+    "en": "to know (person) / to feel",
+    "ipa": "[ˈʃɛna]",
+    "cat": "Verber",
+    "note": "'Känner du honom?' = kender du ham?"
+  },
+  {
+    "da": "vide",
+    "sv": "veta",
+    "en": "to know (a fact)",
+    "ipa": "[ˈveːta]",
+    "cat": "Verber",
+    "note": "'Jag vet inte' = jeg ved det ikke."
+  },
+  {
+    "da": "gide / have kræfter",
+    "sv": "orka",
+    "en": "to have energy to, to bother",
+    "ipa": "[ˈɔrka]",
+    "cat": "Verber",
+    "note": "⚠️ 'Jag orkar inte' = jeg gider ikke."
+  },
+  {
+    "da": "savne / mangle",
+    "sv": "sakna",
+    "en": "to miss / to lack",
+    "ipa": "[ˈsɑːkna]",
+    "cat": "Verber",
+    "note": "'Jag saknar dig' = jeg savner dig."
+  },
+  {
+    "da": "bruge",
+    "sv": "använda",
+    "en": "to use",
+    "ipa": "[anˈvɛnda]",
+    "cat": "Verber",
+    "note": "'Använda tid' = bruge tid."
+  },
+  {
+    "da": "nyde",
+    "sv": "njuta",
+    "en": "to enjoy",
+    "ipa": "[ˈnjʉːta]",
+    "cat": "Verber",
+    "note": "'Njut av det!' = nyd det!"
+  },
+  {
+    "da": "håbe",
+    "sv": "hoppas",
+    "en": "to hope",
+    "ipa": "[ˈhɔpas]",
+    "cat": "Verber",
+    "note": "'Jag hoppas det' = jeg håber det."
+  },
+  {
+    "da": "mangle",
+    "sv": "fattas",
+    "en": "to be missing",
+    "ipa": "[ˈfatas]",
+    "cat": "Verber",
+    "note": "'Det fattas något' = der mangler noget."
+  },
+  {
+    "da": "betyde",
+    "sv": "betyda",
+    "en": "to mean",
+    "ipa": "[beˈtʏːda]",
+    "cat": "Verber",
+    "note": "'Vad betyder det?' = hvad betyder det?"
+  },
+  {
+    "da": "forsøge",
+    "sv": "försöka",
+    "en": "to try",
+    "ipa": "[føˈʃøːka]",
+    "cat": "Verber",
+    "note": "'Jag försöker' = jeg forsøger."
+  },
+  {
+    "da": "opnå",
+    "sv": "uppnå",
+    "en": "to achieve",
+    "ipa": "[ˈɵpˌnoː]",
+    "cat": "Verber",
+    "note": "'Uppnå sitt mål' = opnå sit mål."
+  },
+  {
+    "da": "undgå",
+    "sv": "undvika",
+    "en": "to avoid",
+    "ipa": "[ˈɵndˌviːka]",
+    "cat": "Verber",
+    "note": "'Undvika problem' = undgå problemer."
+  },
+  {
+    "da": "bestemme",
+    "sv": "bestämma",
+    "en": "to decide",
+    "ipa": "[beˈstɛma]",
+    "cat": "Verber",
+    "note": "'Du bestämmer' = du bestemmer."
+  },
+  {
+    "da": "forklare",
+    "sv": "förklara",
+    "en": "to explain",
+    "ipa": "[føˈklɑːra]",
+    "cat": "Verber",
+    "note": "'Kan du förklara det?' = kan du forklare det?"
+  },
+  {
+    "da": "fortælle",
+    "sv": "berätta",
+    "en": "to tell",
+    "ipa": "[beˈrɛta]",
+    "cat": "Verber",
+    "note": "'Berätta för mig' = fortæl mig."
+  },
+  {
+    "da": "lytte",
+    "sv": "lyssna",
+    "en": "to listen",
+    "ipa": "[ˈlʏsna]",
+    "cat": "Verber",
+    "note": "'Lyssna på musik' = lytte til musik."
+  },
+  {
+    "da": "vente",
+    "sv": "vänta",
+    "en": "to wait",
+    "ipa": "[ˈvɛnta]",
+    "cat": "Verber",
+    "note": "'Vänta lite' = vent lidt."
+  },
+  {
+    "da": "finde",
+    "sv": "hitta",
+    "en": "to find",
+    "ipa": "[ˈhɪta]",
+    "cat": "Verber",
+    "note": "'Jag kan inte hitta det' = jeg kan ikke finde det."
+  },
+  {
+    "da": "glemme",
+    "sv": "glömma",
+    "en": "to forget",
+    "ipa": "[ˈɡlœma]",
+    "cat": "Verber",
+    "note": "'Jag glömde det' = jeg glemte det."
+  },
+  {
+    "da": "huske",
+    "sv": "komma ihåg",
+    "en": "to remember",
+    "ipa": "[ˈkɔma ɪˈhoːɡ]",
+    "cat": "Verber",
+    "note": "⚠️ 'Komma ihåg' = huske. Flerordigt udtryk."
+  },
+  {
+    "da": "elske",
+    "sv": "älska",
+    "en": "to love",
+    "ipa": "[ˈɛlska]",
+    "cat": "Verber",
+    "note": "'Jag älskar dig' = jeg elsker dig."
+  },
+  {
+    "da": "hade",
+    "sv": "hata",
+    "en": "to hate",
+    "ipa": "[ˈhɑːta]",
+    "cat": "Verber",
+    "note": "'Jag hatar det' = jeg hader det."
+  },
+  {
+    "da": "græde",
+    "sv": "gråta",
+    "en": "to cry",
+    "ipa": "[ˈɡroːta]",
+    "cat": "Verber",
+    "note": "'Gråta av glädje' = græde af glæde."
+  },
+  {
+    "da": "smile",
+    "sv": "le",
+    "en": "to smile",
+    "ipa": "[leː]",
+    "cat": "Verber",
+    "note": "'Han ler' = han smiler."
+  },
+  {
+    "da": "løbe",
+    "sv": "springa",
+    "en": "to run",
+    "ipa": "[ˈsprɪŋa]",
+    "cat": "Verber",
+    "note": "⚠️ Dansk 'løbe' = svensk 'springa'. Helt anderledes."
+  },
+  {
+    "da": "sidde",
+    "sv": "sitta",
+    "en": "to sit",
+    "ipa": "[ˈsɪta]",
+    "cat": "Verber",
+    "note": "Nær dansk 'sidde'."
+  },
+  {
+    "da": "ligge",
+    "sv": "ligga",
+    "en": "to lie (down)",
+    "ipa": "[ˈlɪɡa]",
+    "cat": "Verber",
+    "note": "Nær dansk 'ligge'."
+  },
+  {
+    "da": "sove",
+    "sv": "sova",
+    "en": "to sleep",
+    "ipa": "[ˈsoːva]",
+    "cat": "Verber",
+    "note": "Nær dansk 'sove'."
+  },
+  {
+    "da": "spise",
+    "sv": "äta",
+    "en": "to eat",
+    "ipa": "[ˈɛːta]",
+    "cat": "Verber",
+    "note": "⚠️ Dansk 'spise' = svensk 'äta'. Helt anderledes."
+  },
+  {
+    "da": "drikke",
+    "sv": "dricka",
+    "en": "to drink",
+    "ipa": "[ˈdrɪka]",
+    "cat": "Verber",
+    "note": "Nær dansk 'drikke'."
+  },
+  {
+    "da": "åbne",
+    "sv": "öppna",
+    "en": "to open",
+    "ipa": "[ˈœpna]",
+    "cat": "Verber",
+    "note": "Nær dansk 'åbne'."
+  },
+  {
+    "da": "lukke",
+    "sv": "stänga",
+    "en": "to close",
+    "ipa": "[ˈstɛŋa]",
+    "cat": "Verber",
+    "note": "⚠️ Dansk 'lukke' = svensk 'stänga'. Intet at associere."
+  },
+  {
+    "da": "holde",
+    "sv": "hålla",
+    "en": "to hold",
+    "ipa": "[ˈhoːla]",
+    "cat": "Verber",
+    "note": "'Håll fast' = hold fast."
+  },
+  {
+    "da": "lægge",
+    "sv": "lägga",
+    "en": "to lay",
+    "ipa": "[ˈlɛɡa]",
+    "cat": "Verber",
+    "note": "'Lägga ned' = lægge ned."
+  },
+  {
+    "da": "sætte",
+    "sv": "sätta",
+    "en": "to put",
+    "ipa": "[ˈsɛta]",
+    "cat": "Verber",
+    "note": "'Sätt dig' = sæt dig."
+  },
+  {
+    "da": "flytte",
+    "sv": "flytta",
+    "en": "to move",
+    "ipa": "[ˈflʏta]",
+    "cat": "Verber",
+    "note": "'Flytta till en ny stad' = flytte til en ny by."
+  },
+  {
+    "da": "bygge",
+    "sv": "bygga",
+    "en": "to build",
+    "ipa": "[ˈbʏɡa]",
+    "cat": "Verber",
+    "note": "'Bygga ett hus' = bygge et hus."
+  },
+  {
+    "da": "skrive",
+    "sv": "skriva",
+    "en": "to write",
+    "ipa": "[ˈskriːva]",
+    "cat": "Verber",
+    "note": "Nær dansk 'skrive'."
+  },
+  {
+    "da": "læse",
+    "sv": "läsa",
+    "en": "to read",
+    "ipa": "[ˈlɛːsa]",
+    "cat": "Verber",
+    "note": "Nær dansk 'læse'."
+  },
+  {
+    "da": "spille",
+    "sv": "spela",
+    "en": "to play",
+    "ipa": "[ˈspeːla]",
+    "cat": "Verber",
+    "note": "'Spela gitarr' = spille guitar."
+  },
+  {
+    "da": "rejse",
+    "sv": "resa",
+    "en": "to travel",
+    "ipa": "[ˈreːsa]",
+    "cat": "Verber",
+    "note": "'Resa till utlandet' = rejse til udlandet."
+  },
+  {
+    "da": "besøge",
+    "sv": "besöka",
+    "en": "to visit",
+    "ipa": "[beˈsøːka]",
+    "cat": "Verber",
+    "note": "'Besöka sina föräldrar' = besøge sine forældre."
+  },
+  {
+    "da": "fejre",
+    "sv": "fira",
+    "en": "to celebrate",
+    "ipa": "[ˈfiːra]",
+    "cat": "Verber",
+    "note": "'Fira sin födelsedag' = fejre sin fødselsdag."
+  },
+  {
+    "da": "klare",
+    "sv": "klara",
+    "en": "to manage",
+    "ipa": "[ˈklɑːra]",
+    "cat": "Verber",
+    "note": "'Klara sig själv' = klare sig selv."
+  },
+  {
+    "da": "have brug for",
+    "sv": "behöva",
+    "en": "to need",
+    "ipa": "[beˈhøːva]",
+    "cat": "Verber",
+    "note": "⚠️ 'Jag behöver kaffe' = jeg trænger til kaffe."
+  },
+  {
+    "da": "vælge",
+    "sv": "välja",
+    "en": "to choose",
+    "ipa": "[ˈvɛlja]",
+    "cat": "Verber",
+    "note": "'Välja mellan två saker' = vælge mellem to ting."
+  },
+  {
+    "da": "mærke",
+    "sv": "märka",
+    "en": "to notice",
+    "ipa": "[ˈmæːka]",
+    "cat": "Verber",
+    "note": "'Jag märkte det' = jeg mærkede det."
+  },
+  {
+    "da": "skynde sig",
+    "sv": "skynda sig",
+    "en": "to hurry",
+    "ipa": "[ˈʃʏnda sɛj]",
+    "cat": "Verber",
+    "note": "'Skynda dig!' = skynd dig!"
+  },
+  {
+    "da": "lykkes",
+    "sv": "lyckas",
+    "en": "to succeed",
+    "ipa": "[ˈlʏkas]",
+    "cat": "Verber",
+    "note": "'Det lyckades' = det lykkedes."
+  },
+  {
+    "da": "i hvert fald",
+    "sv": "i alla fall",
+    "en": "in any case, at least",
+    "ipa": "[ɪ ˈala ˌfal]",
+    "cat": "Fraser",
+    "note": "⚠️ Dansk 'i hvert fald' = svensk 'i alla fall'. Hyppig frase."
+  },
+  {
+    "da": "med det samme",
+    "sv": "genast",
+    "en": "right away",
+    "ipa": "[ˈjeːnast]",
+    "cat": "Fraser",
+    "note": "'Kom genast!' = kom med det samme!"
+  },
+  {
+    "da": "for resten / i øvrigt",
+    "sv": "förresten",
+    "en": "by the way",
+    "ipa": "[ˈfœˌrɛstən]",
+    "cat": "Fraser",
+    "note": "'Förresten...' = for resten..."
+  },
+  {
+    "da": "til gengæld",
+    "sv": "å andra sidan",
+    "en": "on the other hand",
+    "ipa": "[oː ˈandra ˈsiːdan]",
+    "cat": "Fraser",
+    "note": "'Å andra sidan är han snäll' = til gengæld er han sød."
+  },
+  {
+    "da": "i stedet for",
+    "sv": "istället för",
+    "en": "instead of",
+    "ipa": "[ɪˈstɛlet fœr]",
+    "cat": "Fraser",
+    "note": "Nær dansk 'i stedet for'."
+  },
+  {
+    "da": "det vil sige",
+    "sv": "det vill säga",
+    "en": "that is to say",
+    "ipa": "[de vɪl ˈsɛja]",
+    "cat": "Fraser",
+    "note": "'Det vill säga att...' = det vil sige at..."
+  },
+  {
+    "da": "trods alt",
+    "sv": "trots allt",
+    "en": "after all",
+    "ipa": "[trɔts ˈalt]",
+    "cat": "Fraser",
+    "note": "'Trots allt gick det bra' = trods alt gik det godt."
+  },
+  {
+    "da": "i forvejen",
+    "sv": "i förväg",
+    "en": "in advance",
+    "ipa": "[ɪ fœˈvɛːɡ]",
+    "cat": "Fraser",
+    "note": "'Det visste jag i förväg' = det vidste jeg i forvejen."
+  },
+  {
+    "da": "overhovedet",
+    "sv": "överhuvudtaget",
+    "en": "at all",
+    "ipa": "[ˌøːvərˈhʉːvɵdˌtɑːɡet]",
+    "cat": "Fraser",
+    "note": "'Det ger överhuvudtaget ingen mening' = det giver overhovedet ikke mening."
+  },
+  {
+    "da": "slet ikke",
+    "sv": "inte alls",
+    "en": "not at all",
+    "ipa": "[ˈɪnte ˈals]",
+    "cat": "Fraser",
+    "note": "'Inte alls bra' = slet ikke godt."
+  },
+  {
+    "da": "på grund af",
+    "sv": "på grund av",
+    "en": "because of",
+    "ipa": "[poː ˈɡrɵnd ɑːv]",
+    "cat": "Fraser",
+    "note": "'På grund av regnet' = på grund af regnet."
+  },
+  {
+    "da": "i løbet af",
+    "sv": "under loppet av",
+    "en": "in the course of",
+    "ipa": "[ˈɵndər ˈlɔpet ɑːv]",
+    "cat": "Fraser",
+    "note": "'Under dagens lopp' = i løbet af dagen."
+  },
+  {
+    "da": "det kommer an på",
+    "sv": "det beror på",
+    "en": "it depends on",
+    "ipa": "[de beˈruːr poː]",
+    "cat": "Fraser",
+    "note": "'Det beror på vad du vill' = det kommer an på hvad du vil."
+  },
+  {
+    "da": "med andre ord",
+    "sv": "med andra ord",
+    "en": "in other words",
+    "ipa": "[meː ˈandra ɔːd]",
+    "cat": "Fraser",
+    "note": "'Med andra ord...' = med andre ord..."
+  },
+  {
+    "da": "frem for alt",
+    "sv": "framför allt",
+    "en": "above all",
+    "ipa": "[ˈframˌfœr ˈalt]",
+    "cat": "Fraser",
+    "note": "'Framför allt ska du komma ihåg...' = frem for alt skal du huske..."
+  },
+  {
+    "da": "ikke desto mindre",
+    "sv": "inte desto mindre",
+    "en": "nonetheless",
+    "ipa": "[ˈɪnte ˈdɛstɔ ˈmɪndre]",
+    "cat": "Fraser",
+    "note": "'Inte desto mindre fortsatte han' = ikke desto mindre fortsatte han."
+  },
+  {
+    "da": "det er ligegyldigt",
+    "sv": "det spelar ingen roll",
+    "en": "it doesn't matter",
+    "ipa": "[de ˈspeːlar ˈɪŋən rɔl]",
+    "cat": "Fraser",
+    "note": "⚠️ 'Det spelar ingen roll' = det er ligegyldigt."
+  },
+  {
+    "da": "jeg kan lide",
+    "sv": "jag gillar",
+    "en": "I like",
+    "ipa": "[jɑː ˈjɪlar]",
+    "cat": "Fraser",
+    "note": "⚠️ 'Gillar' = synes godt om / kan lide."
+  },
+  {
+    "da": "har du det godt?",
+    "sv": "mår du bra?",
+    "en": "are you doing well?",
+    "ipa": "[moːr dɵ brɑː]",
+    "cat": "Fraser",
+    "note": "'Mår du bra?' = har du det godt?"
+  },
+  {
+    "da": "jeg har det godt",
+    "sv": "jag mår bra",
+    "en": "I'm doing well",
+    "ipa": "[jɑː moːr brɑː]",
+    "cat": "Fraser",
+    "note": "'Jag mår bra' = jeg har det godt."
+  },
+  {
+    "da": "pas på",
+    "sv": "se upp",
+    "en": "be careful",
+    "ipa": "[seː ɵp]",
+    "cat": "Fraser",
+    "note": "'Se upp!' = pas på!"
+  },
+  {
+    "da": "give op",
+    "sv": "ge upp",
+    "en": "to give up",
+    "ipa": "[jeː ɵp]",
+    "cat": "Fraser",
+    "note": "'Ge inte upp!' = giv ikke op!"
+  },
+  {
+    "da": "tage sig af",
+    "sv": "ta hand om",
+    "en": "to take care of",
+    "ipa": "[tɑː ˈhand ɔm]",
+    "cat": "Fraser",
+    "note": "'Ta hand om barnet' = tage sig af barnet."
+  },
+  {
+    "da": "glæde sig til",
+    "sv": "se fram emot",
+    "en": "to look forward to",
+    "ipa": "[seː fram eˈmoːt]",
+    "cat": "Fraser",
+    "note": "'Jag ser fram emot det' = jeg glæder mig til det."
+  },
+  {
+    "da": "finde ud af",
+    "sv": "ta reda på",
+    "en": "to find out",
+    "ipa": "[tɑː ˈreːda poː]",
+    "cat": "Fraser",
+    "note": "'Jag tar reda på det' = jeg finder ud af det."
+  },
+  {
+    "da": "synes godt om / godt lide",
+    "sv": "tycka om",
+    "en": "to like",
+    "ipa": "[ˈtʏka ɔm]",
+    "cat": "Fraser",
+    "note": "'Jag tycker om jazz' = jeg synes godt om jazz."
+  },
+  {
+    "da": "have råd til",
+    "sv": "ha råd med",
+    "en": "to be able to afford",
+    "ipa": "[hɑː roːd me]",
+    "cat": "Fraser",
+    "note": "'Jag har inte råd' = jeg har ikke råd."
+  },
+  {
+    "da": "af og til",
+    "sv": "ibland",
+    "en": "now and then",
+    "ipa": "[ɪˈbland]",
+    "cat": "Fraser",
+    "note": "'Ibland tar jag tåget' = af og til tager jeg toget."
+  },
+  {
+    "da": "ikke mindst",
+    "sv": "inte minst",
+    "en": "not least",
+    "ipa": "[ˈɪnte ˈmɪnst]",
+    "cat": "Fraser",
+    "note": "'Inte minst för att...' = ikke mindst fordi..."
+  }
+]
