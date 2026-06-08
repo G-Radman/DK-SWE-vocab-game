@@ -512,64 +512,314 @@ let browseCategory="Alla",browseIndex=0,browseWords=[],browseRevealed=false;
 let quizWords=[],quizIndex=0,quizCorrect=0,quizWrong=0,quizType="da-sv",quizAnswered=false;
 const CATEGORIES=["Alla",...new Set(WORDS.map(w=>w.cat))];
 
-// ─── SPEECH ───────────────────────────────────────────────────
-let _daVoice = null;
-let _voiceWarningShown = false;
 
-function getBestDanishVoice() {
-  if (_daVoice) return _daVoice;
-  const voices = window.speechSynthesis.getVoices();
-  // Priority: exact sv-SE > any sv- > name contains "swedish" > name contains "alva/oskar"
-  const exact   = voices.find(v => v.lang === 'sv-SE');
-  const prefix  = voices.find(v => v.lang.toLowerCase().startsWith('sv'));
-  const byName  = voices.find(v => v.name.toLowerCase().includes('swedish') || v.name.toLowerCase().includes('svenska'));
-  const byDan   = voices.find(v => v.name.toLowerCase().includes('alva') || v.name.toLowerCase().includes('oskar'));
-  _daVoice = exact || prefix || byName || byDan || null;
-  return _daVoice;
-}
+// ── Pre-generated audio maps ──────────────────────────────────────────────
+const WORD_AUDIO = {
+  "aldrig": "audio/sv/words/aldrig.mp3",
+  "alltså": "audio/sv/words/alltså.mp3",
+  "annars": "audio/sv/words/annars.mp3",
+  "använda": "audio/sv/words/använda.mp3",
+  "behöva": "audio/sv/words/behöva.mp3",
+  "berätta": "audio/sv/words/berätta.mp3",
+  "bestämma": "audio/sv/words/bestämma.mp3",
+  "besöka": "audio/sv/words/besöka.mp3",
+  "betyda": "audio/sv/words/betyda.mp3",
+  "bli": "audio/sv/words/bli.mp3",
+  "blöt": "audio/sv/words/blöt.mp3",
+  "brukade": "audio/sv/words/brukade.mp3",
+  "bygga": "audio/sv/words/bygga.mp3",
+  "dessförinnan": "audio/sv/words/dessförinnan.mp3",
+  "dessutom": "audio/sv/words/dessutom.mp3",
+  "det": "audio/sv/words/det.mp3",
+  "det beror på": "audio/sv/words/det_beror_på.mp3",
+  "det spelar ingen roll": "audio/sv/words/det_spelar_ingen_roll.mp3",
+  "det vill säga": "audio/sv/words/det_vill_säga.mp3",
+  "dig": "audio/sv/words/dig.mp3",
+  "dricka": "audio/sv/words/dricka.mp3",
+  "duktig": "audio/sv/words/duktig.mp3",
+  "däremot": "audio/sv/words/däremot.mp3",
+  "efteråt": "audio/sv/words/efteråt.mp3",
+  "egentligen": "audio/sv/words/egentligen.mp3",
+  "faktiskt": "audio/sv/words/faktiskt.mp3",
+  "fattas": "audio/sv/words/fattas.mp3",
+  "fika": "audio/sv/words/fika.mp3",
+  "fira": "audio/sv/words/fira.mp3",
+  "flink": "audio/sv/words/flink.mp3",
+  "flytta": "audio/sv/words/flytta.mp3",
+  "fortfarande": "audio/sv/words/fortfarande.mp3",
+  "framför allt": "audio/sv/words/framför_allt.mp3",
+  "framöver": "audio/sv/words/framöver.mp3",
+  "frukost": "audio/sv/words/frukost.mp3",
+  "fråga": "audio/sv/words/fråga.mp3",
+  "fönster": "audio/sv/words/fönster.mp3",
+  "förklara": "audio/sv/words/förklara.mp3",
+  "förlåt": "audio/sv/words/förlåt.mp3",
+  "förresten": "audio/sv/words/förresten.mp3",
+  "försöka": "audio/sv/words/försöka.mp3",
+  "ganska": "audio/sv/words/ganska.mp3",
+  "ge upp": "audio/sv/words/ge_upp.mp3",
+  "genast": "audio/sv/words/genast.mp3",
+  "glad": "audio/sv/words/glad.mp3",
+  "glömma": "audio/sv/words/glömma.mp3",
+  "granne": "audio/sv/words/granne.mp3",
+  "grim": "audio/sv/words/grim.mp3",
+  "gråta": "audio/sv/words/gråta.mp3",
+  "gör": "audio/sv/words/gör.mp3",
+  "ha råd med": "audio/sv/words/ha_råd_med.mp3",
+  "hade": "audio/sv/words/hade.mp3",
+  "hata": "audio/sv/words/hata.mp3",
+  "heta": "audio/sv/words/heta.mp3",
+  "hinna": "audio/sv/words/hinna.mp3",
+  "hitta": "audio/sv/words/hitta.mp3",
+  "hoppas": "audio/sv/words/hoppas.mp3",
+  "hungrig": "audio/sv/words/hungrig.mp3",
+  "hålla": "audio/sv/words/hålla.mp3",
+  "i alla fall": "audio/sv/words/i_alla_fall.mp3",
+  "i förväg": "audio/sv/words/i_förväg.mp3",
+  "ibland": "audio/sv/words/ibland.mp3",
+  "inte": "audio/sv/words/inte.mp3",
+  "inte alls": "audio/sv/words/inte_alls.mp3",
+  "inte desto mindre": "audio/sv/words/inte_desto_mindre.mp3",
+  "inte minst": "audio/sv/words/inte_minst.mp3",
+  "istället för": "audio/sv/words/istället_för.mp3",
+  "jag": "audio/sv/words/jag.mp3",
+  "jag gillar": "audio/sv/words/jag_gillar.mp3",
+  "jag mår bra": "audio/sv/words/jag_mår_bra.mp3",
+  "ju": "audio/sv/words/ju.mp3",
+  "jättebra": "audio/sv/words/jättebra.mp3",
+  "kaka": "audio/sv/words/kaka.mp3",
+  "kanske": "audio/sv/words/kanske.mp3",
+  "klara": "audio/sv/words/klara.mp3",
+  "kläder": "audio/sv/words/kläder.mp3",
+  "komma ihåg": "audio/sv/words/komma_ihåg.mp3",
+  "kudde": "audio/sv/words/kudde.mp3",
+  "kul": "audio/sv/words/kul.mp3",
+  "känna": "audio/sv/words/känna.mp3",
+  "kök": "audio/sv/words/kök.mp3",
+  "lagom": "audio/sv/words/lagom.mp3",
+  "lat": "audio/sv/words/lat.mp3",
+  "le": "audio/sv/words/le.mp3",
+  "ledsen": "audio/sv/words/ledsen.mp3",
+  "ligga": "audio/sv/words/ligga.mp3",
+  "liksom": "audio/sv/words/liksom.mp3",
+  "lunch": "audio/sv/words/lunch.mp3",
+  "lyckas": "audio/sv/words/lyckas.mp3",
+  "lyssna": "audio/sv/words/lyssna.mp3",
+  "lägga": "audio/sv/words/lägga.mp3",
+  "läkare": "audio/sv/words/läkare.mp3",
+  "läsa": "audio/sv/words/läsa.mp3",
+  "låda": "audio/sv/words/låda.mp3",
+  "lön": "audio/sv/words/lön.mp3",
+  "med andra ord": "audio/sv/words/med_andra_ord.mp3",
+  "middag": "audio/sv/words/middag.mp3",
+  "mig": "audio/sv/words/mig.mp3",
+  "märka": "audio/sv/words/märka.mp3",
+  "mår du bra?": "audio/sv/words/mår_du_bra.mp3",
+  "möjlighet": "audio/sv/words/möjlighet.mp3",
+  "njuta": "audio/sv/words/njuta.mp3",
+  "nog": "audio/sv/words/nog.mp3",
+  "numera": "audio/sv/words/numera.mp3",
+  "nyckel": "audio/sv/words/nyckel.mp3",
+  "nästan": "audio/sv/words/nästan.mp3",
+  "någonting": "audio/sv/words/någonting.mp3",
+  "ofta": "audio/sv/words/ofta.mp3",
+  "orka": "audio/sv/words/orka.mp3",
+  "plötsligt": "audio/sv/words/plötsligt.mp3",
+  "precis": "audio/sv/words/precis.mp3",
+  "på grund av": "audio/sv/words/på_grund_av.mp3",
+  "rar": "audio/sv/words/rar.mp3",
+  "rea": "audio/sv/words/rea.mp3",
+  "redan": "audio/sv/words/redan.mp3",
+  "resa": "audio/sv/words/resa.mp3",
+  "rolig": "audio/sv/words/rolig.mp3",
+  "rädd": "audio/sv/words/rädd.mp3",
+  "sa": "audio/sv/words/sa.mp3",
+  "sakna": "audio/sv/words/sakna.mp3",
+  "se fram emot": "audio/sv/words/se_fram_emot.mp3",
+  "se upp": "audio/sv/words/se_upp.mp3",
+  "semester": "audio/sv/words/semester.mp3",
+  "sitta": "audio/sv/words/sitta.mp3",
+  "sjunga": "audio/sv/words/sjunga.mp3",
+  "ska": "audio/sv/words/ska.mp3",
+  "skillnad": "audio/sv/words/skillnad.mp3",
+  "skratta": "audio/sv/words/skratta.mp3",
+  "skriva": "audio/sv/words/skriva.mp3",
+  "skynda sig": "audio/sv/words/skynda_sig.mp3",
+  "skön": "audio/sv/words/skön.mp3",
+  "slug": "audio/sv/words/slug.mp3",
+  "snart": "audio/sv/words/snart.mp3",
+  "snäll": "audio/sv/words/snäll.mp3",
+  "sopor": "audio/sv/words/sopor.mp3",
+  "sova": "audio/sv/words/sova.mp3",
+  "spela": "audio/sv/words/spela.mp3",
+  "springa": "audio/sv/words/springa.mp3",
+  "stänga": "audio/sv/words/stänga.mp3",
+  "sur": "audio/sv/words/sur.mp3",
+  "sällan": "audio/sv/words/sällan.mp3",
+  "sätta": "audio/sv/words/sätta.mp3",
+  "söt": "audio/sv/words/söt.mp3",
+  "ta": "audio/sv/words/ta.mp3",
+  "ta hand om": "audio/sv/words/ta_hand_om.mp3",
+  "ta reda på": "audio/sv/words/ta_reda_på.mp3",
+  "tak": "audio/sv/words/tak.mp3",
+  "tjock": "audio/sv/words/tjock.mp3",
+  "trist": "audio/sv/words/trist.mp3",
+  "trodde": "audio/sv/words/trodde.mp3",
+  "trots allt": "audio/sv/words/trots_allt.mp3",
+  "trottoar": "audio/sv/words/trottoar.mp3",
+  "tvärtom": "audio/sv/words/tvärtom.mp3",
+  "tycka om": "audio/sv/words/tycka_om.mp3",
+  "täcke": "audio/sv/words/täcke.mp3",
+  "under loppet av": "audio/sv/words/under_loppet_av.mp3",
+  "undvika": "audio/sv/words/undvika.mp3",
+  "ungefär": "audio/sv/words/ungefär.mp3",
+  "uppnå": "audio/sv/words/uppnå.mp3",
+  "vad": "audio/sv/words/vad.mp3",
+  "var": "audio/sv/words/var.mp3",
+  "vardagsrum": "audio/sv/words/vardagsrum.mp3",
+  "verkligen": "audio/sv/words/verkligen.mp3",
+  "veta": "audio/sv/words/veta.mp3",
+  "visst": "audio/sv/words/visst.mp3",
+  "visste": "audio/sv/words/visste.mp3",
+  "väder": "audio/sv/words/väder.mp3",
+  "väl": "audio/sv/words/väl.mp3",
+  "väldigt": "audio/sv/words/väldigt.mp3",
+  "välja": "audio/sv/words/välja.mp3",
+  "vänta": "audio/sv/words/vänta.mp3",
+  "älska": "audio/sv/words/älska.mp3",
+  "äntligen": "audio/sv/words/äntligen.mp3",
+  "är": "audio/sv/words/är.mp3",
+  "äta": "audio/sv/words/äta.mp3",
+  "å andra sidan": "audio/sv/words/å_andra_sidan.mp3",
+  "öppna": "audio/sv/words/öppna.mp3",
+  "överhuvudtaget": "audio/sv/words/överhuvudtaget.mp3"
+};
+const SENT_AUDIO = {
+  "Dessutom är det billigare": "audio/sv/sentences/s000.mp3",
+  "Det beror på vädret": "audio/sv/sentences/s001.mp3",
+  "Det händer sällan numera": "audio/sv/sentences/s002.mp3",
+  "Det spelar ingen roll vad de säger": "audio/sv/sentences/s003.mp3",
+  "Det var verkligen roligt": "audio/sv/sentences/s004.mp3",
+  "Det är egentligen ganska roligt": "audio/sv/sentences/s005.mp3",
+  "Det är faktiskt inte sant": "audio/sv/sentences/s006.mp3",
+  "Det är inte alls vad jag menade": "audio/sv/sentences/s007.mp3",
+  "Det är ju precis det jag menade": "audio/sv/sentences/s008.mp3",
+  "Det är jättebra att du kom": "audio/sv/sentences/s009.mp3",
+  "Det är lagom varmt idag": "audio/sv/sentences/s010.mp3",
+  "Det är lite lagom för mig": "audio/sv/sentences/s011.mp3",
+  "Det är numera ganska vanligt": "audio/sv/sentences/s012.mp3",
+  "Det är snart dags att gå": "audio/sv/sentences/s013.mp3",
+  "Det är trots allt inte omöjligt": "audio/sv/sentences/s014.mp3",
+  "Det är verkligen en snäll person": "audio/sv/sentences/s015.mp3",
+  "Det är väl inte så farligt?": "audio/sv/sentences/s016.mp3",
+  "Det är ännu inte klart": "audio/sv/sentences/s017.mp3",
+  "Framför allt måste du komma ihåg det": "audio/sv/sentences/s018.mp3",
+  "Förresten, visste du det?": "audio/sv/sentences/s019.mp3",
+  "Ge inte upp nu!": "audio/sv/sentences/s020.mp3",
+  "Han sa ingenting överhuvudtaget": "audio/sv/sentences/s021.mp3",
+  "Han är fortfarande inte hemma": "audio/sv/sentences/s022.mp3",
+  "Han är nog hemma redan": "audio/sv/sentences/s023.mp3",
+  "Han är väldigt duktig på det": "audio/sv/sentences/s024.mp3",
+  "Hon är rädd för att ta fel": "audio/sv/sentences/s025.mp3",
+  "Ibland saknar jag det": "audio/sv/sentences/s026.mp3",
+  "Ibland är det lite kul": "audio/sv/sentences/s027.mp3",
+  "Jag behöver lite hjälp": "audio/sv/sentences/s028.mp3",
+  "Jag brukade cykla till jobbet": "audio/sv/sentences/s029.mp3",
+  "Jag förstår inte riktigt": "audio/sv/sentences/s030.mp3",
+  "Jag gillar den nya filmen": "audio/sv/sentences/s031.mp3",
+  "Jag gillar inte det alls": "audio/sv/sentences/s032.mp3",
+  "Jag hade det riktigt bra": "audio/sv/sentences/s033.mp3",
+  "Jag hann inte ta tåget": "audio/sv/sentences/s034.mp3",
+  "Jag hittade det till slut": "audio/sv/sentences/s035.mp3",
+  "Jag hoppas det går bra": "audio/sv/sentences/s036.mp3",
+  "Jag mår bra, tack": "audio/sv/sentences/s037.mp3",
+  "Jag mår faktiskt ganska bra": "audio/sv/sentences/s038.mp3",
+  "Jag orkar inte göra det nu": "audio/sv/sentences/s039.mp3",
+  "Jag ser fram emot semestern": "audio/sv/sentences/s040.mp3",
+  "Jag visste det inte": "audio/sv/sentences/s041.mp3",
+  "Jag är fortfarande hungrig": "audio/sv/sentences/s042.mp3",
+  "Jag är ledsen för det": "audio/sv/sentences/s043.mp3",
+  "Kan du förklara det för mig?": "audio/sv/sentences/s044.mp3",
+  "Kan du stänga fönstret?": "audio/sv/sentences/s045.mp3",
+  "Kan du verkligen inte komma?": "audio/sv/sentences/s046.mp3",
+  "Kanske kan vi ses imorgon": "audio/sv/sentences/s047.mp3",
+  "Plötsligt stoppade han bilen": "audio/sv/sentences/s048.mp3",
+  "Se upp, det är halt!": "audio/sv/sentences/s049.mp3",
+  "Tack så mycket": "audio/sv/sentences/s050.mp3",
+  "Trodde du det var sant?": "audio/sv/sentences/s051.mp3",
+  "Vad gör det om det regnar?": "audio/sv/sentences/s052.mp3",
+  "Vad gör du egentligen på dagarna?": "audio/sv/sentences/s053.mp3",
+  "Vad heter din granne?": "audio/sv/sentences/s054.mp3",
+  "Vad tycker du om det?": "audio/sv/sentences/s055.mp3",
+  "Vi ska fika strax": "audio/sv/sentences/s056.mp3",
+  "Vänta lite, jag kommer": "audio/sv/sentences/s057.mp3",
+  "Äntligen är du här!": "audio/sv/sentences/s058.mp3",
+  "Äta middag tog lång tid": "audio/sv/sentences/s059.mp3",
+  "Å andra sidan är hon snäll": "audio/sv/sentences/s060.mp3"
+};
 
-function showVoiceBanner(voice) {
-  let banner = document.getElementById('voiceBanner');
-  if (!banner) {
-    banner = document.createElement('div');
-    banner.id = 'voiceBanner';
-    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:#1A1A1A;color:#F5F0E8;font-size:12px;padding:10px 16px;z-index:999;display:flex;align-items:center;justify-content:space-between;gap:12px;';
-    document.body.appendChild(banner);
+// ── Audio player (uses pre-generated MP3 with TTS fallback) ──────────────
+let _currentAudio = null;
+
+function playAudio(path, btnId, fallbackText, fallbackLang) {
+  if (_currentAudio) {
+    _currentAudio.pause();
+    _currentAudio = null;
   }
-  if (voice) {
-    banner.innerHTML = `<span>🔊 Stemme: <strong>${voice.name}</strong> (${voice.lang})</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
-  } else {
-    banner.innerHTML = `<span>⚠️ Ingen dansk röst hittades. Installer "Swedish" under Systemindstillinger → Tillgänglighet → Tal → Röster (Mac) eller Inställningar → Tid & språk → Tal (Windows).</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
-  }
-}
+  // Clear any speaking state
+  document.querySelectorAll('.speaking').forEach(b => b.classList.remove('speaking'));
 
-function initVoices() {
-  // Voices may load async — try immediately and also on the event
-  const tryInit = () => {
-    const v = getBestDanishVoice();
-    if (!_voiceWarningShown) {
-      _voiceWarningShown = true;
-      showVoiceBanner(v);
-    }
+  const btn = btnId ? document.getElementById(btnId) : null;
+  if (btn) btn.classList.add('speaking');
+
+  const audio = new Audio(path);
+  _currentAudio = audio;
+  audio.playbackRate = 0.92;
+
+  const cleanup = () => {
+    if (btn) btn.classList.remove('speaking');
+    if (_currentAudio === audio) _currentAudio = null;
   };
-  if (window.speechSynthesis.getVoices().length > 0) tryInit();
-  window.speechSynthesis.onvoiceschanged = () => { _daVoice = null; tryInit(); };
+
+  audio.addEventListener('ended', cleanup);
+  audio.addEventListener('error', () => {
+    cleanup();
+    // Fallback to TTS if file fails to load
+    speakTTS(fallbackText, fallbackLang, btnId);
+  });
+
+  audio.play().catch(() => {
+    cleanup();
+    speakTTS(fallbackText, fallbackLang, btnId);
+  });
 }
 
-function speak(text, lang, btnId) {
+function speakTTS(text, lang, btnId) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = 'sv-SE';
-  utt.rate = 0.82;
-  const voice = getBestDanishVoice();
-  if (voice) utt.voice = voice;
+  utt.lang = lang; utt.rate = 0.82;
+  const voices = window.speechSynthesis.getVoices();
+  const v = voices.find(x => x.lang.startsWith(lang.slice(0, 2)));
+  if (v) utt.voice = v;
   if (btnId) {
     const btn = document.getElementById(btnId);
     if (btn) btn.classList.add('speaking');
-    utt.onend = utt.onerror = () => { const b = document.getElementById(btnId); if (b) b.classList.remove('speaking'); };
+    utt.onend = utt.onerror = () => {
+      const b = document.getElementById(btnId);
+      if (b) b.classList.remove('speaking');
+    };
   }
   window.speechSynthesis.speak(utt);
+}
+
+function speak(text, lang, btnId) {
+  const path = WORD_AUDIO[text] || SENT_AUDIO[text];
+  if (path) {
+    playAudio(path, btnId, text, lang);
+  } else {
+    speakTTS(text, lang, btnId);
+  }
 }
 
 // ─── TABS ─────────────────────────────────────────────────────
@@ -825,7 +1075,6 @@ window.onload=()=>{
   loadSRS();
   buildBrowseCategories();applyBrowseFilter();renderBrowseCard();
   renderGlossary();startSRSSession();
-  initVoices();
 };
 </script>
 </body>
