@@ -774,7 +774,7 @@ function renderSentenceQ(){
   const pool=SENTENCES.filter(x=>x.da!==s.da);
   const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.da);
   const opts=[...dist,correct].sort(()=>Math.random()-0.5);
-  document.getElementById("sentenceOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerSentence(this,'${escQ(opt)}','${escQ(correct)}','${escQ(s.da)}')">${opt}</button>`).join("");
+  document.getElementById("sentenceOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerSentence(this,'${escQ(opt)}','${escQ(correct)}','${escQ(s.sv)}')">${opt}</button>`).join("");
   updateSentenceScore();
   setTimeout(()=>speak(s.sv,"sv-SE","sentenceAudioBtn"),400);
 }
@@ -784,7 +784,7 @@ function answerSentence(btn,chosen,correct,da){
   document.getElementById("sentenceWordBadge").innerHTML="Fokusord: <strong>"+s.word+"</strong>";
   document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>b.classList.add("locked"));
   const rev=document.getElementById("sentenceReveal");
-  rev.innerHTML=`<div class="da-text">🇩🇰 ${da}</div><div>🇸🇪 ${correct}</div>`;
+  rev.innerHTML=`<div class="da-text">🇸🇪 ${da}</div><div>🇩🇰 ${correct}</div>`;
   rev.style.display="";
   if(chosen===correct){btn.classList.add("correct");sentenceCorrect++;streak++;document.getElementById("sentenceFeedback").textContent="✓ Rätt!";document.getElementById("sentenceFeedback").className="quiz-feedback correct-fb";}
   else{btn.classList.add("wrong");streak=0;sentenceWrong++;document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("sentenceFeedback").textContent="✗ Fel!";document.getElementById("sentenceFeedback").className="quiz-feedback wrong-fb";}
