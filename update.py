@@ -181,15 +181,13 @@ def generate_da_audio(texts: list, subdir: str, audio_map: dict,
     new_count = 0
 
     for i, text in enumerate(texts):
+        if text in audio_map:
+            continue  # already generated
+
         filename = safe_filename(text) + ".mp3"
         rel_path = f"audio/da/{subdir}/{filename}"
         out_path = os.path.join(BASE_DIR, rel_path)
 
-        print(f"Checking: {text}")
-        print(f"  Expected file: {out_path}")
-        print(f"  Exists: {os.path.exists(out_path)}")
-
-        # File already exists -> update audio_map and skip generation
         if os.path.exists(out_path):
             audio_map[text] = rel_path
             continue
@@ -223,15 +221,13 @@ def generate_sv_audio(texts: list, subdir: str, audio_map: dict,
     new_count = 0
 
     for i, text in enumerate(texts):
+        if text in audio_map:
+            continue
+
         filename = safe_filename(text) + ".mp3"
         rel_path = f"audio/sv/{subdir}/{filename}"
         out_path = os.path.join(BASE_DIR, rel_path)
 
-        print(f"Checking: {text}")
-        print(f"  Expected file: {out_path}")
-        print(f"  Exists: {os.path.exists(out_path)}")
-
-        # File already exists -> update audio_map and skip generation
         if os.path.exists(out_path):
             audio_map[text] = rel_path
             continue
@@ -242,9 +238,7 @@ def generate_sv_audio(texts: list, subdir: str, audio_map: dict,
             if attempt > 0:
                 print(f"    Retry {attempt}...")
                 time.sleep(2 ** attempt)
-
             ok = generate_elevenlabs(text, "sv", api_key, out_path)
-
             if ok:
                 break
 

@@ -303,5 +303,295 @@
     "sv": "Jag gillar den nya filmen",
     "da": "Jeg kan godt lide den nye film",
     "word": "gillar (kan lide!)"
+  },
+  {
+    "sv": "Det var verkligen roligt på festen",
+    "da": "Det var virkelig sjovt til festen",
+    "word": "rolig (sjov!)"
+  },
+  {
+    "sv": "Han är lite konstig ibland",
+    "da": "Han er lidt underlig/mærkelig af og til",
+    "word": "konstig (underlig/mærkelig!)"
+  },
+  {
+    "sv": "Det är jobbigt att vänta",
+    "da": "Det er irriterende/besværligt at vente",
+    "word": "jobbigt (irriterende!)"
+  },
+  {
+    "sv": "Det är verkligen mysigt här",
+    "da": "Det er virkelig hyggeligt her",
+    "word": "mysigt (hyggeligt!)"
+  },
+  {
+    "sv": "Hon är lite besviken på honom",
+    "da": "Hun er lidt skuffet over ham",
+    "word": "besviken (skuffet!)"
+  },
+  {
+    "sv": "Jag är förvånad över det",
+    "da": "Jeg er overrasket over det",
+    "word": "förvånad (overrasket!)"
+  },
+  {
+    "sv": "Han är pigg och glad idag",
+    "da": "Han er frisk og glad i dag",
+    "word": "pigg (frisk/opplagt!)"
+  },
+  {
+    "sv": "Det är tråkigt att sitta hemma",
+    "da": "Det er kedeligt at sidde hjemme",
+    "word": "tråkigt (kedeligt!)"
+  },
+  {
+    "sv": "Han är verkligen snygg",
+    "da": "Han er virkelig flot/smuk",
+    "word": "snygg (flot/smuk!)"
+  },
+  {
+    "sv": "Jag orkar inte mer idag",
+    "da": "Jeg gider ikke mere i dag",
+    "word": "orkar inte (gider ikke!)"
+  },
+  {
+    "sv": "Vi hann precis till tåget",
+    "da": "Vi nåede præcis toget",
+    "word": "hann (nåede!)"
+  },
+  {
+    "sv": "Det är lagom varmt ute",
+    "da": "Det er tilpas varmt udenfor",
+    "word": "lagom (tilpas!)"
+  },
+  {
+    "sv": "Ska vi köra dit eller ta tåget?",
+    "da": "Skal vi køre derhen eller tage toget?",
+    "word": "köra (K → SJ-lyd!)"
+  },
+  {
+    "sv": "Hjälp mig lite med det",
+    "da": "Hjælp mig lidt med det",
+    "word": "hjälp (HJ → J-lyd!)"
+  },
+  {
+    "sv": "Kyckling med vitlök är gott",
+    "da": "Kylling med hvidløg er godt",
+    "word": "kyckling + vitlök (K → SJ!)"
+  },
+  {
+    "sv": "En tjej och en kille satt i parken",
+    "da": "En pige og en fyr sad i parken",
+    "word": "tjej + kille (TJ/K → SJ!)"
+  },
+  {
+    "sv": "Ge mig gärna lite mer",
+    "da": "Giv mig gerne lidt mere",
+    "word": "ge (G → J-lyd!)"
+  },
+  {
+    "sv": "Jag minns det inte alls",
+    "da": "Jeg husker det slet ikke",
+    "word": "minns (husker!)"
+  },
+  {
+    "sv": "Han börjar alltid sent",
+    "da": "Han begynder altid sent",
+    "word": "börjar (begynder!) + SJ-lyd"
+  },
+  {
+    "sv": "Djuren i skogen är vackra",
+    "da": "Dyrene i skoven er smukke",
+    "word": "djuren (DJ → J-lyd!)"
+  },
+  {
+    "sv": "Ljuset i rummet var svagt",
+    "da": "Lyset i rummet var svagt",
+    "word": "ljuset (LJ → J-lyd!)"
+  },
+  {
+    "sv": "Potatis med smör är klassiskt",
+    "da": "Kartofler med smør er klassisk",
+    "word": "potatis (kartofler!) + smör"
+  },
+  {
+    "sv": "Lägg byxorna i lådan",
+    "da": "Læg bukserne i skuffen",
+    "word": "byxorna (bukserne!) + lådan (skuffen!)"
+  },
+  {
+    "sv": "Ta en tallrik till",
+    "da": "Tag endnu en tallerken",
+    "word": "tallrik (tallerken!)"
+  },
+  {
+    "sv": "Det finns mjöl i skåpet",
+    "da": "Der er mel i skabet",
+    "word": "mjöl (mel!) + MJ-lyd"
+  },
+  {
+    "sv": "Köp lite mjölk på vägen hem",
+    "da": "Køb lidt mælk på vejen hjem",
+    "word": "mjölk (mælk!) + MJ-lyd"
+  },
+  {
+    "sv": "Vi åker till flygplatsen tidigt",
+    "da": "Vi tager til lufthavnen tidligt",
+    "word": "flygplatsen (lufthavnen!)"
+  },
+  {
+    "sv": "Jag glömde min handduk",
+    "da": "Jeg glemte mit håndklæde",
+    "word": "handduk (håndklæde!)"
+  },
+  {
+    "sv": "Golvet är kallt på vintern",
+    "da": "Gulvet er koldt om vinteren",
+    "word": "golvet (G → J-lyd!) = gulvet"
+  },
+  {
+    "sv": "Köttet behöver kokas länge",
+    "da": "Kødet skal koges længe",
+    "word": "köttet (K → SJ! = kødet)"
+  },
+  {
+    "sv": "Jag tänkte förmodligen för mycket",
+    "da": "Jeg tænkte sandsynligvis for meget",
+    "word": "förmodligen (sandsynligvis!)"
+  },
+  {
+    "sv": "Tydligen missade han tåget",
+    "da": "Åbenbart missede han toget",
+    "word": "tydligen (åbenbart/tydeligvis!)"
+  },
+  {
+    "sv": "Till och med han skrattade åt det",
+    "da": "Selv han grinte af det",
+    "word": "till och med (selv/endda!)"
+  },
+  {
+    "sv": "Jag vet inte ens varför",
+    "da": "Jeg ved ikke engang hvorfor",
+    "word": "ens (engang - i negation!)"
+  },
+  {
+    "sv": "Åtminstone försökte du",
+    "da": "I det mindste prøvede du",
+    "word": "åtminstone (i det mindste!)"
+  },
+  {
+    "sv": "Det är i varje fall ett försök",
+    "da": "Det er i hvert fald et forsøg",
+    "word": "i varje fall (i hvert fald!)"
+  },
+  {
+    "sv": "Snarare borde vi vänta",
+    "da": "Vi burde snarere vente",
+    "word": "snarare (snarere!)"
+  },
+  {
+    "sv": "Kan du hjälpa mig förstå det?",
+    "da": "Kan du hjælpe mig forstå det?",
+    "word": "hjälpa (HJ → J) + förstå (SJ-lyd!)"
+  },
+  {
+    "sv": "Jag hoppas det löser sig",
+    "da": "Jeg håber det løser sig",
+    "word": "hoppas (håber!) + löser"
+  },
+  {
+    "sv": "Vi börjar mötet om fem minuter",
+    "da": "Vi begynder mødet om fem minutter",
+    "word": "börjar (begynder!)"
+  },
+  {
+    "sv": "Håll med mig om du tycker det",
+    "da": "Vær enig med mig hvis du synes det",
+    "word": "håll med (vær enig!)"
+  },
+  {
+    "sv": "Bry dig inte om det",
+    "da": "Bekymr dig ikke om det",
+    "word": "bry dig inte (bekymr dig ikke!)"
+  },
+  {
+    "sv": "Ta det lugnt, det ordnar sig",
+    "da": "Tag det roligt, det går nok",
+    "word": "ta det lugnt (tag det roligt!) + roligt = sjovt!"
+  },
+  {
+    "sv": "Strunta i vad de säger",
+    "da": "Gid ikke hvad de siger",
+    "word": "strunta i (ligeglad / gid ikke!)"
+  },
+  {
+    "sv": "Vi behöver lösa det snabbt",
+    "da": "Vi er nødt til at løse det hurtigt",
+    "word": "behöver (er nødt til!)"
+  },
+  {
+    "sv": "Jag tvivlar på att det funkar",
+    "da": "Jeg tvivler på at det virker",
+    "word": "tvivlar (tvivler!)"
+  },
+  {
+    "sv": "Hon drömde om en bättre framtid",
+    "da": "Hun drømte om en bedre fremtid",
+    "word": "drömde (drømte!) + Ø-lyd"
+  },
+  {
+    "sv": "Det är på tok för dyrt",
+    "da": "Det er alt for dyrt",
+    "word": "på tok för (alt for!)"
+  },
+  {
+    "sv": "Det är dags att gå nu",
+    "da": "Det er på tide at gå nu",
+    "word": "det är dags (det er på tide!)"
+  },
+  {
+    "sv": "Å ena sidan vill jag, å andra sidan vill jag inte",
+    "da": "På den ene side vil jeg, på den anden side vil jeg ikke",
+    "word": "å ena/andra sidan"
+  },
+  {
+    "sv": "Lite grand till, tack",
+    "da": "Lidt mere tak",
+    "word": "lite grand (lidt!)"
+  },
+  {
+    "sv": "Det handlar om att lyssna",
+    "da": "Det drejer sig om at lytte",
+    "word": "det handlar om (det drejer sig om!)"
+  },
+  {
+    "sv": "Hur dags börjar filmen?",
+    "da": "Hvad tid begynder filmen?",
+    "word": "hur dags (hvad tid/hvornår!)"
+  },
+  {
+    "sv": "Det är i princip omöjligt",
+    "da": "Det er i princippet umuligt",
+    "word": "i princip (i princippet)"
+  },
+  {
+    "sv": "I genomsnitt tar det en timme",
+    "da": "I gennemsnit tager det en time",
+    "word": "i genomsnitt (i gennemsnit!) G → J"
+  },
+  {
+    "sv": "Det var på stående fot vi bestämde",
+    "da": "Det var på stående fod vi besluttede",
+    "word": "på stående fot (på stående fod!)"
+  },
+  {
+    "sv": "Massa folk kom på festen",
+    "da": "Masser af folk kom til festen",
+    "word": "massa (masser af!)"
+  },
+  {
+    "sv": "Vi får ta det som det kommer",
+    "da": "Vi må tage det som det kommer",
+    "word": "ta det som det kommer"
   }
 ]
