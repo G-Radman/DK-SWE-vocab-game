@@ -136,6 +136,15 @@
   .dot-due { background:var(--srs-due); }
   .dot-known { background:var(--srs-ok); }
   .reset-link { font-size:11px; color:var(--muted); text-align:center; padding-top:16px; cursor:pointer; text-decoration:underline; }
+  .quiz-audio-big { display:flex; flex-direction:column; align-items:center; margin:20px 0 24px; }
+  .audio-btn-big { width:80px; height:80px; border-radius:50%; background:var(--dark); color:var(--cream); border:none; font-size:32px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform 0.1s, background 0.15s; box-shadow:0 4px 16px rgba(0,0,0,0.15); }
+  .audio-btn-big:active { transform:scale(0.92); background:var(--red); }
+  .audio-btn-big.speaking { background:var(--red); animation:pulse 0.6s infinite alternate; }
+  .quiz-audio-hint { font-size:11px; color:var(--muted); margin-top:10px; letter-spacing:0.3px; }
+  .sentence-word-badge { text-align:center; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+  .sentence-word-badge strong { color:var(--dark); font-style:normal; }
+  .sentence-reveal { background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:12px; font-size:13px; color:var(--mid); line-height:1.5; }
+  .sentence-reveal .da-text { font-family:"Playfair Display",serif; font-size:16px; color:var(--dark); margin-bottom:4px; }
 </style>
 </head>
 <body>
@@ -149,7 +158,8 @@
 <div class="tabs">
   <div class="tab active"  onclick="switchTab('srs')">Upprepning</div>
   <div class="tab"         onclick="switchTab('browse')">Bläddra</div>
-  <div class="tab"         onclick="switchTab('quiz')">Quiz</div>
+  <div class="tab"         onclick="switchTab('quiz')">Ljud-quiz</div>
+  <div class="tab"         onclick="switchTab('sentence')">Meningar</div>
   <div class="tab"         onclick="switchTab('glossary')">Ordlista</div>
 </div>
 <div class="screen active" id="screen-srs">
@@ -188,18 +198,12 @@
     <div class="score-item"><div class="score-num" id="qWrong">0</div><div class="score-label">Fel</div></div>
     <div class="score-item"><div class="score-num" id="qLeft">0</div><div class="score-label">Kvar</div></div>
   </div>
-  <div class="qtype-row">
-    <span>Frågetyp:</span>
-    <div class="qtype-toggle">
-      <button class="qtype-btn active" id="qtDA" onclick="setQtype('da-sv')">DA→SV</button>
-      <button class="qtype-btn" id="qtSV" onclick="setQtype('sv-da')">SV→DA</button>
-    </div>
-  </div>
   <div id="quizArea">
-    <div class="quiz-question-label" id="qLabel">Vad betyder på svenska?</div>
-    <div class="quiz-word" id="qWord">—</div>
-    <div class="quiz-sub" id="qSub"></div>
-    <div class="quiz-audio-row"><button class="audio-btn" id="quizAudioBtn" onclick="speakQuizWord()">&#128266;</button></div>
+    <div class="quiz-question-label" id="qLabel">Vad betyder ordet du hör?</div>
+    <div class="quiz-audio-big">
+      <button class="audio-btn-big" id="quizAudioBtn" onclick="speakQuizWord()">🔊</button>
+      <div class="quiz-audio-hint">Tryck för att höra igen</div>
+    </div>
     <div class="quiz-options" id="quizOptions"></div>
     <div class="quiz-feedback" id="quizFeedback"></div>
     <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuizQ()">Nästa fråga →</button>
@@ -217,6 +221,39 @@
     </div>
   </div>
 </div>
+
+<div class="screen" id="screen-sentence">
+  <div class="score-panel">
+    <div class="score-item"><div class="score-num" id="sqCorrect">0</div><div class="score-label">Rätt</div></div>
+    <div class="score-item"><div class="score-num" id="sqWrong">0</div><div class="score-label">Fel</div></div>
+    <div class="score-item"><div class="score-num" id="sqLeft">0</div><div class="score-label">Kvar</div></div>
+  </div>
+  <div id="sentenceArea">
+    <div class="quiz-question-label">Vad betyder meningen du hör?</div>
+    <div class="quiz-audio-big">
+      <button class="audio-btn-big" id="sentenceAudioBtn" onclick="speakSentence()">🔊</button>
+      <div class="quiz-audio-hint">Tryck för att höra igen</div>
+    </div>
+    <div class="sentence-word-badge" id="sentenceWordBadge"></div>
+    <div class="quiz-options" id="sentenceOptions"></div>
+    <div class="quiz-feedback" id="sentenceFeedback"></div>
+    <div class="sentence-reveal" id="sentenceReveal" style="display:none"></div>
+    <button class="quiz-next-btn" id="sentenceNextBtn" onclick="nextSentenceQ()">Nästa mening →</button>
+  </div>
+  <div id="sentenceResult" style="display:none">
+    <div class="result-screen">
+      <div class="result-emoji" id="sResultEmoji">🎉</div>
+      <div class="result-title" id="sResultTitle">Bra jobbat!</div>
+      <div class="result-subtitle" id="sResultSubtitle"></div>
+      <div class="result-stats">
+        <div class="result-stat"><div class="result-stat-num" id="srCorrect">—</div><div class="result-stat-label">Rätt</div></div>
+        <div class="result-stat"><div class="result-stat-num" id="srPct">—</div><div class="result-stat-label">Procent</div></div>
+      </div>
+      <button class="restart-btn" onclick="startSentenceQuiz()">Spela igen →</button>
+    </div>
+  </div>
+</div>
+
 <div class="screen" id="screen-glossary">
   <input class="glossary-search" id="glossarySearch" placeholder="Sök ord…" oninput="renderGlossary()">
   <div id="glossaryList"></div>
@@ -753,11 +790,12 @@ function speak(text,lang,btnId){
 
 // ─── TABS ─────────────────────────────────────────────────────
 function switchTab(tab){
-  ["srs","browse","quiz","glossary"].forEach((t,i)=>{
+  ["srs","browse","quiz","sentence","glossary"].forEach((t,i)=>{
     document.querySelectorAll(".tab")[i].classList.toggle("active",t===tab);
     document.getElementById("screen-"+t).classList.toggle("active",t===tab);
   });
   if(tab==="quiz"&&quizWords.length===0)startQuiz();
+  if(tab==="sentence"&&sentenceWords.length===0)startSentenceQuiz();
 }
 
 // ─── SRS SCREEN ───────────────────────────────────────────────
@@ -869,28 +907,33 @@ function speakBrowse(){const w=browseWords[browseIndex];if(w)speak(w.da,"da-DK",
 function nextBrowse(){browseIndex=(browseIndex+1)%browseWords.length;renderBrowseCard();}
 function prevBrowse(){browseIndex=(browseIndex-1+browseWords.length)%browseWords.length;renderBrowseCard();}
 
-// ─── QUIZ ─────────────────────────────────────────────────────
-function setQtype(t){quizType=t;document.getElementById("qtDA").classList.toggle("active",t==="da-sv");document.getElementById("qtSV").classList.toggle("active",t==="sv-da");startQuiz();}
+// ─── QUIZ (audio-only) ────────────────────────────────────────
 function startQuiz(){quizWords=[...WORDS].sort(()=>Math.random()-0.5).slice(0,20);quizIndex=0;quizCorrect=0;quizWrong=0;quizAnswered=false;document.getElementById("quizArea").style.display="";document.getElementById("quizResult").style.display="none";updateQuizScore();renderQuizQ();}
 function updateQuizScore(){document.getElementById("qCorrect").textContent=quizCorrect;document.getElementById("qWrong").textContent=quizWrong;document.getElementById("qLeft").textContent=quizWords.length-quizIndex;}
+function speakQuizWord(){const w=quizWords[quizIndex];if(w)speak(w.da,"da-DK","quizAudioBtn");}
 function renderQuizQ(){
   if(quizIndex>=quizWords.length){showQuizResult();return;}
   const w=quizWords[quizIndex];quizAnswered=false;
-  if(quizType==="da-sv"){document.getElementById("qLabel").textContent="Vad betyder på svenska?";document.getElementById("qWord").textContent=w.da;document.getElementById("qSub").textContent=w.ipa||"";document.getElementById("quizAudioBtn").style.display="";setTimeout(()=>speak(w.da,"da-DK","quizAudioBtn"),200);}
-  else{document.getElementById("qLabel").textContent="Vilket danskt ord är det?";document.getElementById("qWord").textContent=w.sv;document.getElementById("qSub").textContent="";document.getElementById("quizAudioBtn").style.display="none";}
-  document.getElementById("quizFeedback").textContent="";document.getElementById("quizFeedback").className="quiz-feedback";document.getElementById("quizNextBtn").classList.remove("visible");
-  const correct=quizType==="da-sv"?w.sv:w.da;
-  const pool=WORDS.filter(x=>quizType==="da-sv"?x.sv!==w.sv:x.da!==w.da);
-  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>quizType==="da-sv"?x.sv:x.da);
+  document.getElementById("qLabel").textContent="Vad betyder ordet du hör?";
+  document.getElementById("quizFeedback").textContent="";
+  document.getElementById("quizFeedback").className="quiz-feedback";
+  document.getElementById("quizNextBtn").classList.remove("visible");
+  document.getElementById("quizAudioBtn").classList.remove("speaking");
+  // Four options: correct sv + 3 distractors
+  const correct=w.sv;
+  const pool=WORDS.filter(x=>x.sv!==w.sv);
+  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.sv);
   const opts=[...dist,correct].sort(()=>Math.random()-0.5);
   document.getElementById("quizOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerQuiz(this,'${escQ(opt)}','${escQ(correct)}')">${opt}</button>`).join("");
   updateQuizScore();
+  // Auto-play after short delay
+  setTimeout(()=>speak(w.da,"da-DK","quizAudioBtn"),400);
 }
 function answerQuiz(btn,chosen,correct){
   if(quizAnswered)return;quizAnswered=true;
-  document.querySelectorAll(".option-btn").forEach(b=>b.classList.add("locked"));
+  document.querySelectorAll("#quizOptions .option-btn").forEach(b=>b.classList.add("locked"));
   if(chosen===correct){btn.classList.add("correct");quizCorrect++;streak++;document.getElementById("quizFeedback").textContent="✓ Rätt!";document.getElementById("quizFeedback").className="quiz-feedback correct-fb";}
-  else{btn.classList.add("wrong");streak=0;quizWrong++;document.querySelectorAll(".option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("quizFeedback").textContent="✗ Fel – rätt: "+correct;document.getElementById("quizFeedback").className="quiz-feedback wrong-fb";}
+  else{btn.classList.add("wrong");streak=0;quizWrong++;document.querySelectorAll("#quizOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("quizFeedback").textContent="✗ Fel – rätt: "+correct;document.getElementById("quizFeedback").className="quiz-feedback wrong-fb";}
   document.getElementById("streakBadge").textContent="🔥 "+streak;document.getElementById("quizNextBtn").classList.add("visible");updateQuizScore();quizIndex++;
 }
 function nextQuizQ(){renderQuizQ();}
@@ -899,11 +942,69 @@ function showQuizResult(){
   const pct=Math.round((quizCorrect/quizWords.length)*100);
   document.getElementById("rCorrect").textContent=quizCorrect+"/"+quizWords.length;document.getElementById("rPct").textContent=pct+"%";
   let emoji="😐",title="Inte illa",sub="Fortsätt öva!";
-  if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Du kan danska bättre än de flesta!";}
-  else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Du håller på att lära dig ordentligt.";}
-  else if(pct>=50){emoji="📚";title="På god väg";sub="Fokusera på falska vänner och frekventa ord.";}
-  else{emoji="💪";title="Fortsätt kämpa!";sub="Det är svårt – men du klarar det!";}
+  if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Perfekt hörförståelse!";}
+  else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Örat börjar känna igen danskan.";}
+  else if(pct>=50){emoji="📚";title="På god väg";sub="Fokusera på uttal-fällorna.";}
+  else{emoji="💪";title="Fortsätt kämpa!";sub="Det danska ljudet är svårt – men det sätter sig!";}
   document.getElementById("resultEmoji").textContent=emoji;document.getElementById("resultTitle").textContent=title;document.getElementById("resultSubtitle").textContent=sub;
+}
+
+// ─── SENTENCE QUIZ ─────────────────────────────────────────────
+const SENTENCES=[{"da": "Jeg er egentlig ret træt i dag", "sv": "Jag är egentligen ganska trött idag", "word": "egentlig / ret / træt"}, {"da": "Kan du ikke bare lade mig være?", "sv": "Kan du inte bara låta mig vara?", "word": "ikke / bare"}, {"da": "Det er selvfølgelig ikke nok", "sv": "Det är självklart inte tillräckligt", "word": "selvfølgelig / ikke / nok"}, {"da": "Jeg ved det ikke, måske er hun hjemme", "sv": "Jag vet inte, kanske är hon hemma", "word": "måske"}, {"da": "Det giver overhovedet ikke mening", "sv": "Det ger absolut ingen mening", "word": "overhovedet"}, {"da": "Han er egentlig ret flink", "sv": "Han är egentligen ganska snäll", "word": "flink (snäll!)"}, {"da": "Hun var meget skuffet over resultatet", "sv": "Hon var mycket besviken på resultatet", "word": "skuffet (besviken!)"}, {"da": "Alligevel gik de ud i regnen", "sv": "Ändå gick de ut i regnet", "word": "alligevel"}, {"da": "Bare rolig, det er ikke farligt", "sv": "Lugna dig, det är inte farligt", "word": "bare rolig / rolig (lugn!)"}, {"da": "Jeg gider ikke gøre det nu", "sv": "Jag orkar inte göra det nu", "word": "gider ikke"}, {"da": "Det er i hvert fald et godt tegn", "sv": "Det är i alla fall ett gott tecken", "word": "i hvert fald"}, {"da": "Hvad hedder du egentlig?", "sv": "Vad heter du egentligen?", "word": "hedder / egentlig"}, {"da": "Han er vist nok syg i dag", "sv": "Han är tydligen sjuk idag", "word": "vist nok / syg"}, {"da": "Desværre kan jeg ikke komme", "sv": "Tyvärr kan jag inte komma", "word": "desværre"}, {"da": "Heldigvis var der ingen til stede", "sv": "Lyckligtvis var det ingen på plats", "word": "heldigvis"}, {"da": "Hun er efterhånden blevet meget dygtig", "sv": "Hon har numera blivit mycket duktig", "word": "efterhånden / dygtig"}, {"da": "Hvor meget koster det?", "sv": "Hur mycket kostar det?", "word": "hvor meget"}, {"da": "Det er slet ikke det jeg mener", "sv": "Det är inte alls det jag menar", "word": "slet ikke"}, {"da": "Hvad for en slags mad kan du lide?", "sv": "Vilken sorts mat gillar du?", "word": "kan lide (gilla!)"}, {"da": "Jeg savner dig meget", "sv": "Jag saknar dig mycket", "word": "savner / meget"}, {"da": "Det er jo det, jeg hele tiden siger", "sv": "Det är ju det jag hela tiden säger", "word": "jo (ju!)"}, {"da": "Hvorfor gider du ikke prøve?", "sv": "Varför orkar du inte försöka?", "word": "gider / prøve"}, {"da": "Hvornår kommer du hjem?", "sv": "När kommer du hem?", "word": "hvornår"}, {"da": "Det er ligegyldigt hvad de siger", "sv": "Det spelar ingen roll vad de säger", "word": "ligegyldigt"}, {"da": "Jeg er bange for at tage fejl", "sv": "Jag är rädd för att ta fel", "word": "bange / tage fejl"}, {"da": "Hun er stadigvæk ikke hjemme", "sv": "Hon är fortfarande inte hemma", "word": "stadigvæk / ikke"}, {"da": "Det er nemlig ikke så let", "sv": "Det är nämligen inte så lätt", "word": "nemlig"}, {"da": "Lidt mere tak, det er dejligt", "sv": "Lite mer tack, det är härligt", "word": "lidt / dejligt"}, {"da": "Han sagde ingenting overhovedet", "sv": "Han sa ingenting överhuvudtaget", "word": "sagde / overhovedet"}, {"da": "Det er ret mærkeligt at sige", "sv": "Det är ganska konstigt att säga", "word": "ret / mærkeligt"}, {"da": "Kan du ikke bare vente lidt?", "sv": "Kan du inte bara vänta lite?", "word": "bare / lidt"}, {"da": "Vi ses til gengæld i morgen", "sv": "Vi ses å andra sidan imorgon", "word": "til gengæld"}, {"da": "Det er på ingen måde acceptabelt", "sv": "Det är på inget sätt acceptabelt", "word": "på ingen måde"}, {"da": "Jeg håber det går godt", "sv": "Jag hoppas det går bra", "word": "håber / godt"}, {"da": "Det var i hvert fald et forsøg", "sv": "Det var i alla fall ett försök", "word": "i hvert fald"}, {"da": "Gid jeg vidste hvad det betød", "sv": "Jag önskar att jag visste vad det betydde", "word": "vidste / betød"}, {"da": "Hvad synes du om det?", "sv": "Vad tycker du om det?", "word": "synes (tycka!)"}, {"da": "Det er trods alt ikke umuligt", "sv": "Det är trots allt inte omöjligt", "word": "trods alt"}, {"da": "Jeg trænger til en kop kaffe", "sv": "Jag behöver en kopp kaffe", "word": "trænger til"}, {"da": "Pas på, det er glat", "sv": "Se upp, det är halt", "word": "pas på"}, {"da": "Hvad mener du egentlig med det?", "sv": "Vad menar du egentligen med det?", "word": "mener / egentlig"}, {"da": "Der mangler stadig noget", "sv": "Det fattas fortfarande något", "word": "mangler / stadig / noget"}, {"da": "Hun plejede at cykle til arbejde", "sv": "Hon brukade cykla till jobbet", "word": "plejede (brukade!)"}, {"da": "Det kommer an på vejret", "sv": "Det beror på vädret", "word": "kommer an på / vejr"}, {"da": "Jeg glæder mig til ferien", "sv": "Jag ser fram emot semestern", "word": "glæder mig til / ferie"}, {"da": "Hold da op, det er stort!", "sv": "Herre gud, det är stort!", "word": "hold da op"}, {"da": "Det er sgu det bedste jeg har smagt", "sv": "Det är ju det bästa jag smakat", "word": "sgu (samtalspartikel)"}, {"da": "Bagefter gik vi alle hjem", "sv": "Efteråt gick vi alla hem", "word": "bagefter"}, {"da": "Frem for alt skal du huske det", "sv": "Framför allt ska du komma ihåg det", "word": "frem for alt"}, {"da": "Giv ikke op, du klarer det nok", "sv": "Ge inte upp, du klarar det nog", "word": "giv op / nok"}, {"da": "Han er blevet meget anderledes", "sv": "Han har blivit väldigt annorlunda", "word": "blevet (bli/stanna!)"}, {"da": "Det er med det samme du skal gøre det", "sv": "Det är genast du ska göra det", "word": "med det samme"}, {"da": "Er du stadig sulten?", "sv": "Är du fortfarande hungrig?", "word": "stadig / sulten (hungrig!)"}, {"da": "Jeg fandt det til sidst", "sv": "Jag hittade det till slut", "word": "fandt / til sidst"}, {"da": "De gik ud uden at sige noget", "sv": "De gick ut utan att säga något", "word": "uden / noget"}, {"da": "Det er faktisk en god idé", "sv": "Det är faktiskt en bra idé", "word": "faktisk"}, {"da": "Af og til savner jeg det", "sv": "Då och då saknar jag det", "word": "af og til / savner"}, {"da": "Hun er vild med den nye film", "sv": "Hon är förtjust i den nya filmen", "word": "vild med (gillar starkt!)"}, {"da": "Det er endnu ikke besluttet", "sv": "Det är ännu inte beslutat", "word": "endnu / besluttet"}, {"da": "Hvad laver du ellers om dagen?", "sv": "Vad gör du annars på dagarna?", "word": "ellers"}];
+
+let sentenceWords=[],sentenceIndex=0,sentenceCorrect=0,sentenceWrong=0,sentenceAnswered=false;
+
+function startSentenceQuiz(){
+  sentenceWords=[...SENTENCES].sort(()=>Math.random()-0.5).slice(0,15);
+  sentenceIndex=0;sentenceCorrect=0;sentenceWrong=0;sentenceAnswered=false;
+  document.getElementById("sentenceArea").style.display="";document.getElementById("sentenceResult").style.display="none";
+  updateSentenceScore();renderSentenceQ();
+}
+function updateSentenceScore(){
+  document.getElementById("sqCorrect").textContent=sentenceCorrect;
+  document.getElementById("sqWrong").textContent=sentenceWrong;
+  document.getElementById("sqLeft").textContent=sentenceWords.length-sentenceIndex;
+}
+function speakSentence(){const s=sentenceWords[sentenceIndex];if(s)speak(s.da,"da-DK","sentenceAudioBtn");}
+function renderSentenceQ(){
+  if(sentenceIndex>=sentenceWords.length){showSentenceResult();return;}
+  const s=sentenceWords[sentenceIndex];sentenceAnswered=false;
+  document.getElementById("sentenceFeedback").textContent="";
+  document.getElementById("sentenceFeedback").className="quiz-feedback";
+  document.getElementById("sentenceNextBtn").classList.remove("visible");
+  document.getElementById("sentenceReveal").style.display="none";
+  document.getElementById("sentenceAudioBtn").classList.remove("speaking");
+  document.getElementById("sentenceWordBadge").innerHTML="Fokusord: <strong>"+s.word+"</strong>";
+  // Build options: correct sv + 3 other sentence translations
+  const correct=s.sv;
+  const pool=SENTENCES.filter(x=>x.sv!==s.sv);
+  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.sv);
+  const opts=[...dist,correct].sort(()=>Math.random()-0.5);
+  document.getElementById("sentenceOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerSentence(this,'${escQ(opt)}','${escQ(correct)}','${escQ(s.da)}')">${opt}</button>`).join("");
+  updateSentenceScore();
+  setTimeout(()=>speak(s.da,"da-DK","sentenceAudioBtn"),400);
+}
+function answerSentence(btn,chosen,correct,da){
+  if(sentenceAnswered)return;sentenceAnswered=true;
+  document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>b.classList.add("locked"));
+  const rev=document.getElementById("sentenceReveal");
+  rev.innerHTML=`<div class="da-text">🇩🇰 ${da}</div><div>🇸🇪 ${correct}</div>`;
+  rev.style.display="";
+  if(chosen===correct){btn.classList.add("correct");sentenceCorrect++;streak++;document.getElementById("sentenceFeedback").textContent="✓ Rätt!";document.getElementById("sentenceFeedback").className="quiz-feedback correct-fb";}
+  else{btn.classList.add("wrong");streak=0;sentenceWrong++;document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("sentenceFeedback").textContent="✗ Fel!";document.getElementById("sentenceFeedback").className="quiz-feedback wrong-fb";}
+  document.getElementById("streakBadge").textContent="🔥 "+streak;document.getElementById("sentenceNextBtn").classList.add("visible");updateSentenceScore();sentenceIndex++;
+}
+function nextSentenceQ(){renderSentenceQ();}
+function showSentenceResult(){
+  document.getElementById("sentenceArea").style.display="none";document.getElementById("sentenceResult").style.display="";
+  const pct=Math.round((sentenceCorrect/sentenceWords.length)*100);
+  document.getElementById("srCorrect").textContent=sentenceCorrect+"/"+sentenceWords.length;document.getElementById("srPct").textContent=pct+"%";
+  let emoji="😐",title="Inte illa",sub="Fortsätt öva!";
+  if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Du förstår danska meningar!";}
+  else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Kontexten börjar ge sig.";}
+  else if(pct>=50){emoji="📚";title="På god väg";sub="Lyssna aktivt på reduktioner.";}
+  else{emoji="💪";title="Håll ut!";sub="Meningarna är hårda – men det lönar sig.";}
+  document.getElementById("sResultEmoji").textContent=emoji;document.getElementById("sResultTitle").textContent=title;document.getElementById("sResultSubtitle").textContent=sub;
 }
 
 // ─── GLOSSARY ─────────────────────────────────────────────────
