@@ -3702,5 +3702,181 @@
     "ipa": "[fɒ ˈsenˀd]",
     "cat": "Fraser",
     "note": "'Det er for sent nu' = det är för sent nu."
+  },
+  {
+    "da": "vred",
+    "sv": "arg / ilsken",
+    "en": "angry",
+    "ipa": "[ˈvʁeˀð]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ Dansk 'vred' = arg/ilsken. D mjukt. 'Han er vred' = han är arg."
+  },
+  {
+    "da": "sjælden",
+    "sv": "sällan / sällsynt",
+    "en": "rarely, seldom / rare",
+    "ipa": "[ˈʃɛlˀən]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Det sker sjælden' = det händer sällan. SJ-ljud. Kan vara adjektiv ('sjælden fugl' = sällsynt fågel)."
+  },
+  {
+    "da": "yndling",
+    "sv": "favorit",
+    "en": "favourite",
+    "ipa": "[ˈønˀleŋ]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ Dansk 'yndling' = svenska 'favorit'. 'Min yndlingsfilm' = min favoritfilm. Ø-vokal."
+  },
+  {
+    "da": "ked af det",
+    "sv": "ledsen / bedrövad",
+    "en": "sad, upset",
+    "ipa": "[keð af de]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Jeg er ked af det' = jag är ledsen. Flerordigt uttryck utan direkt sv-motstycke. D mjukt."
+  },
+  {
+    "da": "tillykke",
+    "sv": "grattis / lycka till",
+    "en": "congratulations",
+    "ipa": "[tiˈlygˀə]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Tillykke!' = grattis! 'Tillykke med fødselsdagen' = grattis på födelsedagen. Intet att associera."
+  },
+  {
+    "da": "omhyggelig",
+    "sv": "noggrann / omsorgsfull",
+    "en": "careful, thorough, meticulous",
+    "ipa": "[ɔmˈhygˀəli]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Vær omhyggelig' = var noggrann. Inget direkt i svenska. Vanligt vardagsord."
+  },
+  {
+    "da": "uheld",
+    "sv": "otur / olycka",
+    "en": "bad luck, mishap",
+    "ipa": "[ˈuˌhɛlˀ]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Det var uheld' = det var otur/ett missöde. Mot. 'heldig' = lyckosam."
+  },
+  {
+    "da": "heldig",
+    "sv": "lyckosam / ha tur",
+    "en": "lucky, fortunate",
+    "ipa": "[ˈheldi]",
+    "cat": "Divergent ordförråd",
+    "note": "'Du er heldig!' = du har tur! Nær svenska 'lycklig' i funktion men annorlunda form."
+  },
+  {
+    "da": "ulækkert",
+    "sv": "äckligt / otrevligt",
+    "en": "disgusting, gross, unpleasant",
+    "ipa": "[uˈlɛgˀəd]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Det er ulækkert' = det är äckligt. Vardaglig negativ reaktion. Inget direkt i svenska."
+  },
+  {
+    "da": "brokke sig",
+    "sv": "gnälla / klaga",
+    "en": "to moan, to whine, to complain",
+    "ipa": "[ˈbʁɔgˀə si]",
+    "cat": "Verb",
+    "note": "⚠️ 'Stop med at brokke dig!' = sluta gnälla! Reflexiv. Inget direkt i svenska."
+  },
+  {
+    "da": "pæn",
+    "sv": "snygg / fin / ordentlig",
+    "en": "nice-looking, neat, proper",
+    "ipa": "[ˈpɛˀn]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Hun er pæn' = hon är snygg/fin. 'Opfør dig pænt' = uppför dig ordentligt. Mångtydigt."
+  },
+  {
+    "da": "frygtelig",
+    "sv": "fruktansvärd / hemsk",
+    "en": "terrible, awful, dreadful",
+    "ipa": "[ˈfʁøgdəli]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Det er frygteligt' = det är fruktansvärt/hemskt. Nær svenska 'fruktansvärd' i funktion."
+  },
+  {
+    "da": "skæbne",
+    "sv": "öde / ödet",
+    "en": "fate, destiny",
+    "ipa": "[ˈsgɛˀbnə]",
+    "cat": "Divergent ordförråd",
+    "note": "Nær svenska 'öde'. 'Det var skæbnen' = det var ödet. Æ-vokal + mjukt B."
+  },
+  {
+    "da": "besvime",
+    "sv": "svimma / svimma av",
+    "en": "to faint, to pass out",
+    "ipa": "[beˈsviˀmə]",
+    "cat": "Verb",
+    "note": "⚠️ 'Hun besvimede' = hon svimmade av. Nær svenska 'svimma' men med be-prefix."
+  },
+  {
+    "da": "misundelig",
+    "sv": "avundsjuk",
+    "en": "jealous, envious",
+    "ipa": "[miˈsɔnəli]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ Dansk 'misundelig' = svenska 'avundsjuk'. Helt annorlunda form. 'Jeg er misundelig' = jag är avundsjuk."
+  },
+  {
+    "da": "stædig",
+    "sv": "envis / seg",
+    "en": "stubborn, persistent",
+    "ipa": "[ˈsdɛˀdi]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Han er stædig' = han är envis. Nær svenska 'seg' i vardagsspråk. D mjukt."
+  },
+  {
+    "da": "hyppig",
+    "sv": "frekvent / ofta förekommande",
+    "en": "frequent, common",
+    "ipa": "[ˈhøbi]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Det er hyppigt' = det är vanligt/frekvent. Inget direkt i svenska. PP uttalas B."
+  },
+  {
+    "da": "nærig",
+    "sv": "snål / sniken",
+    "en": "stingy, miserly",
+    "ipa": "[ˈnɛˀʁi]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Han er nærig' = han är snål. Inget direkt i svenska. Vardagligt."
+  },
+  {
+    "da": "sjusket",
+    "sv": "slarvigt / ostädat",
+    "en": "sloppy, slovenly, messy",
+    "ipa": "[ˈʃɔsgəd]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Det er sjusket arbejde' = det är slarvigt arbete. SJ-ljud. Inget direkt i svenska."
+  },
+  {
+    "da": "vrøvl",
+    "sv": "nonsens / struntprat",
+    "en": "nonsense, rubbish",
+    "ipa": "[ˈvʁøˀl]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Det er vrøvl!' = det är nonsens/struntprat! Ø-vokal. Inget direkt i svenska."
+  },
+  {
+    "da": "hente",
+    "sv": "hämta",
+    "en": "to fetch, to pick up",
+    "ipa": "[ˈhɛndˀə]",
+    "cat": "Verb",
+    "note": "⚠️ 'Hent mig!' = hämta mig! Nära svenska 'hämta' men helt annorlunda form."
+  },
+  {
+    "da": "sært",
+    "sv": "konstigt / märkligt",
+    "en": "strange, odd (neuter)",
+    "ipa": "[ˈsɛɐ̯d]",
+    "cat": "Divergent ordförråd",
+    "note": "⚠️ 'Det er sært' = det är konstigt/märkligt. Neutrum af 'sær'. Vanligt utrop. Æ-vokal."
   }
 ]
