@@ -391,7 +391,7 @@ function switchTab(tab){
     document.getElementById("screen-"+t).classList.toggle("active",t===tab);
   });
   if(tab==="sentence"&&sentenceWords.length===0)startSentenceQuiz();
-  if(tab==="hard")renderHardDash();
+  if(tab==="hard"){renderHardDash();if(hardQueue.length===0||hardQIndex>=hardQueue.length)startHardSession();}
   if(tab==="glossary")renderGlossary();
 }
 
