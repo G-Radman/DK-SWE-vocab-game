@@ -748,5 +748,1440 @@
     "da": "Det er sært at han ikke har ringet",
     "sv": "Det är konstigt att han inte har ringt",
     "word": "sært (konstigt/märkligt!) — Æ-vokal"
+  },
+  {
+    "da": "Hun var trist i mange dage efter det",
+    "sv": "Hon var ledsen i många dagar efter det",
+    "word": "trist (ledsen! — inte tråkig)"
+  },
+  {
+    "da": "Han er doven og vil ikke hjælpe",
+    "sv": "Han är lat och vill inte hjälpa",
+    "word": "doven (lat!)"
+  },
+  {
+    "da": "Det er vildt at du klarede det!",
+    "sv": "Det är häftigt att du klarade det!",
+    "word": "vildt (häftigt/sjukt coolt!)"
+  },
+  {
+    "da": "Han er snild nok til at omgå reglerne",
+    "sv": "Han är slug nog att kringgå reglerna",
+    "word": "snild (slug/listig!)"
+  },
+  {
+    "da": "Det var skam det bedste jeg har smagt",
+    "sv": "Det var verkligen det bästa jag smakat",
+    "word": "skam (verkligen — förstärkare!)"
+  },
+  {
+    "da": "Det var en tam fest i går",
+    "sv": "Det var en tråkig fest igår",
+    "word": "tam (tråkig!)"
+  },
+  {
+    "da": "Han var sur hele dagen",
+    "sv": "Han var gnällig/ledsen hela dagen",
+    "word": "sur (gnällig/ledsen — inte bitter)"
+  },
+  {
+    "da": "Er du syg, eller er du bare træt?",
+    "sv": "Är du sjuk, eller är du bara trött?",
+    "word": "syg (sjuk!) + bare"
+  },
+  {
+    "da": "Sikke en dejlig dag det er",
+    "sv": "Vad för en härlig dag det är",
+    "word": "dejlig (härlig/underbar!)"
+  },
+  {
+    "da": "Han er så sød ved alle",
+    "sv": "Han är så söt/snäll mot alla",
+    "word": "sød (söt/snäll!)"
+  },
+  {
+    "da": "Det er lidt mærkeligt at høre",
+    "sv": "Det är lite konstigt att höra",
+    "word": "mærkeligt (konstigt/märkligt!)"
+  },
+  {
+    "da": "Hun opfører sig underlig i dag",
+    "sv": "Hon uppför sig konstigt idag",
+    "word": "underlig (konstig/egendomlig!)"
+  },
+  {
+    "da": "Jeg er spændt på hvad der sker",
+    "sv": "Jag är spänd/upprymd inför vad som händer",
+    "word": "spændt (spänd/uppspelt/ivrig!)"
+  },
+  {
+    "da": "Er du sulten? Vi kan spise nu",
+    "sv": "Är du hungrig? Vi kan äta nu",
+    "word": "sulten (hungrig!) + spise (äta!)"
+  },
+  {
+    "da": "Jeg er bange for at gøre det forkert",
+    "sv": "Jag är rädd för att göra det fel",
+    "word": "bange (rädd!) + forkert"
+  },
+  {
+    "da": "Det er en sølle undskyldning",
+    "sv": "Det är en usel ursäkt",
+    "word": "sølle (usel/ömklig!)"
+  },
+  {
+    "da": "Er I gift eller bare kærester?",
+    "sv": "Är ni gifta eller bara pojk/flickvänner?",
+    "word": "gift (gift/vigd) + kærester"
+  },
+  {
+    "da": "Det er koldt udenfor i dag",
+    "sv": "Det är kallt utomhus idag",
+    "word": "koldt (kallt!)"
+  },
+  {
+    "da": "Det er mørkt tidligt om vinteren",
+    "sv": "Det är mörkt tidigt på vintern",
+    "word": "mørkt (mörkt!)"
+  },
+  {
+    "da": "Lyset er slukket i stuen",
+    "sv": "Ljuset är släckt i vardagsrummet",
+    "word": "lyset (ljuset!) + stuen (vardagsrummet!)"
+  },
+  {
+    "da": "Han er tyk og kort",
+    "sv": "Han är tjock och kort",
+    "word": "tyk (tjock!)"
+  },
+  {
+    "da": "Isen er tynd, gå ikke ud på den",
+    "sv": "Isen är tunn, gå inte ut på den",
+    "word": "tynd (tunn!)"
+  },
+  {
+    "da": "Bordet er beskidt efter middagen",
+    "sv": "Bordet är smutsigt efter middagen",
+    "word": "beskidt (smutsigt!)"
+  },
+  {
+    "da": "Halvt og halvt, det er fair",
+    "sv": "Hälften och hälften, det är rättvist",
+    "word": "halvt (hälften/halv!)"
+  },
+  {
+    "da": "Gulvet er klæbrigt af sodavand",
+    "sv": "Golvet är klibbigt av läsk",
+    "word": "klæbrigt (klibbigt/kladdig!)"
+  },
+  {
+    "da": "Bordet er rundt og passer godt her",
+    "sv": "Bordet är runt och passar bra här",
+    "word": "rundt (runt!)"
+  },
+  {
+    "da": "Han er drilsk og driller altid sin søster",
+    "sv": "Han är retsam och retar alltid sin syster",
+    "word": "drilsk (retsam!)"
+  },
+  {
+    "da": "Hun er lidt kikset men rigtig sød",
+    "sv": "Hon är lite knäpp/kantig men riktigt söt",
+    "word": "kikset (knäpp/kantig!)"
+  },
+  {
+    "da": "Er du frisk igen efter sygdommen?",
+    "sv": "Är du frisk igen efter sjukdomen?",
+    "word": "frisk (frisk/kry!)"
+  },
+  {
+    "da": "Han er virkelig rar at have med at gøre",
+    "sv": "Han är verkligen trevlig att ha att göra med",
+    "word": "rar (trevlig! — inte konstig)"
+  },
+  {
+    "da": "Det er lidt irriterende når det sker",
+    "sv": "Det är lite irriterande när det händer",
+    "word": "irriterende (irriterande — -ende vs -ande)"
+  },
+  {
+    "da": "Måske kommer han, måske ikke",
+    "sv": "Kanske kommer han, kanske inte",
+    "word": "måske (kanske!)"
+  },
+  {
+    "da": "Det er selvfølgelig ikke meningen",
+    "sv": "Det är självklart inte meningen",
+    "word": "selvfølgelig → 'sefli' i tal!"
+  },
+  {
+    "da": "Ellers tak, jeg er mæt",
+    "sv": "Annars tack, jag är mätt",
+    "word": "ellers (annars!) — 'ellers tak' = nej tack"
+  },
+  {
+    "da": "Jeg har allerede spist",
+    "sv": "Jag har redan ätit",
+    "word": "allerede (redan!)"
+  },
+  {
+    "da": "Det er nemlig ikke så enkelt",
+    "sv": "Det är nämligen inte så enkelt",
+    "word": "nemlig (nämligen!)"
+  },
+  {
+    "da": "Inden du går, kan du lukke vinduet?",
+    "sv": "Innan du går, kan du stänga fönstret?",
+    "word": "inden (innan!) + vinduet (fönstret!)"
+  },
+  {
+    "da": "Det er vist ikke den rigtige vej",
+    "sv": "Det är tydligen inte den rätta vägen",
+    "word": "vist (tydligen/visst!)"
+  },
+  {
+    "da": "Desværre kan jeg ikke komme alligevel",
+    "sv": "Tyvärr kan jag inte komma ändå",
+    "word": "desværre (tyvärr!) + alligevel"
+  },
+  {
+    "da": "Efterhånden er det blevet normalt",
+    "sv": "Numera/efterhand har det blivit normalt",
+    "word": "efterhånden (numera/efter hand!)"
+  },
+  {
+    "da": "Det er kun mig der ved det",
+    "sv": "Det är bara jag som vet det",
+    "word": "kun (bara/endast!)"
+  },
+  {
+    "da": "Det er særlig vigtigt i dag",
+    "sv": "Det är särskilt viktigt idag",
+    "word": "særlig (särskilt/speciellt!)"
+  },
+  {
+    "da": "Endelig er du her!",
+    "sv": "Äntligen är du här!",
+    "word": "endelig (äntligen!)"
+  },
+  {
+    "da": "Opfør dig pænt, det er vigtigt",
+    "sv": "Uppför dig ordentligt, det är viktigt",
+    "word": "pænt (snyggt/ordentligt!)"
+  },
+  {
+    "da": "Jeg vil gerne komme med",
+    "sv": "Jag vill gärna följa med",
+    "word": "gerne (gärna!)"
+  },
+  {
+    "da": "Det var ligesom lidt underligt",
+    "sv": "Det var liksom lite konstigt",
+    "word": "ligesom (liksom — fyllnadsord!)"
+  },
+  {
+    "da": "Er du stadigvæk ikke færdig?",
+    "sv": "Är du fortfarande inte klar?",
+    "word": "stadigvæk (fortfarande!)"
+  },
+  {
+    "da": "Det er circa en halv time væk",
+    "sv": "Det är ungefär en halvtimme bort",
+    "word": "cirka (ungefär!)"
+  },
+  {
+    "da": "Kom straks, det er vigtigt!",
+    "sv": "Kom genast, det är viktigt!",
+    "word": "straks (genast/direkt!)"
+  },
+  {
+    "da": "Det er ganske godt faktisk",
+    "sv": "Det är ganska bra faktiskt",
+    "word": "ganske (ganska!)"
+  },
+  {
+    "da": "Det er temmelig sent at ringe",
+    "sv": "Det är ganska/tämligen sent att ringa",
+    "word": "temmelig (ganska/rätt!)"
+  },
+  {
+    "da": "Det er vist nok det rigtige valg",
+    "sv": "Det är tydligen/förmodligen det rätta valet",
+    "word": "vist nok (tydligen/antagligen!)"
+  },
+  {
+    "da": "Trods alt gik det bedre end ventet",
+    "sv": "Trots allt gick det bättre än väntat",
+    "word": "trods alt (trots allt!)"
+  },
+  {
+    "da": "Han gjorde det med vilje",
+    "sv": "Han gjorde det med avsikt",
+    "word": "med vilje (med avsikt!)"
+  },
+  {
+    "da": "Hun sidder ved siden af mig",
+    "sv": "Hon sitter bredvid mig",
+    "word": "ved siden af (bredvid!)"
+  },
+  {
+    "da": "Det vidste jeg i forvejen",
+    "sv": "Det visste jag i förväg/redan",
+    "word": "i forvejen (i förväg/redan!)"
+  },
+  {
+    "da": "Jeg er i øjeblikket meget travl",
+    "sv": "Jag är för tillfället mycket stressad",
+    "word": "i øjeblikket (för tillfället!) + travl"
+  },
+  {
+    "da": "Som regel sover jeg godt",
+    "sv": "Som regel sover jag bra",
+    "word": "som regel (i regel/vanligtvis!)"
+  },
+  {
+    "da": "For eksempel kan du prøve at lytte",
+    "sv": "Till exempel kan du försöka lyssna",
+    "word": "for eksempel (till exempel!)"
+  },
+  {
+    "da": "I hvert fald var det en oplevelse",
+    "sv": "I alla fall var det en upplevelse",
+    "word": "i hvert fald (i alla fall!)"
+  },
+  {
+    "da": "Det er dyrt, derimod er det godt",
+    "sv": "Det är dyrt, däremot är det bra",
+    "word": "derimod (däremot!)"
+  },
+  {
+    "da": "Desuden er det faktisk ret billigt",
+    "sv": "Dessutom är det faktiskt ganska billigt",
+    "word": "desuden (dessutom!)"
+  },
+  {
+    "da": "Ligeledes tak for sidst",
+    "sv": "Likaså tack för senast",
+    "word": "ligeledes (likaså!)"
+  },
+  {
+    "da": "Tværtimod, jeg synes det er godt",
+    "sv": "Tvärtom, jag tycker det är bra",
+    "word": "tværtimod (tvärtom!)"
+  },
+  {
+    "da": "Dermed er sagen afgjort",
+    "sv": "Därmed är saken avgjord",
+    "word": "dermed (därigenom/med det!)"
+  },
+  {
+    "da": "Hermed erklærer jeg mødet for åbnet",
+    "sv": "Härmed förklarar jag mötet öppnat",
+    "word": "hermed (härmed!)"
+  },
+  {
+    "da": "Endvidere vil jeg påpege at...",
+    "sv": "Vidare vill jag påpeka att...",
+    "word": "endvidere (vidare/dessutom!)"
+  },
+  {
+    "da": "Imidlertid er det ikke nok",
+    "sv": "Emellertid/dock är det inte tillräckligt",
+    "word": "imidlertid (emellertid/dock!)"
+  },
+  {
+    "da": "Herunder falder også denne sag",
+    "sv": "Häri faller också detta ärende",
+    "word": "herunder (häri/härunder!)"
+  },
+  {
+    "da": "Jeg mødte ham fornylig på gaden",
+    "sv": "Jag mötte honom nyligen på gatan",
+    "word": "fornylig (nyligen!)"
+  },
+  {
+    "da": "Det skete for nylig, ikke for længe siden",
+    "sv": "Det hände nyligen, inte för länge sedan",
+    "word": "for nylig (nyligen!)"
+  },
+  {
+    "da": "Tidligere boede jeg i Aarhus",
+    "sv": "Tidigare bodde jag i Aarhus",
+    "word": "tidligere (tidigare/förut!)"
+  },
+  {
+    "da": "Herefter vil jeg gøre det anderledes",
+    "sv": "Härefter ska jag göra det annorlunda",
+    "word": "herefter (härefter/sedan!)"
+  },
+  {
+    "da": "Fremover skal vi mødes oftere",
+    "sv": "Framöver ska vi träffas oftare",
+    "word": "fremover (framöver/framåt!)"
+  },
+  {
+    "da": "Bagefter gik vi alle hjem",
+    "sv": "Efteråt gick vi alla hem",
+    "word": "bagefter (efteråt/sedan!)"
+  },
+  {
+    "da": "Vi spiste undervejs til stranden",
+    "sv": "Vi åt på vägen till stranden",
+    "word": "undervejs (på vägen!)"
+  },
+  {
+    "da": "Foreløbig bor jeg her",
+    "sv": "Tills vidare/för tillfället bor jag här",
+    "word": "foreløbig (för tillfället/tills vidare!)"
+  },
+  {
+    "da": "Atter og atter forsøgte han",
+    "sv": "Gång på gång/åter försökte han",
+    "word": "atter (åter/igen!)"
+  },
+  {
+    "da": "Det sker ofte at folk misforstår det",
+    "sv": "Det händer ofta att folk missförstår det",
+    "word": "ofte (ofta!)"
+  },
+  {
+    "da": "Det sker sjældent at han er forkert",
+    "sv": "Det händer sällan att han har fel",
+    "word": "sjældent (sällan!)"
+  },
+  {
+    "da": "Stå op tidligt, det giver energi",
+    "sv": "Stå upp tidigt, det ger energi",
+    "word": "tidligt (tidigt!)"
+  },
+  {
+    "da": "Jo mere du øver, jo bedre bliver du",
+    "sv": "Ju mer du övar desto bättre blir du",
+    "word": "jo mere jo bedre (ju mer desto bättre!)"
+  },
+  {
+    "da": "Hvorimod hun er glad, er han trist",
+    "sv": "Medan/varemot hon är glad är han ledsen",
+    "word": "hvorimod (varemot/medan!)"
+  },
+  {
+    "da": "Trods regnet gik vi en tur",
+    "sv": "Trots regnet gick vi en promenad",
+    "word": "trods (trots!)"
+  },
+  {
+    "da": "Skønt det var sent, ventede han",
+    "sv": "Fastän det var sent väntade han",
+    "word": "skønt (fastän/trots att!)"
+  },
+  {
+    "da": "Det er nærmest umuligt",
+    "sv": "Det är närmast/nästan omöjligt",
+    "word": "nærmest (närmast/nästan!)"
+  },
+  {
+    "da": "Tøv ikke, bare ring til ham",
+    "sv": "Tveka inte, ring bara till honom",
+    "word": "tøv (tveka!) + bare"
+  },
+  {
+    "da": "Hvorfor gik du ikke med?",
+    "sv": "Varför gick du inte med?",
+    "word": "hvorfor (varför! — H tyst, uttalas 'vofo')"
+  },
+  {
+    "da": "Er du stadig ikke færdig?",
+    "sv": "Är du fortfarande inte klar?",
+    "word": "stadig (fortfarande! — G mjukt)"
+  },
+  {
+    "da": "Hvem ringede til dig i går?",
+    "sv": "Vem ringde till dig igår?",
+    "word": "hvem (vem! — H tyst)"
+  },
+  {
+    "da": "Hvilken film vil du se?",
+    "sv": "Vilken film vill du se?",
+    "word": "hvilken (vilken! — H tyst)"
+  },
+  {
+    "da": "Gav du dem pengene?",
+    "sv": "Gav du dem pengarna?",
+    "word": "gav (gav — V→W) + dem"
+  },
+  {
+    "da": "Hun tog bussen i stedet",
+    "sv": "Hon tog bussen istället",
+    "word": "tog (tog — G tyst)"
+  },
+  {
+    "da": "Han stod der i en time",
+    "sv": "Han stod där i en timme",
+    "word": "stod (stod — D tyst, uttalas 'sto')"
+  },
+  {
+    "da": "Jeg vidste ikke at du kom",
+    "sv": "Jag visste inte att du kom",
+    "word": "vidste (visste! — uttalas 'veeste')"
+  },
+  {
+    "da": "Det syntes jeg var en god idé",
+    "sv": "Det tyckte jag var en bra idé",
+    "word": "syntes (tyckte — uttalas 'sondəs')"
+  },
+  {
+    "da": "Du burde have ringet tidligere",
+    "sv": "Du borde ha ringt tidigare",
+    "word": "burde (borde!)"
+  },
+  {
+    "da": "Han kunne ikke finde nøglen",
+    "sv": "Han kunde inte hitta nyckeln",
+    "word": "kunne (kunde!) + nøglen (nyckeln!)"
+  },
+  {
+    "da": "Hvad skulle du have sagt?",
+    "sv": "Vad skulle du ha sagt?",
+    "word": "skulle (skulle — G tyst)"
+  },
+  {
+    "da": "Hun ville ikke høre efter",
+    "sv": "Hon ville inte lyssna",
+    "word": "ville (ville!) + høre"
+  },
+  {
+    "da": "Han grinede af det hele vejen",
+    "sv": "Han skrattade åt det hela vägen",
+    "word": "grinede (skrattade! — grine = skratta!)"
+  },
+  {
+    "da": "Husk at trække vejret roligt",
+    "sv": "Kom ihåg att andas lugnt",
+    "word": "trække vejret (andas! — bokstavligen 'dra andan')"
+  },
+  {
+    "da": "Hold op med at gøre det!",
+    "sv": "Sluta med att göra det!",
+    "word": "hold op (sluta/håll upp!)"
+  },
+  {
+    "da": "Jeg kom til at sige det forkert",
+    "sv": "Jag råkade säga det fel",
+    "word": "kom til at (råkade — ofrivilligt)"
+  },
+  {
+    "da": "Hvad for en slags musik kan du lide?",
+    "sv": "Vilken sorts musik gillar du?",
+    "word": "hvad for en (vilken sorts — H+D tysta)"
+  },
+  {
+    "da": "Har du det godt i dag?",
+    "sv": "Mår du bra idag?",
+    "word": "have det (må det — 'har du det godt' = mår du bra)"
+  },
+  {
+    "da": "Kan du åbne vinduet lidt?",
+    "sv": "Kan du öppna fönstret lite?",
+    "word": "vinduet (fönstret!)"
+  },
+  {
+    "da": "Der er et hul i loftet",
+    "sv": "Det finns ett hål i innertaket",
+    "word": "loftet (innertaket! — ej vinden)"
+  },
+  {
+    "da": "Sæt dig ind på værelset",
+    "sv": "Gå in på rummet",
+    "word": "værelset (rummet/sovrummet!)"
+  },
+  {
+    "da": "Gå ned ad trappen til venstre",
+    "sv": "Gå ner för trappan till vänster",
+    "word": "trappen (trappan!)"
+  },
+  {
+    "da": "Kælderen er kold om vinteren",
+    "sv": "Källaren är kall på vintern",
+    "word": "kælderen (källaren!)"
+  },
+  {
+    "da": "Låget sidder fast på glasset",
+    "sv": "Locket sitter fast på glaset",
+    "word": "låget (locket!)"
+  },
+  {
+    "da": "Vil du have en drikkevare?",
+    "sv": "Vill du ha en dryck?",
+    "word": "drikkevare (dryck!)"
+  },
+  {
+    "da": "Har du vasket tøj i dag?",
+    "sv": "Har du tvättat kläder idag?",
+    "word": "tøj (kläder!)"
+  },
+  {
+    "da": "Hvad spiste I til morgenmad?",
+    "sv": "Vad åt ni till frukost?",
+    "word": "morgenmad (frukost!) + spiste (åt!)"
+  },
+  {
+    "da": "Frokost er kl. tolv her på arbejdet",
+    "sv": "Lunch är klockan tolv här på jobbet",
+    "word": "frokost (lunch! — INTE frukost!)"
+  },
+  {
+    "da": "Vi spiser aftensmad klokken seks",
+    "sv": "Vi äter middag klockan sex",
+    "word": "aftensmad (middag/kvällsmat!)"
+  },
+  {
+    "da": "Kan du sende smørret?",
+    "sv": "Kan du skicka smöret?",
+    "word": "smørret (smöret!)"
+  },
+  {
+    "da": "Spis dine grøntsager!",
+    "sv": "Ät dina grönsaker!",
+    "word": "grøntsager (grönsaker!) + spis (ät!)"
+  },
+  {
+    "da": "Der er frisk frugt på bordet",
+    "sv": "Det finns färsk frukt på bordet",
+    "word": "frugt (frukt!)"
+  },
+  {
+    "da": "Vil du have et stykke kage?",
+    "sv": "Vill du ha en bit kaka/tårta?",
+    "word": "kage (kaka/tårta!)"
+  },
+  {
+    "da": "Suppen er for varm endnu",
+    "sv": "Soppan är för varm ännu",
+    "word": "suppen (soppan!)"
+  },
+  {
+    "da": "Mine søskende bor i Odense",
+    "sv": "Mina syskon bor i Odense",
+    "word": "søskende (syskon!)"
+  },
+  {
+    "da": "Min kæreste hedder Anna",
+    "sv": "Min pojkvän/flickvän heter Anna",
+    "word": "kæreste (pojk/flickvän!)"
+  },
+  {
+    "da": "Han er en gammel bekendt af mig",
+    "sv": "Han är en gammal bekant till mig",
+    "word": "bekendt (bekant!)"
+  },
+  {
+    "da": "Min nabo spiller musik for højt",
+    "sv": "Min granne spelar musik för högt",
+    "word": "nabo (granne!)"
+  },
+  {
+    "da": "Jeg var ude med min veninde",
+    "sv": "Jag var ute med min väninna",
+    "word": "veninde (väninna!)"
+  },
+  {
+    "da": "Hendes mand er læge",
+    "sv": "Hennes man/make är läkare",
+    "word": "mand (man/make!) + læge (läkare!)"
+  },
+  {
+    "da": "Min kone er hjemme i dag",
+    "sv": "Min fru är hemma idag",
+    "word": "kone (fru/hustru!)"
+  },
+  {
+    "da": "Han er gammel men stadig aktiv",
+    "sv": "Han är gammal men fortfarande aktiv",
+    "word": "gammel (gammal!) + stadigvæk"
+  },
+  {
+    "da": "Vi tog på sygehuset med det samme",
+    "sv": "Vi åkte till sjukhuset genast",
+    "word": "sygehuset (sjukhuset!) + med det samme"
+  },
+  {
+    "da": "Er der et apotek i nærheden?",
+    "sv": "Finns det ett apotek i närheten?",
+    "word": "apotek (apotek — betoning sista stavelse!)"
+  },
+  {
+    "da": "Han har et sår på hånden",
+    "sv": "Han har ett sår på handen",
+    "word": "sår (sår — stødtone!)"
+  },
+  {
+    "da": "Jeg har hostet hele natten",
+    "sv": "Jag har hostat hela natten",
+    "word": "hostet (hostat!)"
+  },
+  {
+    "da": "Hun har feber og ligger i sengen",
+    "sv": "Hon har feber och ligger i sängen",
+    "word": "feber (feber!)"
+  },
+  {
+    "da": "Cykel på fortovet er forbudt",
+    "sv": "Cykeln på trottoaren är förbjuden",
+    "word": "fortovet (trottoaren!)"
+  },
+  {
+    "da": "Hold til højre i rundkørslen",
+    "sv": "Håll till höger i rondellen",
+    "word": "rundkørslen (rondellen!)"
+  },
+  {
+    "da": "Billet til toget koster hundrede kroner",
+    "sv": "Biljetten till tåget kostar hundra kronor",
+    "word": "billet (biljett!)"
+  },
+  {
+    "da": "Vi mødes på perronen kl. tre",
+    "sv": "Vi möts på perrongen kl. tre",
+    "word": "perronen (perrongen!)"
+  },
+  {
+    "da": "Han bor i et gammelt stræde",
+    "sv": "Han bor i en gammal gränd",
+    "word": "stræde (gränd/gata!)"
+  },
+  {
+    "da": "Gaden er lukket for biler",
+    "sv": "Gatan är stängd för bilar",
+    "word": "gaden (gatan!) + lukket (stängd!)"
+  },
+  {
+    "da": "Lønningen kommer ind på fredag",
+    "sv": "Lönen kommer in på fredag",
+    "word": "lønningen (lönen!)"
+  },
+  {
+    "da": "Det er en stor opgave at løse",
+    "sv": "Det är en stor uppgift att lösa",
+    "word": "opgave (uppgift!)"
+  },
+  {
+    "da": "Det var en svær beslutning at tage",
+    "sv": "Det var ett svårt beslut att ta",
+    "word": "beslutning (beslut!)"
+  },
+  {
+    "da": "Jeg fik en besked fra ham i morges",
+    "sv": "Jag fick ett meddelande/besked från honom i morse",
+    "word": "besked (besked/meddelande!)"
+  },
+  {
+    "da": "Kan jeg få regningen tak?",
+    "sv": "Kan jag få notan/räkningen tack?",
+    "word": "regningen (notan/räkningen!)"
+  },
+  {
+    "da": "Prisen er sat ned i dag",
+    "sv": "Priset är sänkt idag",
+    "word": "prisen (priset!)"
+  },
+  {
+    "da": "Vi gik en tur i skoven",
+    "sv": "Vi gick en promenad i skogen",
+    "word": "skoven (skogen!)"
+  },
+  {
+    "da": "Søen er smuk om morgenen",
+    "sv": "Sjön är vacker på morgonen",
+    "word": "søen (sjön!)"
+  },
+  {
+    "da": "Vi cyklede langs kysten",
+    "sv": "Vi cyklade längs kusten",
+    "word": "kysten (kusten!)"
+  },
+  {
+    "da": "Han arbejder på marken om sommeren",
+    "sv": "Han arbetar på åkern på sommaren",
+    "word": "marken (åkern/fältet!)"
+  },
+  {
+    "da": "Klitterne er smukke i solnedgangen",
+    "sv": "Sanddynerna är vackra i solnedgången",
+    "word": "klitterne (sanddynerna!)"
+  },
+  {
+    "da": "Hvad er grunden til at du er her?",
+    "sv": "Vad är orsaken till att du är här?",
+    "word": "grunden (orsaken/grunden!)"
+  },
+  {
+    "da": "Det giver god sammenhæng i historien",
+    "sv": "Det ger bra sammanhang i historien",
+    "word": "sammenhæng (sammanhang!)"
+  },
+  {
+    "da": "Under disse omstændigheder er det svært",
+    "sv": "Under dessa omständigheter är det svårt",
+    "word": "omstændigheder (omständigheter!)"
+  },
+  {
+    "da": "Systemet er i god tilstand",
+    "sv": "Systemet är i gott skick/tillstånd",
+    "word": "tilstand (tillstånd/skick!)"
+  },
+  {
+    "da": "Hvad er din indstilling til det?",
+    "sv": "Vad är din inställning till det?",
+    "word": "indstilling (inställning!)"
+  },
+  {
+    "da": "Hvad er din holdning til sagen?",
+    "sv": "Vad är din inställning/åsikt i frågan?",
+    "word": "holdning (hållning/åsikt!)"
+  },
+  {
+    "da": "Undskyld, jeg kom for sent",
+    "sv": "Förlåt/ursäkta, jag kom för sent",
+    "word": "undskyld (förlåt/ursäkta!)"
+  },
+  {
+    "da": "Mange tak for hjælpen",
+    "sv": "Tack så mycket för hjälpen",
+    "word": "tak (tack — K uttalas G!)"
+  },
+  {
+    "da": "Venligst udfyld formularen",
+    "sv": "Vänligen fyll i formuläret",
+    "word": "venligst (vänligen!)"
+  },
+  {
+    "da": "Det beklager jeg virkelig",
+    "sv": "Det beklagar jag verkligen",
+    "word": "beklager (beklagar!)"
+  },
+  {
+    "da": "Nøjagtigt det samme skete i går",
+    "sv": "Exakt samma sak hände igår",
+    "word": "nøjagtigt (exakt/precis!)"
+  },
+  {
+    "da": "Jeg har det travlt med projektet",
+    "sv": "Jag är stressad/har det stressigt med projektet",
+    "word": "travl (stressad/upptagen!)"
+  },
+  {
+    "da": "Der mangler stadig noget her",
+    "sv": "Det fattas/saknas fortfarande något här",
+    "word": "mangler (fattas/saknas!)"
+  },
+  {
+    "da": "Den reklame er overalt",
+    "sv": "Den reklamen är överallt",
+    "word": "reklame (reklam!)"
+  },
+  {
+    "da": "Smid skraldet ud venligst",
+    "sv": "Kasta soporna snälla",
+    "word": "skraldet (soporna/skräpet!) + smid (kasta!)"
+  },
+  {
+    "da": "Hvad hedder du til efternavn?",
+    "sv": "Vad heter du i efternamn?",
+    "word": "hedder (heter!)"
+  },
+  {
+    "da": "Kender du ham fra før?",
+    "sv": "Känner du honom sedan tidigare?",
+    "word": "kender (känner till!)"
+  },
+  {
+    "da": "Hvad ved du om det?",
+    "sv": "Vad vet du om det?",
+    "word": "ved (vet! — D mjukt, reduceras)"
+  },
+  {
+    "da": "Sæt noget musik på",
+    "sv": "Sätt på lite musik",
+    "word": "sætte (sätta!) — 'sæt' = sätt"
+  },
+  {
+    "da": "Kan du bruge det til noget?",
+    "sv": "Kan du använda det till något?",
+    "word": "bruge (använda!)"
+  },
+  {
+    "da": "Vi forsøgte at løse problemet",
+    "sv": "Vi försökte lösa problemet",
+    "word": "forsøgte (försökte!)"
+  },
+  {
+    "da": "Hvad vil du gerne fortælle mig?",
+    "sv": "Vad vill du gärna berätta för mig?",
+    "word": "fortælle (berätta!)"
+  },
+  {
+    "da": "Lyt godt efter, det er vigtigt",
+    "sv": "Lyssna noga, det är viktigt",
+    "word": "lyt (lyssna!) — imperativ av lytte"
+  },
+  {
+    "da": "Vent et øjeblik, jeg kommer straks",
+    "sv": "Vänta ett ögonblick, jag kommer genast",
+    "word": "vent (vänta!) + straks"
+  },
+  {
+    "da": "Søg efter det på internettet",
+    "sv": "Sök efter det på internet",
+    "word": "søg (sök!) — imperativ"
+  },
+  {
+    "da": "Jeg glemte totalt at ringe",
+    "sv": "Jag glömde totalt att ringa",
+    "word": "glemte (glömde!)"
+  },
+  {
+    "da": "Husk at tage nøglen med",
+    "sv": "Kom ihåg att ta nyckeln med",
+    "word": "husk (kom ihåg!) + nøglen"
+  },
+  {
+    "da": "Hvad ønsker du dig til din fødselsdag?",
+    "sv": "Vad önskar du dig till din födelsedag?",
+    "word": "ønsker dig (önskar sig!)"
+  },
+  {
+    "da": "Jeg elsker at rejse om sommeren",
+    "sv": "Jag älskar att resa på sommaren",
+    "word": "elsker (älskar!)"
+  },
+  {
+    "da": "Han hader at stå op tidligt",
+    "sv": "Han hatar att stå upp tidigt",
+    "word": "hader (hatar!)"
+  },
+  {
+    "da": "Min bedstemor døde for to år siden",
+    "sv": "Min farmor/mormor dog för två år sedan",
+    "word": "døde (dog!)"
+  },
+  {
+    "da": "Hun har netop født en dreng",
+    "sv": "Hon har precis fött en pojke",
+    "word": "født (fött!)"
+  },
+  {
+    "da": "Han voksede op i en lille by",
+    "sv": "Han växte upp i en liten stad",
+    "word": "voksede op (växte upp!)"
+  },
+  {
+    "da": "Hun underviser i matematik",
+    "sv": "Hon undervisar i matematik",
+    "word": "underviser (undervisar!)"
+  },
+  {
+    "da": "Han studerer medicin på universitetet",
+    "sv": "Han studerar medicin på universitetet",
+    "word": "studerer (studerar!)"
+  },
+  {
+    "da": "Jeg tjener ikke nok til det",
+    "sv": "Jag tjänar inte tillräckligt för det",
+    "word": "tjener (tjänar!)"
+  },
+  {
+    "da": "Køb mælk på vejen hjem",
+    "sv": "Köp mjölk på vägen hem",
+    "word": "køb (köp! — imperativ)"
+  },
+  {
+    "da": "Han sælger sin bil",
+    "sv": "Han säljer sin bil",
+    "word": "sælger (säljer!)"
+  },
+  {
+    "da": "Kan jeg låne din cykel?",
+    "sv": "Kan jag låna din cykel?",
+    "word": "låne (låna!)"
+  },
+  {
+    "da": "Stop med at klage over alt",
+    "sv": "Sluta klaga på allt",
+    "word": "klage (klaga!)"
+  },
+  {
+    "da": "Han smilede til hende",
+    "sv": "Han log mot hende",
+    "word": "smilede (log! — smile = le)"
+  },
+  {
+    "da": "Børn græder tit når de er trætte",
+    "sv": "Barn gråter ofta när de är trötta",
+    "word": "græder (gråter!) — græde = gråta"
+  },
+  {
+    "da": "Han lo højt af vittigheden",
+    "sv": "Han skrattade högt åt vitsen",
+    "word": "lo (skrattade! — le = skratta)"
+  },
+  {
+    "da": "Hvil dig lidt, du ser træt ud",
+    "sv": "Vila dig lite, du ser trött ut",
+    "word": "hvil dig (vila dig!) — imperativ"
+  },
+  {
+    "da": "Løb ikke i korridoren",
+    "sv": "Spring inte i korridoren",
+    "word": "løb (spring! — løbe = springa)"
+  },
+  {
+    "da": "Sid stille og lyt efter",
+    "sv": "Sitt still och lyssna",
+    "word": "sid (sitt! — sidde = sitta)"
+  },
+  {
+    "da": "Sov godt, vi ses i morgen",
+    "sv": "Sov gott, vi ses imorgon",
+    "word": "sov (sov! — sove = sova)"
+  },
+  {
+    "da": "Spis din mad op",
+    "sv": "Ät upp din mat",
+    "word": "spis (ät! — spise = äta)"
+  },
+  {
+    "da": "Drik noget vand, du er tørstig",
+    "sv": "Drick lite vatten, du är törstig",
+    "word": "drik (drick! — drikke = dricka)"
+  },
+  {
+    "da": "Træk vejret dybt og roligt",
+    "sv": "Andas djupt och lugnt",
+    "word": "træk vejret (andas! — bokstavligen 'dra andan')"
+  },
+  {
+    "da": "Skub ikke til folk i køen",
+    "sv": "Knuffa inte folk i kön",
+    "word": "skub (knuffa! — skubbe = knuffa)"
+  },
+  {
+    "da": "Han faldt ned fra cyklen",
+    "sv": "Han föll ner från cykeln",
+    "word": "faldt (föll! — falde = falla)"
+  },
+  {
+    "da": "Jeg stødte ind i ham på gaden",
+    "sv": "Jag stötte ihop med honom på gatan",
+    "word": "stødte (stötte! — støde = stöta)"
+  },
+  {
+    "da": "Drej til venstre ved krydset",
+    "sv": "Sväng vänster vid korsningen",
+    "word": "drej (sväng! — dreje = svänga)"
+  },
+  {
+    "da": "Åbn døren venligst",
+    "sv": "Öppna dörren snälla",
+    "word": "åbn (öppna! — åbne = öppna)"
+  },
+  {
+    "da": "Luk vinduet, det regner",
+    "sv": "Stäng fönstret, det regnar",
+    "word": "luk (stäng! — lukke = stänga!)"
+  },
+  {
+    "da": "Hold fast i gelænderet",
+    "sv": "Håll fast i räcket",
+    "word": "hold (håll! — holde = hålla)"
+  },
+  {
+    "da": "Læg bogen på bordet",
+    "sv": "Lägg boken på bordet",
+    "word": "læg (lägg! — lægge = lägga)"
+  },
+  {
+    "da": "Flytte du snart?",
+    "sv": "Flyttar du snart?",
+    "word": "flytte (flytta!)"
+  },
+  {
+    "da": "De byggede et nyt hus",
+    "sv": "De byggde ett nytt hus",
+    "word": "byggede (byggde! — bygge = bygga)"
+  },
+  {
+    "da": "Han brød reglerne igen",
+    "sv": "Han bröt reglerna igen",
+    "word": "brød (bröt! — bryde = bryta)"
+  },
+  {
+    "da": "Skriv dit navn her",
+    "sv": "Skriv ditt namn här",
+    "word": "skriv (skriv! — skrive = skriva)"
+  },
+  {
+    "da": "Læs teksten højt",
+    "sv": "Läs texten högt",
+    "word": "læs (läs! — læse = läsa)"
+  },
+  {
+    "da": "Han tegnede et portræt af hende",
+    "sv": "Han ritade ett porträtt av henne",
+    "word": "tegnede (ritade! — tegne = rita)"
+  },
+  {
+    "da": "Hun maler akvareller om aftenen",
+    "sv": "Hon målar akvareller på kvällen",
+    "word": "maler (målar! — male = måla)"
+  },
+  {
+    "da": "Vi sang sange hele aftenen",
+    "sv": "Vi sjöng sånger hela kvällen",
+    "word": "sang (sjöng! — synge = sjunga)"
+  },
+  {
+    "da": "Spiller du et instrument?",
+    "sv": "Spelar du ett instrument?",
+    "word": "spiller (spelar! — spille = spela)"
+  },
+  {
+    "da": "Vi rejser til Spanien til sommer",
+    "sv": "Vi reser till Spanien i sommar",
+    "word": "rejser (reser! — rejse = resa)"
+  },
+  {
+    "da": "De besøger os hver sommer",
+    "sv": "De besöker oss varje sommar",
+    "word": "besøger (besöker! — besøge = besöka)"
+  },
+  {
+    "da": "Mange deltager i løbet",
+    "sv": "Många deltar i loppet",
+    "word": "deltager (deltar! — deltage = delta)"
+  },
+  {
+    "da": "Vi fejrer det i weekenden",
+    "sv": "Vi firar det i helgen",
+    "word": "fejrer (firar! — fejre = fira)"
+  },
+  {
+    "da": "Jeg foreslår at vi mødes klokken to",
+    "sv": "Jag föreslår att vi möts klockan två",
+    "word": "foreslår (föreslår! — foreslå = föreslå)"
+  },
+  {
+    "da": "Du bestemmer, det er din dag",
+    "sv": "Du bestämmer, det är din dag",
+    "word": "bestemmer (bestämmer! — bestemme = bestämma)"
+  },
+  {
+    "da": "Han trænger til at slappe af",
+    "sv": "Han behöver/behöver vila",
+    "word": "trænger til (behöver!)"
+  },
+  {
+    "da": "Det overraskede alle at hun kom",
+    "sv": "Det överraskade alla att hon kom",
+    "word": "overraskede (överraskade!)"
+  },
+  {
+    "da": "Smid det væk, det er ødelagt",
+    "sv": "Kasta bort det, det är förstört",
+    "word": "smid (kasta! — smide = kasta)"
+  },
+  {
+    "da": "Bed ham om at ringe til mig",
+    "sv": "Be honom att ringa till mig",
+    "word": "bed (be! — bede = be om)"
+  },
+  {
+    "da": "Vælg den du bedst kan lide",
+    "sv": "Välj den du gillar mest",
+    "word": "vælg (välj! — vælge = välja)"
+  },
+  {
+    "da": "Bakker du mig op i det?",
+    "sv": "Stöttar/backar du upp mig i det?",
+    "word": "bakker op (stöttar/backar upp!)"
+  },
+  {
+    "da": "Vi hygger os alle sammen",
+    "sv": "Vi har det mysigt allihopa",
+    "word": "hygger os (har det mysigt! — reflexiv)"
+  },
+  {
+    "da": "Tæl til ti og start forfra",
+    "sv": "Räkna till tio och börja om",
+    "word": "tæl (räkna! — tælle = räkna)"
+  },
+  {
+    "da": "Undskyld mig et øjeblik",
+    "sv": "Ursäkta mig ett ögonblick",
+    "word": "undskyld (ursäkta/förlåt! — verb)"
+  },
+  {
+    "da": "Han brokker sig hele tiden",
+    "sv": "Han gnäller hela tiden",
+    "word": "brokker sig (gnäller! — reflexiv)"
+  },
+  {
+    "da": "Kom med det samme, det haster",
+    "sv": "Kom genast, det är bråttom",
+    "word": "med det samme (genast!)"
+  },
+  {
+    "da": "I øvrigt glemte jeg at sige det",
+    "sv": "Förresten glömde jag att säga det",
+    "word": "i øvrigt (förresten/för övrigt!)"
+  },
+  {
+    "da": "Til gengæld er han altid punktlig",
+    "sv": "Å andra sidan är han alltid punktlig",
+    "word": "til gengæld (å andra sidan!)"
+  },
+  {
+    "da": "Det er på en måde lidt trist",
+    "sv": "Det är på ett sätt lite ledsamt",
+    "word": "på en måde (på ett sätt!)"
+  },
+  {
+    "da": "Tag bussen i stedet for bilen",
+    "sv": "Ta bussen istället för bilen",
+    "word": "i stedet for (istället för!)"
+  },
+  {
+    "da": "Nej da, det troede jeg aldrig",
+    "sv": "Nej men, det trodde jag aldrig",
+    "word": "nej da (nej då/nej men!)"
+  },
+  {
+    "da": "Det vil sige at vi starter forfra",
+    "sv": "Det vill säga att vi börjar om",
+    "word": "det vil sige (det vill säga!)"
+  },
+  {
+    "da": "Så vidt jeg ved er det gratis",
+    "sv": "Vad jag vet är det gratis",
+    "word": "så vidt jeg ved (vad jag vet!)"
+  },
+  {
+    "da": "Hvad angår prisen, det er fair",
+    "sv": "Vad gäller priset är det rättvist",
+    "word": "hvad angår (vad gäller!)"
+  },
+  {
+    "da": "Det skete på grund af vejret",
+    "sv": "Det hände på grund av vädret",
+    "word": "på grund af (på grund av!)"
+  },
+  {
+    "da": "I forbindelse med mødet vil jeg sige",
+    "sv": "I samband med mötet vill jag säga",
+    "word": "i forbindelse med (i samband med!)"
+  },
+  {
+    "da": "I løbet af dagen ændrede det sig",
+    "sv": "Under loppet av dagen förändrades det",
+    "word": "i løbet af (under loppet av!)"
+  },
+  {
+    "da": "På trods af problemer lykkedes det",
+    "sv": "Trots problemen lyckades det",
+    "word": "på trods af (trots!)"
+  },
+  {
+    "da": "Det kommer an på vejret i morgen",
+    "sv": "Det beror på vädret imorgon",
+    "word": "det kommer an på (det beror på!)"
+  },
+  {
+    "da": "Det er, så at sige, umuligt",
+    "sv": "Det är, så att säga, omöjligt",
+    "word": "så at sige (så att säga!)"
+  },
+  {
+    "da": "Med andre ord forstår du det ikke",
+    "sv": "Med andra ord förstår du det inte",
+    "word": "med andre ord (med andra ord!)"
+  },
+  {
+    "da": "Frem for alt skal vi være ærlige",
+    "sv": "Framför allt ska vi vara ärliga",
+    "word": "frem for alt (framför allt!)"
+  },
+  {
+    "da": "I praksis fungerer det ikke",
+    "sv": "I praktiken fungerar det inte",
+    "word": "i praksis (i praktiken!)"
+  },
+  {
+    "da": "Til tider er det for meget",
+    "sv": "Emellanåt/ibland är det för mycket",
+    "word": "til tider (ibland/emellanåt!)"
+  },
+  {
+    "da": "Ikke desto mindre fortsatte vi",
+    "sv": "Inte desto mindre fortsatte vi",
+    "word": "ikke desto mindre (inte desto mindre!)"
+  },
+  {
+    "da": "Ikke mindst er det billigt",
+    "sv": "Inte minst är det billigt",
+    "word": "ikke mindst (inte minst!)"
+  },
+  {
+    "da": "Det er langt fra nok",
+    "sv": "Det är långt ifrån tillräckligt",
+    "word": "langt fra (långt ifrån!)"
+  },
+  {
+    "da": "Det giver mening nu",
+    "sv": "Det är logiskt/ger mening nu",
+    "word": "det giver mening (det är logiskt/stämmer!)"
+  },
+  {
+    "da": "Er du med på hvad jeg mener?",
+    "sv": "Är du med på vad jag menar?",
+    "word": "er du med (är du med/förstår du?)"
+  },
+  {
+    "da": "Hvad mener du med det egentlig?",
+    "sv": "Vad menar du med det egentligen?",
+    "word": "hvad mener du (vad menar du?)"
+  },
+  {
+    "da": "Det er så det jeg ikke forstår",
+    "sv": "Det är just det jag inte förstår",
+    "word": "det er så det (det är det just!)"
+  },
+  {
+    "da": "Hvad så, er det et problem?",
+    "sv": "Vad då, är det ett problem?",
+    "word": "hvad så (vad då/nåja?)"
+  },
+  {
+    "da": "Det vil jeg på ingen måde acceptere",
+    "sv": "Det accepterar jag absolut inte",
+    "word": "på ingen måde (absolut inte!)"
+  },
+  {
+    "da": "Hvad hedder det på dansk?",
+    "sv": "Vad heter det på danska?",
+    "word": "hvad hedder det (vad heter det?)"
+  },
+  {
+    "da": "Det er ligegyldigt hvad han siger",
+    "sv": "Det spelar ingen roll vad han säger",
+    "word": "ligegyldigt (spelar ingen roll!)"
+  },
+  {
+    "da": "Kan du lide at høre musik?",
+    "sv": "Gillar du att lyssna på musik?",
+    "word": "kan du lide (gillar du! — 'kan lide' = gilla)"
+  },
+  {
+    "da": "Jeg kan lide at gå lange ture",
+    "sv": "Jag gillar att gå långa promenader",
+    "word": "jeg kan lide (jag gillar!)"
+  },
+  {
+    "da": "Hvad synes du om den nye film?",
+    "sv": "Vad tycker du om den nya filmen?",
+    "word": "hvad synes du (vad tycker du?)"
+  },
+  {
+    "da": "Jeg ved det ikke, spørg ham",
+    "sv": "Jag vet inte, fråga honom",
+    "word": "jeg ved det ikke (jag vet inte! — reduceras)"
+  },
+  {
+    "da": "Det er ikke noget at bekymre sig om",
+    "sv": "Det är inget att bekymra sig om",
+    "word": "det er ikke noget (det är inget!)"
+  },
+  {
+    "da": "Pas godt på dig selv",
+    "sv": "Ta väl hand om dig själv",
+    "word": "pas på (se upp/akta dig!)"
+  },
+  {
+    "da": "Hold da op, det er imponerende!",
+    "sv": "Herre gud, det är imponerande!",
+    "word": "hold da op (herre gud/oj!)"
+  },
+  {
+    "da": "For pokker, jeg glemte det igen",
+    "sv": "För tusan, jag glömde det igen",
+    "word": "for pokker (för tusan/fan!)"
+  },
+  {
+    "da": "Det er sgu det bedste jeg har set",
+    "sv": "Det är ju verkligen det bästa jag sett",
+    "word": "sgu (ju/väl — samtalspartikel!)"
+  },
+  {
+    "da": "Jeg glæder mig virkelig til det",
+    "sv": "Jag ser verkligen fram emot det",
+    "word": "glæder mig til (ser fram emot!)"
+  },
+  {
+    "da": "Gå ud fra at han kommer",
+    "sv": "Utgå ifrån att han kommer",
+    "word": "gå ud fra (utgå ifrån/anta!)"
+  },
+  {
+    "da": "Tage sig af de gamle er vigtigt",
+    "sv": "Ta hand om de äldre är viktigt",
+    "word": "tage sig af (ta hand om!)"
+  },
+  {
+    "da": "Jeg ser frem til at møde dig",
+    "sv": "Jag ser fram emot att träffa dig",
+    "word": "se frem til (se fram emot!)"
+  },
+  {
+    "da": "Fald til ro, det er ikke farligt",
+    "sv": "Lugna dig, det är inte farligt",
+    "word": "fald til ro (lugna sig!)"
+  },
+  {
+    "da": "Tag imod hjælpen, det er OK",
+    "sv": "Ta emot hjälpen, det är OK",
+    "word": "tage imod (ta emot!)"
+  },
+  {
+    "da": "Giv ikke op nu, du er næsten færdig",
+    "sv": "Ge inte upp nu, du är nästan klar",
+    "word": "give op (ge upp!)"
+  },
+  {
+    "da": "Kom af med de gamle ting",
+    "sv": "Bli av med de gamla grejerna",
+    "word": "komme af med (bli av med!)"
+  },
+  {
+    "da": "Det kan godt være du har ret",
+    "sv": "Det kan hända att du har rätt",
+    "word": "det kan godt være (det kan hända!)"
+  },
+  {
+    "da": "Nu om stunder er det anderledes",
+    "sv": "Nuförtiden är det annorlunda",
+    "word": "nu om stunder (nuförtiden!)"
+  },
+  {
+    "da": "Det er op til dig hvad du vil",
+    "sv": "Det är upp till dig vad du vill",
+    "word": "op til dig (upp till dig!)"
+  },
+  {
+    "da": "Ingen af delene passer mig",
+    "sv": "Ingendera passar mig",
+    "word": "ingen af delene (ingendera!)"
+  },
+  {
+    "da": "Det er desværre for sent nu",
+    "sv": "Det är tyvärr för sent nu",
+    "word": "for sent (för sent!) + desværre"
   }
 ]
