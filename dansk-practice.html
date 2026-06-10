@@ -151,7 +151,46 @@
   .sentence-word-badge strong { color:var(--dark); font-style:normal; }
   .sentence-reveal { background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:12px; font-size:13px; color:var(--mid); line-height:1.5; }
   .sentence-reveal .da-text { font-family:"Playfair Display",serif; font-size:16px; color:var(--dark); margin-bottom:4px; }
+
+  /* ─── HARD MODE ─── */
+  .hard-dash { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:18px; }
+  .hard-tile { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:10px 6px; text-align:center; }
+  .hard-tile-num { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; line-height:1; }
+  .hard-tile-label { font-size:10px; color:var(--muted); margin-top:3px; }
+  .hard-tile.new .hard-tile-num { color:var(--srs-new); }
+  .hard-tile.learning .hard-tile-num { color:var(--srs-learn); }
+  .hard-tile.due .hard-tile-num { color:var(--srs-due); }
+  .hard-tile.known .hard-tile-num { color:var(--srs-ok); }
+  .hard-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:28px 22px; text-align:center; min-height:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,0.06); position:relative; margin-bottom:16px; }
+  .hard-card-badge { position:absolute; top:12px; right:14px; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; border-radius:20px; font-weight:600; }
+  .hard-card-count { position:absolute; top:12px; left:14px; font-size:11px; color:var(--muted); }
+  .hard-focus { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+  .hard-reveal { width:100%; border-top:1px solid var(--border); padding-top:16px; margin-top:12px; display:none; }
+  .hard-reveal.shown { display:block; }
+  .hard-da { font-family:'Playfair Display',serif; font-size:18px; color:var(--dark); margin-bottom:8px; line-height:1.4; }
+  .hard-sv { font-size:14px; color:var(--mid); margin-bottom:10px; }
+  .hard-note { font-size:11px; color:var(--muted); font-style:italic; background:var(--cream); border-radius:8px; padding:7px 10px; text-align:left; }
+  .hard-tap-hint { font-size:11px; color:var(--muted); margin-top:10px; }
+  .hard-ratings { display:flex; gap:8px; margin-top:14px; }
+  /* ─── GLOSSARY ─── */
+  .gloss-search { width:100%; padding:11px 14px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:13px; color:var(--dark); margin-bottom:14px; outline:none; }
+  .gloss-search:focus { border-color:var(--dark); }
+  .gloss-group-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); padding:10px 0 6px; border-bottom:1px solid var(--border); margin-bottom:6px; }
+  .gloss-item { padding:12px 0; border-bottom:1px solid var(--border); }
+  .gloss-item:last-child { border-bottom:none; }
+  .gloss-da { font-family:'Playfair Display',serif; font-size:17px; color:var(--dark); margin-bottom:3px; line-height:1.3; }
+  .gloss-sv { font-size:13px; color:var(--mid); margin-bottom:3px; }
+  .gloss-focus { font-size:11px; color:var(--muted); font-style:italic; }
+  .gloss-row { display:flex; align-items:flex-start; gap:8px; }
+  .gloss-audio { flex-shrink:0; width:32px; height:32px; border-radius:50%; background:var(--cream); border:1.5px solid var(--border); font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; margin-top:2px; }
+  .gloss-audio:active { background:var(--dark); color:var(--cream); }
+  .gloss-srs { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:6px; }
+  .dot-new { background:var(--srs-new); }
+  .dot-learning { background:var(--srs-learn); }
+  .dot-due { background:var(--srs-due); }
+  .dot-known { background:var(--srs-ok); }
 </style>
+
 </head>
 <body>
 <div class="header">
@@ -162,73 +201,13 @@
   <div class="streak-badge" id="streakBadge">🔥 0</div>
 </div>
 <div class="tabs">
-  <div class="tab active"  onclick="switchTab('srs')">Upprepning</div>
-  <div class="tab"         onclick="switchTab('browse')">Bläddra</div>
-  <div class="tab"         onclick="switchTab('quiz')">Ljud-quiz</div>
-  <div class="tab"         onclick="switchTab('sentence')">Meningar</div>
+  <div class="tab active"  onclick="switchTab('sentence')">Meningar</div>
+  <div class="tab"         onclick="switchTab('hard')">Meningar Svår</div>
   <div class="tab"         onclick="switchTab('glossary')">Ordlista</div>
 </div>
-<div class="screen active" id="screen-srs">
-  <div class="srs-dash" id="srsDash"></div>
-  <div id="srsStudyArea"></div>
-</div>
-<div class="screen" id="screen-browse">
-  <div class="categories" id="browseCategories"></div>
-  <div class="progress-row">
-    <div class="progress-bar"><div class="progress-fill" id="browseProgress" style="width:0%"></div></div>
-    <div class="progress-text" id="browseProgressText">0 / 0</div>
-  </div>
-  <div>
-    <div class="srs-card" id="browseCard" onclick="revealBrowse()">
-      <div class="card-label">🇩🇰 Danska</div>
-      <button class="audio-btn" id="browseAudioBtn" onclick="event.stopPropagation();speakBrowse()">&#128266;</button>
-      <div class="card-word" id="browseWord">—</div>
-      <div class="card-ipa" id="browseIpa"></div>
-      <div class="card-cat-tag" id="browseCatTag"></div>
-      <div class="tap-hint" id="browseTapHint">Tryck för att visa</div>
-      <div class="card-reveal" id="browseReveal">
-        <div class="card-swedish" id="browseSwedish"></div>
-        <div class="card-meaning" id="browseMeaning"></div>
-        <div class="card-note" id="browseNote"></div>
-      </div>
-    </div>
-  </div>
-  <div class="card-nav">
-    <button class="nav-btn" onclick="prevBrowse()">← Föregående</button>
-    <button class="nav-btn primary" onclick="nextBrowse()">Nästa →</button>
-  </div>
-</div>
-<div class="screen" id="screen-quiz">
-  <div class="score-panel">
-    <div class="score-item"><div class="score-num" id="qCorrect">0</div><div class="score-label">Rätt</div></div>
-    <div class="score-item"><div class="score-num" id="qWrong">0</div><div class="score-label">Fel</div></div>
-    <div class="score-item"><div class="score-num" id="qLeft">0</div><div class="score-label">Kvar</div></div>
-  </div>
-  <div id="quizArea">
-    <div class="quiz-question-label" id="qLabel">Vad betyder ordet du hör?</div>
-    <div class="quiz-audio-big">
-      <button class="audio-btn-big" id="quizAudioBtn" onclick="speakQuizWord()">🔊</button>
-      <div class="quiz-audio-hint">Tryck för att höra igen</div>
-    </div>
-    <div class="quiz-options" id="quizOptions"></div>
-    <div class="quiz-feedback" id="quizFeedback"></div>
-    <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuizQ()">Nästa fråga →</button>
-  </div>
-  <div id="quizResult" style="display:none">
-    <div class="result-screen">
-      <div class="result-emoji" id="resultEmoji">🎉</div>
-      <div class="result-title" id="resultTitle">Bra jobbat!</div>
-      <div class="result-subtitle" id="resultSubtitle"></div>
-      <div class="result-stats">
-        <div class="result-stat"><div class="result-stat-num" id="rCorrect">—</div><div class="result-stat-label">Rätt</div></div>
-        <div class="result-stat"><div class="result-stat-num" id="rPct">—</div><div class="result-stat-label">Procent</div></div>
-      </div>
-      <button class="restart-btn" onclick="startQuiz()">Spela igen →</button>
-    </div>
-  </div>
-</div>
 
-<div class="screen" id="screen-sentence">
+<!-- ════════════ SENTENCE QUIZ (multiple choice) -->
+<div class="screen active" id="screen-sentence">
   <div class="score-panel">
     <div class="score-item"><div class="score-num" id="sqCorrect">0</div><div class="score-label">Rätt</div></div>
     <div class="score-item"><div class="score-num" id="sqWrong">0</div><div class="score-label">Fel</div></div>
@@ -260,507 +239,33 @@
   </div>
 </div>
 
-<div class="screen" id="screen-glossary">
-  <input class="glossary-search" id="glossarySearch" placeholder="Sök ord…" oninput="renderGlossary()">
-  <div id="glossaryList"></div>
+<!-- ════════════ HARD MODE (SM-2 self-rate) -->
+<div class="screen" id="screen-hard">
+  <div class="hard-dash" id="hardDash"></div>
+  <div id="hardStudyArea"></div>
 </div>
-<script>
-const WORDS=[
-  {da:"rolig",sv:"lugn / stilla",en:"calm, quiet",ipa:"[ˈʁoˀli]",cat:"Falska vänner",note:"⚠️ Svenska <strong>'rolig'</strong> = kul/rolig. Danska 'rolig' = lugn/stilla. Den stora klassikern."}, 
-  {da:"flink",sv:"snäll / hjälpsam",en:"kind, helpful",ipa:"[ˈfleŋˀg]",cat:"Falska vänner",note:"⚠️ Svenska <strong>'flink'</strong> = skicklig. Danska 'flink' = snäll/vänlig."}, 
-  {da:"grim",sv:"ful",en:"ugly",ipa:"[ˈgʁem]",cat:"Falska vänner",note:"⚠️ Svenska 'grim' = grym/dyster. Danska 'grim' = ful. 'Han er grim' = han är ful."}, 
-  {da:"trist",sv:"ledsen / sorgsen",en:"sad",ipa:"[ˈtˢʁesd]",cat:"Falska vänner",note:"⚠️ Svenska 'trist' = tråkig. Danska 'trist' = ledsen/sorglig."}, 
-  {da:"kedelig",sv:"tråkig",en:"boring, dull",ipa:"[ˈkeˀðəli]",cat:"Falska vänner",note:"⚠️ Inget direkt i svenska. 'Det er kedeligt' = det är tråkigt. Inte 'känslosamt'."}, 
-  {da:"doven",sv:"lat",en:"lazy",ipa:"[ˈdoˀwən]",cat:"Falska vänner",note:"⚠️ Inget direkt i svenska. 'Han er doven' = han är lat."}, 
-  {da:"skuffet",sv:"besviken",en:"disappointed",ipa:"[ˈsgɔfəd]",cat:"Falska vänner",note:"⚠️ Ser ut som 'skuffe' (låda) men betyder besviken. 'Jeg er skuffet' = jag är besviken."}, 
-  {da:"gal",sv:"galen / arg / fel",en:"crazy / wrong / angry",ipa:"[ˈgæˀl]",cat:"Falska vänner",note:"⚠️ 'Du er gal!' = du är galen. 'Det er galt' = det är fel/tokigt. Bred användning."}, 
-  {da:"vild",sv:"häftig / galet / vild",en:"wild / amazing (slang)",ipa:"[ˈvel]",cat:"Falska vänner",note:"⚠️ 'Det er vildt!' = det är häftigt/sjukt coolt! Centralt modernt slang."}, 
-  {da:"snild",sv:"slug / listig",en:"clever, cunning",ipa:"[ˈsnel]",cat:"Falska vänner",note:"⚠️ Liknar svenska 'snäll' men betyder slug/listig."}, 
-  {da:"ret",sv:"ganska / rätt",en:"quite, fairly / right",ipa:"[ˈʁeˀd]",cat:"Falska vänner",note:"⚠️ 'Det er ret godt' = det är <em>ganska</em> bra – inte 'riktigt' bra."}, 
-  {da:"skam",sv:"visst / sannerligen (förstärk.)",en:"really, indeed (intensifier)",ipa:"[ˈsgam]",cat:"Falska vänner",note:"⚠️ 'Det er skam rigtigt' = det stämmer verkligen. Förstärkare, inte 'skam' som skam."}, 
-  {da:"tam",sv:"tråkig / tam",en:"dull, tame",ipa:"[ˈtˢam]",cat:"Falska vänner",note:"⚠️ 'En tam fest' = en tråkig fest."}, 
-  {da:"sur",sv:"ledsen / gnällig",en:"grumpy, sad",ipa:"[ˈsuˀɐ]",cat:"Falska vänner",note:"Liknar svenska 'sur' men används mer om att vara ledsen/gnällig, inte bitter."}, 
-  {da:"led",sv:"äcklig / otrevlig",en:"nasty, disgusting, tedious",ipa:"[ˈleˀð]",cat:"Falska vänner",note:"⚠️ 'Det er led' = det är äckligt/otrevligt. Svenska 'led' = trött på. D är mjukt."}, 
-  {da:"syg",sv:"sjuk",en:"sick, ill",ipa:"[ˈsyˀ]",cat:"Falska vänner",note:"⚠️ Uttalas nästan 'sy'. 'Jeg er syg' = jag är sjuk. G tyst."}, 
-  {da:"hyggelig",sv:"mysig / trivsam",en:"cozy, pleasant",ipa:"[ˈhygəli]",cat:"Falska vänner",note:"Kulturellt nyckelord. 'Det var hyggeligt' = det var mysigt. Används ständigt."}, 
-  {da:"dejlig",sv:"härlig / underbar",en:"lovely, wonderful",ipa:"[ˈdɑjli]",cat:"Falska vänner",note:"⚠️ Inget direktsvar i svenska. 'En dejlig dag' = en härlig dag."}, 
-  {da:"sød",sv:"söt / snäll",en:"sweet / kind",ipa:"[ˈsøˀð]",cat:"Falska vänner",note:"'Han er sød' = han är söt/snäll. D är mjukt. Nära svenska 'söt'."}, 
-  {da:"mærkelig",sv:"konstig / märklig",en:"strange, odd",ipa:"[ˈmɛɐ̯gəli]",cat:"Falska vänner",note:"⚠️ Mer negativt laddad än svenska 'märklig'."}, 
-  {da:"underlig",sv:"egendomlig / konstig",en:"peculiar, odd",ipa:"[ˈɔnəli]",cat:"Falska vänner",note:"Nära svenska 'underlig' men D försvinner. Uttalas 'onneli'."}, 
-  {da:"spændt",sv:"spänd / uppspelt / ivrig",en:"excited, tense",ipa:"[ˈspeˀnd]",cat:"Falska vänner",note:"'Jeg er spændt' = jag är ivrig/nervöst förväntansfull. Stødtone."}, 
-  {da:"sulten",sv:"hungrig",en:"hungry",ipa:"[ˈsɔldən]",cat:"Falska vänner",note:"⚠️ Inget likhet med svenska 'hungrig'. 'Er du sulten?' = är du hungrig?"}, 
-  {da:"bange",sv:"rädd",en:"scared, afraid",ipa:"[ˈbaŋə]",cat:"Falska vänner",note:"⚠️ Inget direkt i svenska. 'Jeg er bange' = jag är rädd."}, 
-  {da:"sølle",sv:"ömklig / usel",en:"pitiful, paltry",ipa:"[ˈsølə]",cat:"Falska vänner",note:"'En sølle undskyldning' = en usel ursäkt. Inget direkt i svenska."}, 
-  {da:"lige",sv:"just / precis / lika",en:"just, right now, equal",ipa:"[ˈliˀ]",cat:"Frekventa ord",note:"Det mest frekventa 'osynliga' ordet. 'Lige nu' = just nu. 'Vent lige' = vänta lite."}, 
-  {da:"måske",sv:"kanske",en:"maybe, perhaps",ipa:"[ˈmɑˀsgə]",cat:"Frekventa ord",note:"⚠️ Inget att associera med svenska 'kanske'. Prioritera detta ord."}, 
-  {da:"alligevel",sv:"ändå / trots allt",en:"anyway, nevertheless",ipa:"[aliˈveˀl]",cat:"Frekventa ord",note:"⚠️ Uttalas snabbt och sväljs lätt. 'Jeg gør det alligevel' = jag gör det ändå."}, 
-  {da:"egentlig",sv:"egentligen / faktiskt",en:"actually, really",ipa:"[ˈeˀgənli]",cat:"Frekventa ord",note:"Extremt vanlig fyllnad i tal. G försvinner. Uttalas 'ejnli' i snabbt tal."}, 
-  {da:"selvfølgelig",sv:"självklart",en:"of course",ipa:"[sɛlˈføˀli]",cat:"Frekventa ord",note:"⚠️ I casual tal: 'sefli' eller 'seli'. Fyra stavelser → en."}, 
-  {da:"ellers",sv:"annars",en:"otherwise, or else",ipa:"[ˈelɐs]",cat:"Frekventa ord",note:"'Ellers tak' = annars tack = nej tack. 'Hvad laver du ellers?' = vad gör du annars?"}, 
-  {da:"allerede",sv:"redan",en:"already",ipa:"[alˈeˀðə]",cat:"Frekventa ord",note:"⚠️ Svenska 'redan' = danska 'allerede'. Helt annorlunda ordform."}, 
-  {da:"nemlig",sv:"nämligen / just det",en:"namely, you see, exactly",ipa:"[ˈneˀmli]",cat:"Frekventa ord",note:"Bekräftande fyllnad. 'Det er nemlig sådan' = det är nämligen så."}, 
-  {da:"lidt",sv:"lite",en:"a little, a bit",ipa:"[ˈled]",cat:"Frekventa ord",note:"⚠️ Uttalas nästan 'let'. D mjukt och tyst. 'Lidt mere' = lite mer."}, 
-  {da:"meget",sv:"mycket",en:"very, much",ipa:"[ˈmɑɪ̯əd]",cat:"Frekventa ord",note:"⚠️ Uttalas 'majed'. G försvinner helt. 'Meget godt' = mycket bra."}, 
-  {da:"nok",sv:"nog / tillräckligt",en:"enough / probably",ipa:"[ˈnɔg]",cat:"Frekventa ord",note:"⚠️ Dubbelfunktion. 'Det er nok' = det räcker. 'Han er nok hjemme' = han är nog hemma."}, 
-  {da:"jo",sv:"jo / ju",en:"yes (contradicting) / you see",ipa:"[ˈjoˀ]",cat:"Frekventa ord",note:"'Det er jo rigtigt' = det är ju riktigt. Nära svenska 'ju'!"}, 
-  {da:"godt",sv:"bra / väl",en:"good, well, fine",ipa:"[ˈgɔd]",cat:"Frekventa ord",note:"'Godt nok' = okej/nog. 'Det er godt' = det är bra. Extremt frekvent."}, 
-  {da:"rigtig",sv:"riktigt / väldigt",en:"really, correct, truly",ipa:"[ˈʁegdi]",cat:"Frekventa ord",note:"⚠️ 'Rigtig god' = riktigt bra. G och slutvokal försvinner: uttalas 'rigti'."}, 
-  {da:"inden",sv:"innan / innanför",en:"before / inside",ipa:"[ˈenən]",cat:"Frekventa ord",note:"⚠️ 'Inden længe' = inom kort. D försvinner. Uttalas 'enen'."}, 
-  {da:"vist",sv:"tydligen / visst",en:"apparently, it seems",ipa:"[ˈvesd]",cat:"Frekventa ord",note:"'Det er vist rigtigt' = det är tydligen riktigt. Epistemisk modal."}, 
-  {da:"desværre",sv:"tyvärr",en:"unfortunately",ipa:"[deˈsvæɐ̯ə]",cat:"Frekventa ord",note:"⚠️ Inget att associera med svenska 'tyvärr'. Lär den utantill."}, 
-  {da:"heldigvis",sv:"lyckligtvis",en:"fortunately, luckily",ipa:"[ˈheldivis]",cat:"Frekventa ord",note:"'Heldig' = lyckosam. 'Heldigvis' = lyckligtvis."}, 
-  {da:"efterhånden",sv:"numera / efter hand",en:"by now, gradually",ipa:"[ˈefɐˌhɔnˀən]",cat:"Frekventa ord",note:"'Det er efterhånden blevet normalt' = det har numera blivit normalt."}, 
-  {da:"pludselig",sv:"plötsligt",en:"suddenly",ipa:"[ˈplusəli]",cat:"Frekventa ord",note:"⚠️ G försvinner. 'Pludselig stoppede han' = plötsligt stannade han."}, 
-  {da:"kun",sv:"bara / endast",en:"only, just",ipa:"[ˈkun]",cat:"Frekventa ord",note:"'Kun én gang' = bara en gång. Nära svenska 'kun/kun'... men obetont."}, 
-  {da:"særlig",sv:"särskilt / speciellt",en:"especially, particularly",ipa:"[ˈsɛɐ̯li]",cat:"Frekventa ord",note:"'Særlig god' = extra bra. G försvinner. Nära svenska 'särskilt'."}, 
-  {da:"endelig",sv:"äntligen / slutligen",en:"finally / definitive",ipa:"[ˈenəli]",cat:"Frekventa ord",note:"'Endelig!' = äntligen! Men 'endelig svar' = definitivt svar."}, 
-  {da:"pænt",sv:"snyggt / ordentligt",en:"nicely / properly",ipa:"[ˈpɛnd]",cat:"Frekventa ord",note:"'Pænt tøj' = fina kläder. 'Opfør dig pænt' = uppför dig ordentligt."}, 
-  {da:"gerne",sv:"gärna",en:"gladly, willingly",ipa:"[ˈgɛɐ̯nə]",cat:"Frekventa ord",note:"'Ja gerne' = ja gärna. Nära svenska 'gärna' men uttalas annorlunda."}, 
-  {da:"ligesom",sv:"liksom / som",en:"kind of, like, as if",ipa:"[ˈliˀsom]",cat:"Frekventa ord",note:"⚠️ Extremt vanlig fyllnad i ungt tal. 'Det var ligesom fedt' = det var liksom coolt."}, 
-  {da:"stadigvæk",sv:"fortfarande",en:"still, yet",ipa:"[ˈsdæðiˌvɛg]",cat:"Frekventa ord",note:"Längre form av 'stadig'. 'Jeg bor stadigvæk i København' = jag bor fortfarande i Köpenhamn."}, 
-  {da:"cirka",sv:"ungefär",en:"approximately",ipa:"[ˈsiɐ̯ga]",cat:"Frekventa ord",note:"Samma som svenska 'cirka'. Uttalas 'sierka'. Vanlig i tal."}, 
-  {da:"straks",sv:"genast / direkt",en:"immediately, right away",ipa:"[ˈsdʁags]",cat:"Frekventa ord",note:"'Kom straks!' = kom genast! Nära svenska 'strax' men mer vardagligt."}, 
-  {da:"ganske",sv:"ganska / rätt",en:"quite, rather",ipa:"[ˈgaŋsgə]",cat:"Frekventa ord",note:"'Ganske godt' = ganska bra. Nära svenska 'ganska'."}, 
-  {da:"temmelig",sv:"ganska / rätt",en:"rather, fairly",ipa:"[ˈtˢeməli]",cat:"Frekventa ord",note:"'Temmelig stor' = ganska stor. Mer formellt än 'ganske'."}, 
-  {da:"vist nok",sv:"tydligen / antagligen",en:"apparently, presumably",ipa:"[vesd nɔg]",cat:"Frekventa ord",note:"'Han er vist nok syg' = han är tydligen sjuk."}, 
-  {da:"trods alt",sv:"trots allt",en:"after all, despite everything",ipa:"[ˈtˢʁɔs ˈald]",cat:"Frekventa ord",note:"'Trods alt gik det godt' = trots allt gick det bra."}, 
-  {da:"med vilje",sv:"med avsikt / med flit",en:"on purpose",ipa:"[me ˈvelə]",cat:"Frekventa ord",note:"'Det gjorde jeg med vilje' = det gjorde jag med avsikt."}, 
-  {da:"ved siden af",sv:"bredvid",en:"next to, beside",ipa:"[ve ˈsiðən af]",cat:"Frekventa ord",note:"'Sæt dig ved siden af mig' = sätt dig bredvid mig."}, 
-  {da:"til sidst",sv:"till slut",en:"at last, finally",ipa:"[tel ˈsisd]",cat:"Frekventa ord",note:"'Til sidst gav han op' = till slut gav han upp."}, 
-  {da:"i forvejen",sv:"i förväg / redan",en:"in advance / already",ipa:"[i fɒˈvɑjˀən]",cat:"Frekventa ord",note:"'Det vidste jeg i forvejen' = det visste jag redan/i förväg."}, 
-  {da:"i øjeblikket",sv:"för tillfället / just nu",en:"at the moment",ipa:"[i ˈøjəˌblegəd]",cat:"Frekventa ord",note:"'Jeg er i øjeblikket optaget' = jag är för tillfället upptagen."}, 
-  {da:"overhovedet",sv:"överhuvudtaget / alls",en:"at all, whatsoever",ipa:"[oˈhɔˀðəd]",cat:"Frekventa ord",note:"'Det giver overhovedet ikke mening' = det ger absolut ingen mening."}, 
-  {da:"slet ikke",sv:"inte alls",en:"not at all",ipa:"[ˈsled ˈegə]",cat:"Frekventa ord",note:"'Det er slet ikke godt' = det är inte alls bra. 'Slet' = alls (negativt)."}, 
-  {da:"som regel",sv:"i regel / vanligtvis",en:"as a rule, usually",ipa:"[som ˈʁeˀl]",cat:"Frekventa ord",note:"'Som regel sover jeg tidligt' = i regel sover jag tidigt."}, 
-  {da:"for eksempel",sv:"till exempel",en:"for example",ipa:"[fɒ egˈsembəl]",cat:"Frekventa ord",note:"'For eksempel kan du...' = till exempel kan du..."}, 
-  {da:"i hvert fald",sv:"i alla fall",en:"in any case, at least",ipa:"[i vɛɐ̯ ˈfal]",cat:"Frekventa ord",note:"Extremt vanlig. Reduceras kraftigt i tal: 'i væ fal'."}, 
-  {da:"derimod",sv:"däremot",en:"on the contrary, however",ipa:"[ˈdeɐ̯iˌmɔð]",cat:"Frekventa ord",note:"'Det er derimod ikke sikkert' = det är däremot inte säkert."}, 
-  {da:"desuden",sv:"dessutom",en:"besides, furthermore",ipa:"[deˈsuðən]",cat:"Frekventa ord",note:"'Desuden er det billigt' = dessutom är det billigt."}, 
-  {da:"ligeledes",sv:"likaså / på samma sätt",en:"likewise, similarly",ipa:"[ˈliˀəleˀðəs]",cat:"Frekventa ord",note:"'Ligeledes tak' = likaså tack. Formellt men vanligt."}, 
-  {da:"tværtimod",sv:"tvärtom",en:"on the contrary",ipa:"[ˈtvɛɐ̯diˌmɔð]",cat:"Frekventa ord",note:"'Tværtimod, jeg elsker det' = tvärtom, jag älskar det."}, 
-  {da:"dermed",sv:"därigenom / med det",en:"thereby, with that",ipa:"[ˈdeɐ̯með]",cat:"Frekventa ord",note:"'Dermed er sagen afgjort' = därmed är saken avgjord."}, 
-  {da:"hermed",sv:"härmed",en:"herewith, hereby",ipa:"[ˈheɐ̯með]",cat:"Frekventa ord",note:"'Hermed erklærer jeg...' = härmed förklarar jag..."}, 
-  {da:"endvidere",sv:"vidare / dessutom",en:"furthermore, moreover",ipa:"[ˈenˌviðɐ]",cat:"Frekventa ord",note:"'Endvidere vil jeg sige...' = vidare vill jag säga..."}, 
-  {da:"imidlertid",sv:"emellertid / dock",en:"however, nevertheless",ipa:"[iˈmelˌdiˀð]",cat:"Frekventa ord",note:"'Imidlertid er det ikke nok' = dock är det inte tillräckligt."}, 
-  {da:"herunder",sv:"häri / härunder / inklusive",en:"including, below",ipa:"[ˈheɐ̯ˌɔnɐ]",cat:"Frekventa ord",note:"'Herunder falder også...' = häri faller också..."}, 
-  {da:"fornylig",sv:"nyligen",en:"recently",ipa:"[fɒˈnyˀli]",cat:"Frekventa ord",note:"'Jeg så ham fornylig' = jag såg honom nyligen."}, 
-  {da:"for nylig",sv:"nyligen",en:"recently",ipa:"[fɒ ˈnyˀli]",cat:"Frekventa ord",note:"'Det skete for nylig' = det hände nyligen."}, 
-  {da:"tidligere",sv:"tidigare / förut",en:"earlier, previously",ipa:"[ˈtˢiðliɐ]",cat:"Frekventa ord",note:"'Tidligere har jeg boet i Aarhus' = tidigare har jag bott i Aarhus."}, 
-  {da:"herefter",sv:"härefter / sedan",en:"after this, henceforth",ipa:"[ˈheɐ̯ˌefɐ]",cat:"Frekventa ord",note:"'Herefter vil jeg gøre det anderledes' = härefter ska jag göra det annorlunda."}, 
-  {da:"fremover",sv:"framöver / framåt",en:"going forward, in the future",ipa:"[fʁemˈoˀɐ]",cat:"Frekventa ord",note:"'Fremover skal vi mødes oftere' = framöver ska vi träffas oftare."}, 
-  {da:"bagefter",sv:"efteråt / sedan",en:"afterwards, later",ipa:"[ˈbɑˌefɐ]",cat:"Frekventa ord",note:"'Bagefter gik vi hjem' = efteråt gick vi hem."}, 
-  {da:"undervejs",sv:"på vägen / under färden",en:"on the way, en route",ipa:"[ˈɔnɐˌvɑjs]",cat:"Frekventa ord",note:"'Vi spiste undervejs' = vi åt på vägen."}, 
-  {da:"foreløbig",sv:"för tillfället / tills vidare",en:"for now, temporarily",ipa:"[fɒˈløˀbi]",cat:"Frekventa ord",note:"'Foreløbig bor jeg her' = tills vidare bor jag här."}, 
-  {da:"atter",sv:"åter / igen",en:"again, once more",ipa:"[ˈadɐ]",cat:"Frekventa ord",note:"'Atter og atter' = om och om igen. Lite formellt men förekommer."}, 
-  {da:"ofte",sv:"ofta",en:"often",ipa:"[ˈɔfdə]",cat:"Frekventa ord",note:"Nära svenska 'ofta'. T uttalas som mjukt D."}, 
-  {da:"sjældent",sv:"sällan",en:"rarely, seldom",ipa:"[ˈʃɛlˀənd]",cat:"Frekventa ord",note:"⚠️ 'Sjældent' = sällan. SJ-ljud annorlunda. 'Det sker sjældent' = det händer sällan."}, 
-  {da:"tidligt",sv:"tidigt",en:"early",ipa:"[ˈtˢiðled]",cat:"Frekventa ord",note:"'Jeg stod tidligt op' = jag stod upp tidigt."}, 
-  {da:"sent",sv:"sent",en:"late",ipa:"[ˈsenˀd]",cat:"Frekventa ord",note:"Identisk med svenska 'sent'. Stødtone."}, 
-  {da:"ikke",sv:"inte",en:"not",ipa:"[ˈegə] → [i]",cat:"Uttal-fällor",note:"⚠️ Reduceras till 'i' eller 'e' i naturligt tal. Kritisk att känna igen."}, 
-  {da:"hvad",sv:"vad",en:"what",ipa:"[va]",cat:"Uttal-fällor",note:"⚠️ H och D alltid tysta. Uttalas exakt 'va'."}, 
-  {da:"det",sv:"det",en:"it, that",ipa:"[de] / [d]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'de'. I snabbt tal nästan bara 'd'. T alltid tyst."}, 
-  {da:"noget",sv:"något",en:"something, some",ipa:"[ˈnɔəd]",cat:"Uttal-fällor",note:"⚠️ G försvinner. Uttalas 'noe' eller 'no'et'."}, 
-  {da:"jeg",sv:"jag",en:"I",ipa:"[ja]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'ja' i naturligt tal – liknar svenska 'ja' = yes."}, 
-  {da:"ved ikke",sv:"vet inte",en:"don't know",ipa:"[ˈvenɛ]",cat:"Uttal-fällor",note:"⚠️ Smelter ihop till 'venné' eller 'vne'. Aldrig separata ord i naturligt tal."}, 
-  {da:"hvor",sv:"var / hur (fraser)",en:"where / how (in phrases)",ipa:"[ˈvɒˀ]",cat:"Uttal-fällor",note:"⚠️ H tyst. Uttalas 'vo'. 'Hvor meget' = hur mycket."}, 
-  {da:"hvorfor",sv:"varför",en:"why",ipa:"[ˈvɒfɒ]",cat:"Uttal-fällor",note:"⚠️ H tyst + R försvinner. Uttalas 'vo-fo'. I snabbt tal: 'vofa'."}, 
-  {da:"hvornår",sv:"när",en:"when",ipa:"[vɒˈnɔˀ]",cat:"Uttal-fällor",note:"⚠️ H tyst. Uttalas 'vo-nå'."}, 
-  {da:"hverken",sv:"varken",en:"neither",ipa:"[ˈvɛɐ̯gən]",cat:"Uttal-fällor",note:"⚠️ H tyst. Uttalas 'væren'."}, 
-  {da:"nogen",sv:"någon",en:"someone, anyone",ipa:"[ˈnoˀən]",cat:"Uttal-fällor",note:"⚠️ G försvinner. Uttalas 'noen'."}, 
-  {da:"stadig",sv:"fortfarande",en:"still, yet",ipa:"[ˈsdæði]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'sdædi'. G mjukt."}, 
-  {da:"hvem",sv:"vem",en:"who",ipa:"[ˈvem]",cat:"Uttal-fällor",note:"H tyst. Uttalas som svenska 'vem'."}, 
-  {da:"hvilken",sv:"vilken",en:"which",ipa:"[ˈvelgən]",cat:"Uttal-fällor",note:"H tyst. Uttalas 'vilken'. 'Hvilken dag?' = vilken dag?"}, 
-  {da:"sig",sv:"sig",en:"oneself",ipa:"[ˈsi]",cat:"Uttal-fällor",note:"G alltid tyst. 'Han siger sig selv' = han säger sig själv."}, 
-  {da:"mig",sv:"mig",en:"me",ipa:"[ˈmɑj]",cat:"Uttal-fällor",note:"Uttalas 'maj'. G tyst. 'Hent mig' = hämta mig."}, 
-  {da:"dig",sv:"dig",en:"you",ipa:"[ˈdɑj]",cat:"Uttal-fällor",note:"Uttalas 'daj'. G tyst. 'Jeg ser dig' = jag ser dig."}, 
-  {da:"ham",sv:"honom",en:"him",ipa:"[ˈham]",cat:"Uttal-fällor",note:"Identisk med svenska 'honom' i funktion. Kortare: 'ham'."}, 
-  {da:"hende",sv:"henne",en:"her",ipa:"[ˈhenə]",cat:"Uttal-fällor",note:"Nära svenska 'henne'. D mjukt."}, 
-  {da:"dem",sv:"dem",en:"them",ipa:"[ˈdem]",cat:"Uttal-fällor",note:"Identisk med svenska 'dem'. Obetont i tal."}, 
-  {da:"os",sv:"oss",en:"us",ipa:"[ˈos]",cat:"Uttal-fällor",note:"⚠️ Kortare än svenska 'oss'. 'Giv os det' = ge oss det."}, 
-  {da:"de",sv:"de / dem",en:"they",ipa:"[ˈde]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'de'. Förväxlas med 'det' i snabbt tal."}, 
-  {da:"man",sv:"man",en:"one, you (generic)",ipa:"[ˈman]",cat:"Uttal-fällor",note:"Identisk med svenska 'man'. 'Man gør det' = man gör det."}, 
-  {da:"hvad for en",sv:"vilken sorts / vad för",en:"what kind of, which",ipa:"[va fɒ en]",cat:"Uttal-fällor",note:"⚠️ 'Hvad' → 'va'. 'Hvad for en bil?' = vad för bil?"}, 
-  {da:"har",sv:"har",en:"have (present)",ipa:"[ˈhɑˀ]",cat:"Uttal-fällor",note:"R nästan alltid tyst. 'Jeg har' = jag har. Stødtone."}, 
-  {da:"er",sv:"är",en:"am/is/are",ipa:"[ˈeɐ̯]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'æ' i snabbt tal. 'Det er godt' → 'de æ got'."}, 
-  {da:"gør",sv:"gör",en:"does, do, make",ipa:"[ˈgɔˀ]",cat:"Uttal-fällor",note:"R tyst. Uttalas 'go'. 'Hvad gør du?' = vad gör du?"}, 
-  {da:"går",sv:"går",en:"goes, walks",ipa:"[ˈgɔˀ]",cat:"Uttal-fällor",note:"R tyst. Identisk uttale med 'gør' i casual tal – kontext avgör."}, 
-  {da:"kan",sv:"kan",en:"can",ipa:"[ˈkhan]",cat:"Uttal-fällor",note:"Identisk med svenska 'kan'. Obetont: 'kn'."}, 
-  {da:"skal",sv:"ska / skall",en:"shall, must",ipa:"[ˈsgal]",cat:"Uttal-fällor",note:"Nära svenska 'ska'. 'Hvad skal du?' = vad ska du (göra)?"}, 
-  {da:"vil",sv:"vill",en:"will, want",ipa:"[ˈvel]",cat:"Uttal-fällor",note:"Nära svenska 'vill'. 'Jeg vil gerne' = jag vill gärna."}, 
-  {da:"ved",sv:"vid / vet",en:"know (fact) / wide",ipa:"[ˈveˀð]",cat:"Uttal-fällor",note:"⚠️ D mjukt. 'Jeg ved det' = jag vet det. Reduceras: 've'."}, 
-  {da:"gav",sv:"gav",en:"gave",ipa:"[ˈgæˀw]",cat:"Uttal-fällor",note:"V uttalas W. 'Han gav mig det' = han gav mig det."}, 
-  {da:"tog",sv:"tog",en:"took",ipa:"[ˈtˢoˀ]",cat:"Uttal-fällor",note:"G tyst. Uttalas 'to'. 'Hun tog toget' = hon tog tåget."}, 
-  {da:"sagde",sv:"sa / sade",en:"said",ipa:"[ˈsæðə]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'sæde'. G mjukt och tyst. 'Han sagde ingenting' = han sa ingenting."}, 
-  {da:"stod",sv:"stod",en:"stood",ipa:"[ˈsdoˀ]",cat:"Uttal-fällor",note:"D tyst. Uttalas 'sto'. 'Jeg stod der' = jag stod där."}, 
-  {da:"kom",sv:"kom",en:"came",ipa:"[ˈkhom]",cat:"Uttal-fällor",note:"Identisk med svenska 'kom'. 'Hvornår kom du?' = när kom du?"}, 
-  {da:"vidste",sv:"visste",en:"knew",ipa:"[ˈveˀsdə]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'veeste'. 'Jeg vidste det ikke' = jag visste inte det."}, 
-  {da:"troede",sv:"trodde",en:"believed, thought",ipa:"[ˈtˢʁoˀðə]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'trode'. 'Jeg troede det var rigtigt' = jag trodde det var rätt."}, 
-  {da:"mente",sv:"menade / tyckte",en:"meant, thought",ipa:"[ˈmenˀdə]",cat:"Uttal-fällor",note:"'Hvad mente du?' = vad menade du?"}, 
-  {da:"syntes",sv:"tyckte / verkade",en:"thought, seemed",ipa:"[ˈsyndəs]",cat:"Uttal-fällor",note:"'Jeg syntes det var godt' = jag tyckte det var bra."}, 
-  {da:"burde",sv:"borde",en:"should, ought to",ipa:"[ˈbuɐ̯ˀ]",cat:"Uttal-fällor",note:"'Du burde gøre det' = du borde göra det."}, 
-  {da:"plejede",sv:"brukade",en:"used to",ipa:"[ˈplɑjəðə]",cat:"Uttal-fällor",note:"⚠️ 'Jeg plejede at løbe' = jag brukade springa. Ingen direkt form i svenska."}, 
-  {da:"havde",sv:"hade",en:"had",ipa:"[ˈhæðə]",cat:"Uttal-fällor",note:"⚠️ Uttalas 'hæde'. V och D mjuka. 'Jeg havde det godt' = jag mådde bra."}, 
-  {da:"kunne",sv:"kunde",en:"could",ipa:"[ˈkɔnə]",cat:"Uttal-fällor",note:"'Jeg kunne ikke forstå det' = jag kunde inte förstå det."}, 
-  {da:"skulle",sv:"skulle",en:"should, had to",ipa:"[ˈsgɔlə]",cat:"Uttal-fällor",note:"Nära svenska 'skulle'. 'Hvad skulle du?' = vad skulle du?"}, 
-  {da:"ville",sv:"ville",en:"wanted to, would",ipa:"[ˈvelə]",cat:"Uttal-fällor",note:"Nära svenska 'ville'. 'Han ville ikke' = han ville inte."}, 
-  {da:"vindue",sv:"fönster",en:"window",ipa:"[ˈvendu]",cat:"Divergent ordförråd",note:"⚠️ Från franskan. Inget att associera med 'fönster'. Lär direkt."}, 
-  {da:"loft",sv:"innertak",en:"ceiling",ipa:"[ˈlɔft]",cat:"Divergent ordförråd",note:"⚠️ Svenska 'loft' = övervåning. Danska 'loft' = innertak."}, 
-  {da:"dyne",sv:"täcke",en:"duvet",ipa:"[ˈdynə]",cat:"Divergent ordförråd",note:"⚠️ Svenska 'dyna' = kudde. Danska 'dyne' = täcke."}, 
-  {da:"pude",sv:"kudde",en:"pillow",ipa:"[ˈpuˀðə]",cat:"Divergent ordförråd",note:"⚠️ Danska 'pude' = kudde. Svenska 'pude' finns knappt."}, 
-  {da:"skuffe",sv:"låda (möbel)",en:"drawer",ipa:"[ˈsgɔfə]",cat:"Divergent ordförråd",note:"'Skuffe' = låda. Förväxla ej med 'skuffet' = besviken."}, 
-  {da:"køkken",sv:"kök",en:"kitchen",ipa:"[ˈkhøgən]",cat:"Divergent ordförråd",note:"Nära svenska 'kök'. KK-ljud reduceras. 'Køkkenet' = köket."}, 
-  {da:"stue",sv:"vardagsrum",en:"living room",ipa:"[ˈsduˀə]",cat:"Divergent ordförråd",note:"⚠️ 'Stuen' = vardagsrummet. Inget att associera med svenska."}, 
-  {da:"værelse",sv:"rum / sovrum",en:"room",ipa:"[ˈvɛɐ̯əlsə]",cat:"Divergent ordförråd",note:"'Mit værelse' = mitt rum. Nära svenska 'vär(e)ls'... men ovanligt i sv."}, 
-  {da:"trappe",sv:"trappa",en:"stairs, staircase",ipa:"[ˈtˢʁabə]",cat:"Divergent ordförråd",note:"Nära svenska 'trappa'. PP-ljud och betoning skiljer."}, 
-  {da:"kælder",sv:"källare",en:"basement, cellar",ipa:"[ˈkhɛlˀɐ]",cat:"Divergent ordförråd",note:"Nära svenska 'källare'. Æ-vokal och mjukt D."}, 
-  {da:"nøgle",sv:"nyckel",en:"key",ipa:"[ˈnøˀlə]",cat:"Divergent ordförråd",note:"⚠️ Inget att associera med svenska 'nyckel'. Lär direkt."}, 
-  {da:"låg",sv:"lock (på burk)",en:"lid, cover",ipa:"[ˈlɔˀw]",cat:"Divergent ordförråd",note:"'Låget' = locket. G uttalas W. Nära svenska 'lock'."}, 
-  {da:"drikkevare",sv:"dryck",en:"beverage, drink",ipa:"[ˈdʁegəˌvæɐ̯ə]",cat:"Divergent ordförråd",note:"'Drikkevarer' = drycker. Sammansatt ord."}, 
-  {da:"mad",sv:"mat",en:"food",ipa:"[ˈmæˀð]",cat:"Divergent ordförråd",note:"Nära svenska 'mat'. D mjukt. 'God mad' = god mat."}, 
-  {da:"tøj",sv:"kläder",en:"clothes",ipa:"[ˈtˢɔj]",cat:"Divergent ordförråd",note:"⚠️ Inget att associera med 'kläder'. Centralt ord."}, 
-  {da:"morgenmad",sv:"frukost",en:"breakfast",ipa:"[ˈmɒˀənˌmæˀð]",cat:"Divergent ordförråd",note:"'Morgenmad' = frukost (bokstavligen 'morgonmat'). 'Spise morgenmad' = äta frukost."}, 
-  {da:"frokost",sv:"lunch",en:"lunch",ipa:"[ˈfʁɔˌkhɔsd]",cat:"Divergent ordförråd",note:"⚠️ Svenska 'frukost' = danska 'morgenmad'. Danska 'frokost' = lunch!"}, 
-  {da:"aftensmad",sv:"middag / kvällsmat",en:"dinner",ipa:"[ˈafˌdənsˌmæˀð]",cat:"Divergent ordförråd",note:"'Spise aftensmad' = äta middag. Bokstavligen 'kvällsmat'."}, 
-  {da:"smør",sv:"smör",en:"butter",ipa:"[ˈsmɶˀ]",cat:"Divergent ordförråd",note:"Nära svenska 'smör'. R tyst. Ø/Ö-vokal."}, 
-  {da:"æg",sv:"ägg",en:"egg",ipa:"[ˈɛˀg]",cat:"Divergent ordförråd",note:"⚠️ Uttalas 'æg' – Æ-vokal. 'Et æg' = ett ägg."}, 
-  {da:"grøntsag",sv:"grönsak",en:"vegetable",ipa:"[ˈgʁɶnˌsæˀ]",cat:"Divergent ordförråd",note:"Nära svenska 'grönsak'. Ø-vokal och S försvinner i slutet."}, 
-  {da:"frugt",sv:"frukt",en:"fruit",ipa:"[ˈfʁɔgd]",cat:"Divergent ordförråd",note:"Nära svenska 'frukt'. G tyst. 'Spise frugt' = äta frukt."}, 
-  {da:"kage",sv:"kaka / tårta",en:"cake",ipa:"[ˈkhæˀ]",cat:"Divergent ordförråd",note:"⚠️ Uttalas 'khæ'. G tyst. 'En kage' = en kaka/tårta."}, 
-  {da:"suppe",sv:"soppa",en:"soup",ipa:"[ˈsubˀə]",cat:"Divergent ordförråd",note:"Nära svenska 'soppa'. PP-ljud."}, 
-  {da:"søskende",sv:"syskon",en:"siblings",ipa:"[ˈsøsgənə]",cat:"Divergent ordförråd",note:"⚠️ Svenska 'syskon' → danska 'søskende'. Helt annorlunda."}, 
-  {da:"kæreste",sv:"pojk/flickvän",en:"boyfriend/girlfriend",ipa:"[ˈkɛɐ̯əsdə]",cat:"Divergent ordförråd",note:"'Min kæreste' = min pojk/flickvän. Nära svenska 'käraste'."}, 
-  {da:"bekendt",sv:"bekant",en:"acquaintance",ipa:"[beˈkhend]",cat:"Divergent ordförråd",note:"'En gammel bekendt' = en gammal bekant."}, 
-  {da:"nabo",sv:"granne",en:"neighbor",ipa:"[ˈnæˀbo]",cat:"Divergent ordförråd",note:"⚠️ Inget att associera med svenska 'granne'. Lär direkt."}, 
-  {da:"veninde",sv:"väninna",en:"female friend",ipa:"[veˈnenə]",cat:"Divergent ordförråd",note:"'Min veninde' = min väninna. 'Ven' = vän (könsneutralt)."}, 
-  {da:"mand",sv:"man / make",en:"man / husband",ipa:"[ˈman]",cat:"Divergent ordförråd",note:"'Min mand' = min man/make. 'En mand' = en man."}, 
-  {da:"kone",sv:"fru / hustru",en:"wife",ipa:"[ˈkhonˀə]",cat:"Divergent ordförråd",note:"'Min kone' = min fru. Nära 'kona' i dialektal svenska."}, 
-  {da:"barn",sv:"barn",en:"child",ipa:"[ˈbɑˀn]",cat:"Divergent ordförråd",note:"Identisk med svenska 'barn'. Stødtone."}, 
-  {da:"unge",sv:"unga / ungdomar",en:"young people, kids (coll.)",ipa:"[ˈɔŋə]",cat:"Divergent ordförråd",note:"'De unge' = de unga. Används också om egna barn i vardagtal."}, 
-  {da:"gammel",sv:"gammal",en:"old",ipa:"[ˈgaməl]",cat:"Divergent ordförråd",note:"Nära svenska 'gammal'. 'En gammel mand' = en gammal man."}, 
-  {da:"læge",sv:"läkare",en:"doctor (GP)",ipa:"[ˈlɛˀɪ]",cat:"Divergent ordförråd",note:"⚠️ Uttalas 'læje'. 'Gå til lægen' = gå till läkaren."}, 
-  {da:"sygehus",sv:"sjukhus",en:"hospital",ipa:"[ˈsyˀəhus]",cat:"Divergent ordförråd",note:"Nära svenska 'sjukhus'. 'Syge' = sjuk."}, 
-  {da:"apotek",sv:"apotek",en:"pharmacy",ipa:"[aboˈtˢheˀg]",cat:"Divergent ordförråd",note:"Identisk med svenska 'apotek'. Betoning på sista stavelsen."}, 
-  {da:"sår",sv:"sår",en:"wound, sore",ipa:"[ˈsɔˀ]",cat:"Divergent ordförråd",note:"Identisk med svenska 'sår'. Stødtone."}, 
-  {da:"hoste",sv:"hosta",en:"cough",ipa:"[ˈhɔsdə]",cat:"Divergent ordförråd",note:"Nära svenska 'hosta'. 'Han hoster' = han hostar."}, 
-  {da:"feber",sv:"feber",en:"fever",ipa:"[ˈfeˀbɐ]",cat:"Divergent ordförråd",note:"Identisk med svenska 'feber'. R tyst."}, 
-  {da:"fortov",sv:"trottoar",en:"sidewalk, pavement",ipa:"[ˈfɒˌtˢoˀw]",cat:"Divergent ordförråd",note:"⚠️ 'Fortov' = trottoar. Inget direkt att associera med svenska."}, 
-  {da:"rundkørsel",sv:"rondell",en:"roundabout",ipa:"[ˈʁɔnˌkhɶɐ̯səl]",cat:"Divergent ordförråd",note:"⚠️ Inget att associera med svenska 'rondell'. Sammansatt ord."}, 
-  {da:"fly",sv:"flyg / flyga",en:"plane / to fly",ipa:"[ˈflyˀ]",cat:"Divergent ordförråd",note:"'Tage fly' = ta flyget. 'Flyve' = flyga."}, 
-  {da:"billet",sv:"biljett",en:"ticket",ipa:"[biˈled]",cat:"Divergent ordförråd",note:"Nära svenska 'biljett'. T mjukt → D."}, 
-  {da:"perron",sv:"perrong",en:"platform",ipa:"[peˈʁɔŋˀ]",cat:"Divergent ordförråd",note:"Nära svenska 'perrong'. Betoning på sista stavelsen."}, 
-  {da:"stræde",sv:"gränd / gata",en:"alley, lane",ipa:"[ˈsdʁæˀðə]",cat:"Divergent ordförråd",note:"'Gammelt stræde' = gammal gränd. Nära svenska 'stred/stråt'."}, 
-  {da:"gade",sv:"gata",en:"street",ipa:"[ˈgæðə]",cat:"Divergent ordförråd",note:"Nära svenska 'gata'. D mjukt."}, 
-  {da:"job",sv:"jobb",en:"job",ipa:"[ˈdʒɔb]",cat:"Divergent ordförråd",note:"Identisk med svenska 'jobb'. Vanligt."}, 
-  {da:"lønning",sv:"lön",en:"salary, wages",ipa:"[ˈlɶneŋ]",cat:"Divergent ordförråd",note:"'Få løn' = få lön. Ø-vokal. Nära svenska 'lön'."}, 
-  {da:"ferie",sv:"semester / semester",en:"vacation, holiday",ipa:"[ˈfeɐ̯jə]",cat:"Divergent ordförråd",note:"⚠️ 'Ferie' = semester/lov. Nära svenska 'ferie' (studilov) men bredare."}, 
-  {da:"møde",sv:"möte",en:"meeting",ipa:"[ˈmøˀðə]",cat:"Divergent ordförråd",note:"Nära svenska 'möte'. D mjukt. 'Et møde' = ett möte."}, 
-  {da:"opgave",sv:"uppgift",en:"task, assignment",ipa:"[ˈɔbˌgæˀwə]",cat:"Divergent ordförråd",note:"Nära svenska 'uppgift'. 'En svær opgave' = en svår uppgift."}, 
-  {da:"beslutning",sv:"beslut",en:"decision",ipa:"[beˈsludneŋ]",cat:"Divergent ordförråd",note:"'Tage en beslutning' = ta ett beslut."}, 
-  {da:"besked",sv:"besked / svar",en:"message, information",ipa:"[beˈsgeð]",cat:"Divergent ordförråd",note:"'Få besked' = få besked. Nära svenska 'besked'."}, 
-  {da:"regning",sv:"nota / räkning",en:"bill, invoice",ipa:"[ˈʁajneŋ]",cat:"Divergent ordförråd",note:"'Kan jeg få regningen?' = kan jag få notan?"}, 
-  {da:"forskel",sv:"skillnad",en:"difference",ipa:"[fɒˈsgel]",cat:"Divergent ordförråd",note:"⚠️ Inget direkt i svenska. 'Hvad er forskellen?' = vad är skillnaden?"}, 
-  {da:"mulighed",sv:"möjlighet",en:"possibility, opportunity",ipa:"[ˈmuliˌheð]",cat:"Divergent ordförråd",note:"Nära svenska 'möjlighet'. 'Der er en mulighed' = det finns en möjlighet."}, 
-  {da:"tilbud",sv:"erbjudande / rabatt",en:"offer, deal",ipa:"[ˈtˢilˌbuˀð]",cat:"Divergent ordförråd",note:"'Et godt tilbud' = ett bra erbjudande. 'På tilbud' = på rea."}, 
-  {da:"vare",sv:"vara",en:"product, item",ipa:"[ˈvæɐ̯ə]",cat:"Divergent ordförråd",note:"'En vare' = en vara/produkt. Nära svenska 'vara'."}, 
-  {da:"pris",sv:"pris",en:"price, prize",ipa:"[ˈpˢʁiˀs]",cat:"Divergent ordförråd",note:"Identisk med svenska 'pris'. Stødtone."}, 
-  {da:"vejr",sv:"väder",en:"weather",ipa:"[ˈvɑjˀ]",cat:"Divergent ordförråd",note:"⚠️ Uttalas 'vajr'. J-ljud. 'Vejret er godt' = vädret är bra."}, 
-  {da:"skov",sv:"skog",en:"forest",ipa:"[ˈsgoˀw]",cat:"Divergent ordförråd",note:"Nära svenska 'skog'. V uttalas W."}, 
-  {da:"sø",sv:"sjö",en:"lake",ipa:"[ˈsøˀ]",cat:"Divergent ordförråd",note:"⚠️ Uttalas 'sö'. 'En stor sø' = en stor sjö."}, 
-  {da:"bakke",sv:"backe / kulle",en:"hill, slope",ipa:"[ˈbagˀə]",cat:"Divergent ordförråd",note:"'Op ad bakke' = uppför backen."}, 
-  {da:"kyst",sv:"kust",en:"coast",ipa:"[ˈkhyˀsd]",cat:"Divergent ordförråd",note:"Identisk med svenska 'kyst/kust'. Stødtone."}, 
-  {da:"mark",sv:"åker / fält",en:"field (agricultural)",ipa:"[ˈmɑˀg]",cat:"Divergent ordförråd",note:"'En mark' = ett fält/en åker. Nära svenska 'mark'."}, 
-  {da:"klit",sv:"sanddyn",en:"sand dune",ipa:"[ˈkhlid]",cat:"Divergent ordförråd",note:"'Klitter' = sanddyner. Vanligt vid danska kuster."}, 
-  {da:"spørgsmål",sv:"fråga",en:"question",ipa:"[ˈsbɶɐ̯sˌmɔl]",cat:"Divergent ordförråd",note:"⚠️ Inget att associera med 'fråga'. 'Godt spørgsmål' = bra fråga."}, 
-  {da:"svar",sv:"svar",en:"answer",ipa:"[ˈsvɑˀ]",cat:"Divergent ordförråd",note:"Identisk med svenska 'svar'."}, 
-  {da:"grund",sv:"orsak / grund",en:"reason, cause",ipa:"[ˈgʁɔn]",cat:"Divergent ordförråd",note:"'Af den grund' = av den orsaken. D tyst."}, 
-  {da:"mening",sv:"mening / åsikt",en:"meaning / opinion",ipa:"[ˈmeˀneŋ]",cat:"Divergent ordförråd",note:"'Hvad er din mening?' = vad är din åsikt? Samma som svenska 'mening'."}, 
-  {da:"sammenhæng",sv:"sammanhang",en:"context, connection",ipa:"[ˈsaˌmənˌhɛŋˀ]",cat:"Divergent ordförråd",note:"'I denne sammenhæng' = i detta sammanhang."}, 
-  {da:"omstændighed",sv:"omständighet",en:"circumstance",ipa:"[ɔmˈsdɛniheð]",cat:"Divergent ordförråd",note:"'Under disse omstændigheder' = under dessa omständigheter."}, 
-  {da:"tilstand",sv:"tillstånd / skick",en:"condition, state",ipa:"[ˈtˢilˌsdan]",cat:"Divergent ordförråd",note:"'I god tilstand' = i gott skick."}, 
-  {da:"indstilling",sv:"inställning",en:"attitude, setting",ipa:"[ˈensˌdeleŋ]",cat:"Divergent ordförråd",note:"'En positiv indstilling' = en positiv inställning."}, 
-  {da:"holdning",sv:"hållning / åsikt",en:"attitude, stance",ipa:"[ˈhɔlneŋ]",cat:"Divergent ordförråd",note:"'Hvad er din holdning til det?' = vad är din inställning till det?"}, 
-  {da:"undskyld",sv:"förlåt / ursäkta",en:"sorry, excuse me",ipa:"[ˈɔnskyl]",cat:"Divergent ordförråd",note:"⚠️ Uttalas 'onskyel'. Inget att associera med 'ursäkta'."}, 
-  {da:"tak",sv:"tack",en:"thank you",ipa:"[ˈtˢag]",cat:"Divergent ordförråd",note:"Nära svenska 'tack'. K uttalas G."}, 
-  {da:"venligst",sv:"vänligen",en:"kindly, please (formal)",ipa:"[ˈvenlisd]",cat:"Divergent ordförråd",note:"Nära svenska 'vänligen'."}, 
-  {da:"beklager",sv:"beklagar / förlåt",en:"I'm sorry, I regret",ipa:"[beˈkhlagɐ]",cat:"Divergent ordförråd",note:"'Det beklager jeg' = det beklagar jag."}, 
-  {da:"nøjagtigt",sv:"exakt / precis",en:"exactly, precisely",ipa:"[ˈnøˌagded]",cat:"Divergent ordförråd",note:"'Nøjagtigt det samme' = exakt samma sak."}, 
-  {da:"travl",sv:"stressad / upptagen",en:"busy",ipa:"[ˈtˢʁɑwˀl]",cat:"Divergent ordförråd",note:"⚠️ Inget direkt i svenska. 'Jeg har det travlt' = jag är stressad/hårt belastad."}, 
-  {da:"sikke",sv:"vad (utrop)",en:"what a...!",ipa:"[ˈsegə]",cat:"Divergent ordförråd",note:"'Sikke en dag!' = vad en dag!"}, 
-  {da:"nå",sv:"jaså / nåja",en:"oh, I see, well",ipa:"[ˈnɔˀ]",cat:"Divergent ordförråd",note:"Vanligaste reaktionsfrasen. Stødtone karakteristisk."}, 
-  {da:"gide",sv:"orka / bry sig",en:"to bother to",ipa:"[ˈgiˀðə]",cat:"Divergent ordförråd",note:"⚠️ 'Jeg gider ikke' = jag orkar inte / bryr mig inte."}, 
-  {da:"mangle",sv:"sakna / fattas",en:"to be missing",ipa:"[ˈmaŋlə]",cat:"Divergent ordförråd",note:"'Der mangler en ske' = det saknas en sked."}, 
-  {da:"reklame",sv:"reklam",en:"advertisement",ipa:"[ʁeˈkhlæˀmə]",cat:"Divergent ordförråd",note:"Nära svenska 'reklam'. E i slutet."}, 
-  {da:"skrald",sv:"skräp / sopor",en:"trash, garbage",ipa:"[ˈsgʁal]",cat:"Divergent ordförråd",note:"'Smide ud skrald' = kasta sopor. D tyst."}, 
-  {da:"blive",sv:"bli / stanna",en:"to become / to stay",ipa:"[ˈbliˀwə]",cat:"Verb",note:"⚠️ 'Bliv hjemme' = stanna hemma. 'Hvad er du blevet?' = vad har du blivit?"}, 
-  {da:"tage",sv:"ta / åka",en:"to take / to go (transport)",ipa:"[ˈtˢæˀ]",cat:"Verb",note:"'Tage toget' = ta tåget. 'Tage til Aarhus' = åka till Aarhus."}, 
-  {da:"hedde",sv:"heta",en:"to be called",ipa:"[ˈheðə]",cat:"Verb",note:"'Hvad hedder du?' = vad heter du?"}, 
-  {da:"kende",sv:"känna (till)",en:"to know a person",ipa:"[ˈkenə]",cat:"Verb",note:"'Kender du ham?' = känner du honom? Jfr 'vide' = veta."}, 
-  {da:"vide",sv:"veta",en:"to know a fact",ipa:"[ˈviˀðə]",cat:"Verb",note:"'Jeg ved det ikke' = jag vet inte. D mjukt, reduceras."}, 
-  {da:"savne",sv:"sakna",en:"to miss someone",ipa:"[ˈsæwnə]",cat:"Verb",note:"V uttalas W. 'Jeg savner dig' = jag saknar dig."}, 
-  {da:"bruge",sv:"använda",en:"to use",ipa:"[ˈbˢʁuˀ]",cat:"Verb",note:"⚠️ 'Bruge' = använda. 'Hvad bruger du det til?' = vad använder du det till?"}, 
-  {da:"nyde",sv:"njuta av",en:"to enjoy",ipa:"[ˈnyˀðə]",cat:"Verb",note:"'Nyd det!' = njut av det!"}, 
-  {da:"håbe",sv:"hoppas",en:"to hope",ipa:"[ˈhɔˀbə]",cat:"Verb",note:"'Jeg håber det' = jag hoppas det."}, 
-  {da:"betyde",sv:"betyda",en:"to mean, to signify",ipa:"[beˈtyˀðə]",cat:"Verb",note:"'Hvad betyder det?' = vad betyder det?"}, 
-  {da:"forsøge",sv:"försöka",en:"to try, to attempt",ipa:"[fɒˈsøˀ]",cat:"Verb",note:"'Jeg forsøger' = jag försöker."}, 
-  {da:"opnå",sv:"uppnå",en:"to achieve, to attain",ipa:"[ˈɔbˌnɔˀ]",cat:"Verb",note:"'Opnå sit mål' = uppnå sitt mål."}, 
-  {da:"undgå",sv:"undvika",en:"to avoid",ipa:"[ˈɔnˌgɔˀ]",cat:"Verb",note:"'Undgå problemer' = undvika problem."}, 
-  {da:"påstå",sv:"påstå",en:"to claim, to assert",ipa:"[ˈpɔˌsdɔˀ]",cat:"Verb",note:"'Han påstår at...' = han påstår att..."}, 
-  {da:"beslutte",sv:"bestämma / besluta",en:"to decide",ipa:"[beˈsludˀə]",cat:"Verb",note:"'Jeg har besluttet mig' = jag har bestämt mig."}, 
-  {da:"forklare",sv:"förklara",en:"to explain",ipa:"[fɒˈkhlaɐ̯ˀə]",cat:"Verb",note:"'Kan du forklare det?' = kan du förklara det?"}, 
-  {da:"forestille sig",sv:"föreställa sig",en:"to imagine",ipa:"[fɒˈsdɛlˀə si]",cat:"Verb",note:"'Forestil dig at...' = föreställ dig att..."}, 
-  {da:"fortælle",sv:"berätta / berätta",en:"to tell",ipa:"[fɒˈtˢɛlˀə]",cat:"Verb",note:"'Fortæl mig om det' = berätta för mig om det."}, 
-  {da:"lytte",sv:"lyssna",en:"to listen",ipa:"[ˈlydˀə]",cat:"Verb",note:"'Lytte til musik' = lyssna på musik."}, 
-  {da:"vente",sv:"vänta",en:"to wait",ipa:"[ˈvendˀə]",cat:"Verb",note:"'Vent venligst' = vänta vänligen."}, 
-  {da:"søge",sv:"söka",en:"to search, to seek",ipa:"[ˈsøˀ]",cat:"Verb",note:"'Søge efter noget' = söka efter något."}, 
-  {da:"finde",sv:"hitta / finna",en:"to find",ipa:"[ˈfenˀ]",cat:"Verb",note:"'Jeg kan ikke finde det' = jag kan inte hitta det."}, 
-  {da:"miste",sv:"mista / förlora",en:"to lose (something valued)",ipa:"[ˈmiˀsdə]",cat:"Verb",note:"'Miste sin nøgle' = mista sin nyckel."}, 
-  {da:"glemme",sv:"glömma",en:"to forget",ipa:"[ˈglemˀə]",cat:"Verb",note:"'Jeg glemte det' = jag glömde det."}, 
-  {da:"huske",sv:"komma ihåg",en:"to remember",ipa:"[ˈhɔsgˀə]",cat:"Verb",note:"'Husk nu det!' = kom nu ihåg det!"}, 
-  {da:"ønske",sv:"önska / önska sig",en:"to wish, to want",ipa:"[ˈønskhˀə]",cat:"Verb",note:"'Jeg ønsker mig...' = jag önskar mig..."}, 
-  {da:"elske",sv:"älska",en:"to love",ipa:"[ˈelsgˀə]",cat:"Verb",note:"'Jeg elsker dig' = jag älskar dig."}, 
-  {da:"hade",sv:"hata",en:"to hate",ipa:"[ˈhæˀðə]",cat:"Verb",note:"'Jeg hader det' = jag hatar det."}, 
-  {da:"leve",sv:"leva",en:"to live",ipa:"[ˈleˀwə]",cat:"Verb",note:"'Leve livet' = leva livet."}, 
-  {da:"dø",sv:"dö",en:"to die",ipa:"[ˈdøˀ]",cat:"Verb",note:"'Han er død' = han är död."}, 
-  {da:"føde",sv:"föda / föda",en:"to give birth / to feed",ipa:"[ˈføˀðə]",cat:"Verb",note:"'Føde et barn' = föda ett barn."}, 
-  {da:"vokse op",sv:"växa upp",en:"to grow up",ipa:"[ˈvɔgsˀə ɔb]",cat:"Verb",note:"'Jeg voksede op i København' = jag växte upp i Köpenhamn."}, 
-  {da:"lære",sv:"lära / lära sig",en:"to learn / to teach",ipa:"[ˈlɛɐ̯ˀ]",cat:"Verb",note:"'Jeg lærer dansk' = jag lär mig danska."}, 
-  {da:"undervise",sv:"undervisa",en:"to teach",ipa:"[ˈɔnɐˌviˀsə]",cat:"Verb",note:"'Undervise i matematik' = undervisa i matematik."}, 
-  {da:"studere",sv:"studera",en:"to study",ipa:"[stuˈdeˀɐ]",cat:"Verb",note:"'Studere på universitetet' = studera på universitetet."}, 
-  {da:"arbejde",sv:"arbeta",en:"to work",ipa:"[ˈɑːˌbɑjˀðə]",cat:"Verb",note:"'Jeg arbejder i København' = jag arbetar i Köpenhamn."}, 
-  {da:"tjene",sv:"tjäna",en:"to earn / to serve",ipa:"[ˈtˢeˀnə]",cat:"Verb",note:"'Tjene penge' = tjäna pengar."}, 
-  {da:"betale",sv:"betala",en:"to pay",ipa:"[beˈtˢæˀlˀə]",cat:"Verb",note:"'Betale regningen' = betala räkningen."}, 
-  {da:"købe",sv:"köpa",en:"to buy",ipa:"[ˈkhøˀbˀə]",cat:"Verb",note:"'Købe noget' = köpa något."}, 
-  {da:"sælge",sv:"sälja",en:"to sell",ipa:"[ˈsɛlˀ]",cat:"Verb",note:"'Sælge sin bil' = sälja sin bil."}, 
-  {da:"låne",sv:"låna",en:"to borrow / to lend",ipa:"[ˈlɔˀnˀə]",cat:"Verb",note:"'Kan jeg låne din cykel?' = kan jag låna din cykel?"}, 
-  {da:"klage",sv:"klaga",en:"to complain",ipa:"[ˈkhlaˀ]",cat:"Verb",note:"'Klage over støj' = klaga på buller."}, 
-  {da:"smile",sv:"le / le mot",en:"to smile",ipa:"[ˈsmiˀlˀə]",cat:"Verb",note:"'Han smiler' = han ler/ler mot en."}, 
-  {da:"grине",sv:"gråta / gråta",en:"to cry, to weep",ipa:"[ˈgʁiˀnˀə]",cat:"Verb",note:"⚠️ 'Grine' = skratta (inte gråta!). 'Græde' = gråta. Falsk vän!"}, 
-  {da:"græde",sv:"gråta",en:"to cry, to weep",ipa:"[ˈgʁɛˀðˀə]",cat:"Verb",note:"'Græde af glæde' = gråta av glädje. Jfr 'grine' = skratta."}, 
-  {da:"le",sv:"skratta / le",en:"to laugh",ipa:"[ˈleˀ]",cat:"Verb",note:"'Han ler' = han skrattar. Nära svenska 'le'."}, 
-  {da:"hvile",sv:"vila",en:"to rest",ipa:"[ˈviˀlˀə]",cat:"Verb",note:"'Hvile sig' = vila sig."}, 
-  {da:"løbe",sv:"springa / löpa",en:"to run",ipa:"[ˈløˀbˀə]",cat:"Verb",note:"'Jeg løber om morgenen' = jag springer på morgonen."}, 
-  {da:"gå",sv:"gå",en:"to go, to walk",ipa:"[ˈgɔˀ]",cat:"Verb",note:"Identisk med svenska 'gå'."}, 
-  {da:"stå",sv:"stå",en:"to stand",ipa:"[ˈsdɔˀ]",cat:"Verb",note:"Identisk med svenska 'stå'."}, 
-  {da:"sidde",sv:"sitta",en:"to sit",ipa:"[ˈseðˀə]",cat:"Verb",note:"Nära svenska 'sitta'. DD mjukt."}, 
-  {da:"ligge",sv:"ligga",en:"to lie (down)",ipa:"[ˈlegˀə]",cat:"Verb",note:"Nära svenska 'ligga'. GG mjukt."}, 
-  {da:"sove",sv:"sova",en:"to sleep",ipa:"[ˈsoˀwˀə]",cat:"Verb",note:"Nära svenska 'sova'. V uttalas W."}, 
-  {da:"spise",sv:"äta",en:"to eat",ipa:"[ˈsbiˀsˀə]",cat:"Verb",note:"⚠️ 'Spise' = äta. Nära 'spisa' i ålderdomlig svenska."}, 
-  {da:"drikke",sv:"dricka",en:"to drink",ipa:"[ˈdʁegˀə]",cat:"Verb",note:"Nära svenska 'dricka'. KK mjukt."}, 
-  {da:"trække",sv:"dra / dragen",en:"to pull / to draw",ipa:"[ˈtˢʁɛgˀə]",cat:"Verb",note:"'Trække vejret' = andas (bokst. 'dra andan'). KK mjukt."}, 
-  {da:"skubbe",sv:"skjuta / knuffa",en:"to push / to shove",ipa:"[ˈsgɔbˀə]",cat:"Verb",note:"'Skubbe til nogen' = knuffa någon."}, 
-  {da:"falde",sv:"falla",en:"to fall",ipa:"[ˈfalˀ]",cat:"Verb",note:"'Falde ned' = falla ner."}, 
-  {da:"støde",sv:"stöta / krocka",en:"to bump into, to collide",ipa:"[ˈsdøˀðˀə]",cat:"Verb",note:"'Støde ind i nogen' = stöta in i någon."}, 
-  {da:"dreje",sv:"vrida / svänga",en:"to turn, to twist",ipa:"[ˈdʁɑjˀ]",cat:"Verb",note:"'Dreje til højre' = svänga till höger."}, 
-  {da:"åbne",sv:"öppna",en:"to open",ipa:"[ˈɔbnˀə]",cat:"Verb",note:"Nära svenska 'öppna'. Å-vokal."}, 
-  {da:"lukke",sv:"stänga / stänga",en:"to close, to shut",ipa:"[ˈlogˀə]",cat:"Verb",note:"⚠️ 'Lukke' = stänga. 'Lukk døren' = stäng dörren."}, 
-  {da:"holde",sv:"hålla",en:"to hold",ipa:"[ˈhɔlˀ]",cat:"Verb",note:"'Hold fast' = håll fast. 'Holde op' = sluta/hålla upp."}, 
-  {da:"lægge",sv:"lägga",en:"to lay, to put",ipa:"[ˈlɛgˀ]",cat:"Verb",note:"'Lægge noget ned' = lägga ner något."}, 
-  {da:"sætte",sv:"sätta",en:"to put, to set",ipa:"[ˈsɛdˀ]",cat:"Verb",note:"'Sæt dig' = sätt dig."}, 
-  {da:"stille",sv:"ställa / sätta",en:"to place, to put (upright)",ipa:"[ˈsdɛlˀ]",cat:"Verb",note:"'Stille et spørgsmål' = ställa en fråga."}, 
-  {da:"flytte",sv:"flytta",en:"to move",ipa:"[ˈflydˀ]",cat:"Verb",note:"'Flytte til en ny by' = flytta till en ny stad."}, 
-  {da:"bygge",sv:"bygga",en:"to build",ipa:"[ˈbɔgˀ]",cat:"Verb",note:"'Bygge et hus' = bygga ett hus."}, 
-  {da:"bryde",sv:"bryta",en:"to break",ipa:"[ˈbʁyˀðˀ]",cat:"Verb",note:"'Bryde loven' = bryta lagen."}, 
-  {da:"skrive",sv:"skriva",en:"to write",ipa:"[ˈsgʁiˀwˀ]",cat:"Verb",note:"Nära svenska 'skriva'. V uttalas W."}, 
-  {da:"læse",sv:"läsa",en:"to read",ipa:"[ˈlɛˀsˀ]",cat:"Verb",note:"Nära svenska 'läsa'. Æ-vokal."}, 
-  {da:"tegne",sv:"rita / teckna",en:"to draw, to sketch",ipa:"[ˈtˢɑjnˀ]",cat:"Verb",note:"'Tegne en tegning' = rita en teckning."}, 
-  {da:"male",sv:"måla",en:"to paint",ipa:"[ˈmæˀlˀ]",cat:"Verb",note:"Nära svenska 'måla'. Æ-vokal."}, 
-  {da:"synge",sv:"sjunga",en:"to sing",ipa:"[ˈsɔŋˀ]",cat:"Verb",note:"Nära svenska 'sjunga'. Y-vokal → Å-ljud."}, 
-  {da:"spille",sv:"spela",en:"to play (instrument/game)",ipa:"[ˈsbelˀ]",cat:"Verb",note:"'Spille guitar' = spela gitarr."}, 
-  {da:"rejse",sv:"resa",en:"to travel",ipa:"[ˈʁɑjˀsˀ]",cat:"Verb",note:"'Rejse til udlandet' = resa utomlands."}, 
-  {da:"besøge",sv:"besöka",en:"to visit",ipa:"[beˈsøˀ]",cat:"Verb",note:"'Besøge sine forældre' = besöka sina föräldrar."}, 
-  {da:"deltage",sv:"delta",en:"to participate",ipa:"[ˈdelˌtˢæˀ]",cat:"Verb",note:"'Deltage i mødet' = delta i mötet."}, 
-  {da:"fejre",sv:"fira",en:"to celebrate",ipa:"[ˈfɑjˀʁˀ]",cat:"Verb",note:"'Fejre sin fødselsdag' = fira sin födelsedag."}, 
-  {da:"foreslå",sv:"föreslå",en:"to suggest",ipa:"[fɒˈeˌslɔˀ]",cat:"Verb",note:"'Jeg foreslår at...' = jag föreslår att..."}, 
-  {da:"bestemme",sv:"bestämma",en:"to decide, to determine",ipa:"[beˈsdemˀ]",cat:"Verb",note:"'Du bestemmer' = du bestämmer."}, 
-  {da:"klare",sv:"klara",en:"to manage, to handle",ipa:"[ˈkhlaɐ̯ˀ]",cat:"Verb",note:"'Klare sig selv' = klara sig själv."}, 
-  {da:"trænge",sv:"behöva / tränga",en:"to need / to push through",ipa:"[ˈtˢʁɛŋˀ]",cat:"Verb",note:"'Jeg trænger til kaffe' = jag behöver kaffe."}, 
-  {da:"frygte",sv:"frukta / vara rädd",en:"to fear",ipa:"[ˈfʁɔgˀdˀ]",cat:"Verb",note:"'Frygte det værste' = frukta det värsta."}, 
-  {da:"overraske",sv:"överraska",en:"to surprise",ipa:"[ˌoˀɐˈʁasgˀ]",cat:"Verb",note:"'Du overraskede mig' = du överraskade mig."}, 
-  {da:"med det samme",sv:"genast",en:"right away",ipa:"[me de ˈsamə]",cat:"Fraser",note:"'Kom med det samme!' = kom genast!"}, 
-  {da:"i øvrigt",sv:"för övrigt",en:"by the way, besides",ipa:"[i ˈøvʁed]",cat:"Fraser",note:"Vanlig segmenteringsfras."}, 
-  {da:"til gengæld",sv:"å andra sidan / i gengäld",en:"on the other hand",ipa:"[tel ˈgenˌgel]",cat:"Fraser",note:"'Til gengæld er han sød' = å andra sidan är han snäll."}, 
-  {da:"på en måde",sv:"på ett sätt",en:"in a way, sort of",ipa:"[pɔ en ˈmɔˀðə]",cat:"Fraser",note:"Vanlig hedging-fras."}, 
-  {da:"i stedet for",sv:"istället för",en:"instead of",ipa:"[i ˈsdeð fɒ]",cat:"Fraser",note:"D mjukt: 'ste-ed-fo'."}, 
-  {da:"nej da",sv:"nej då / nej men",en:"oh no, not at all",ipa:"[ˈnɑjˀda]",cat:"Fraser",note:"Vanlig reaktion."}, 
-  {da:"det vil sige",sv:"det vill säga",en:"that is to say",ipa:"[de vel ˈsiˀ]",cat:"Fraser",note:"'Dvs.' på danska också."}, 
-  {da:"så vidt jeg ved",sv:"vad jag vet",en:"as far as I know",ipa:"[sɔ ved ja ve]",cat:"Fraser",note:"'Så vidt jeg ved er det rigtigt' = vad jag vet är det rätt."}, 
-  {da:"hvad angår",sv:"vad gäller",en:"as far as...is concerned",ipa:"[va aŋˈgɔˀ]",cat:"Fraser",note:"'Hvad angår det...' = vad gäller det..."}, 
-  {da:"på grund af",sv:"på grund av",en:"because of, due to",ipa:"[pɔ gʁɔn af]",cat:"Fraser",note:"'På grund af regnet' = på grund av regnet."}, 
-  {da:"i forbindelse med",sv:"i samband med",en:"in connection with",ipa:"[i fɒˈbenˌlsˀə me]",cat:"Fraser",note:"'I forbindelse med mødet' = i samband med mötet."}, 
-  {da:"i løbet af",sv:"under loppet av / under",en:"in the course of",ipa:"[i ˈløbˀəð af]",cat:"Fraser",note:"'I løbet af dagen' = under dagens lopp."}, 
-  {da:"på trods af",sv:"trots",en:"despite",ipa:"[pɔ ˈtˢʁɔs af]",cat:"Fraser",note:"'På trods af vejret' = trots vädret."}, 
-  {da:"det kommer an på",sv:"det beror på",en:"it depends on",ipa:"[de komɐ an pɔ]",cat:"Fraser",note:"'Det kommer an på hvad du vil' = det beror på vad du vill."}, 
-  {da:"så at sige",sv:"så att säga",en:"so to speak",ipa:"[sɔ a ˈsiˀ]",cat:"Fraser",note:"'Det er, så at sige, umuligt' = det är, så att säga, omöjligt."}, 
-  {da:"med andre ord",sv:"med andra ord",en:"in other words",ipa:"[me ˈanˀˌʁˀə ˈoɐ̯ˀ]",cat:"Fraser",note:"'Med andre ord...' = med andra ord..."}, 
-  {da:"frem for alt",sv:"framför allt",en:"above all, most importantly",ipa:"[fʁem fɒ ˈald]",cat:"Fraser",note:"'Frem for alt skal du huske...' = framför allt ska du komma ihåg..."}, 
-  {da:"i praksis",sv:"i praktiken",en:"in practice",ipa:"[i ˈpˢʁagˌsis]",cat:"Fraser",note:"'I praksis fungerer det ikke' = i praktiken fungerar det inte."}, 
-  {da:"af og til",sv:"då och då / ibland",en:"now and then",ipa:"[af ɔ tel]",cat:"Fraser",note:"'Af og til tager jeg toget' = ibland tar jag tåget."}, 
-  {da:"til tider",sv:"ibland / emellanåt",en:"at times",ipa:"[tel ˈtˢiˀˌðɐ]",cat:"Fraser",note:"'Til tider er det svært' = emellanåt är det svårt."}, 
-  {da:"ikke desto mindre",sv:"inte desto mindre / ändå",en:"nonetheless",ipa:"[ˈegə ˈdesˌto ˈmenˀˌʁˀə]",cat:"Fraser",note:"'Ikke desto mindre fortsatte han' = inte desto mindre fortsatte han."}, 
-  {da:"ikke mindst",sv:"inte minst",en:"not least",ipa:"[ˈegə ˈmensˀd]",cat:"Fraser",note:"'Ikke mindst fordi...' = inte minst för att..."}, 
-  {da:"langt fra",sv:"långt ifrån",en:"far from",ipa:"[laŋd fʁa]",cat:"Fraser",note:"'Det er langt fra nok' = det är långt ifrån tillräckligt."}, 
-  {da:"det giver mening",sv:"det är logiskt / det stämmer",en:"that makes sense",ipa:"[de giˀˀɐ ˈmeˀneŋ]",cat:"Fraser",note:"'Det giver mening' = det är logiskt/det stämmer."}, 
-  {da:"er du med?",sv:"är du med? / förstår du?",en:"do you follow? are you with me?",ipa:"[eɐ̯ du me]",cat:"Fraser",note:"'Er du med?' = förstår du? / häger du med?"}, 
-  {da:"hvad mener du?",sv:"vad menar du?",en:"what do you mean?",ipa:"[va ˈmeˀˌnɐ du]",cat:"Fraser",note:"'Hvad mener du med det?' = vad menar du med det?"}, 
-  {da:"det er så det",sv:"det är det just / just det",en:"that's just it",ipa:"[de eɐ̯ sɔ de]",cat:"Fraser",note:"'Det er så det, jeg ikke kan forstå' = det är just det jag inte kan förstå."}, 
-  {da:"hvad så?",sv:"vad då? / nåja?",en:"so what? / what then?",ipa:"[va sɔ]",cat:"Fraser",note:"'Hvad så?' = nåja? / och sen då?"}, 
-  {da:"på ingen måde",sv:"på inget sätt / absolut inte",en:"by no means, not at all",ipa:"[pɔ ˈenˀˌgən ˈmɔˀðə]",cat:"Fraser",note:"'Det vil jeg på ingen måde acceptere' = det accepterar jag absolut inte."}, 
-  {da:"hvad hedder det?",sv:"vad heter det?",en:"what is it called?",ipa:"[va ˈheðɐ de]",cat:"Fraser",note:"'Hvad hedder det på dansk?' = vad heter det på danska?"}, 
-  {da:"det er ligegyldigt",sv:"det spelar ingen roll",en:"it doesn't matter",ipa:"[de eɐ̯ ˈliˀˌeˌgylˀˌdi]",cat:"Fraser",note:"'Det er ligegyldigt' = det spelar ingen roll."}, 
-  {da:"kan du lide det?",sv:"gillar du det?",en:"do you like it?",ipa:"[kha du liˀ de]",cat:"Fraser",note:"'Kan du lide dansen?' = gillar du dansen?"}, 
-  {da:"jeg kan lide",sv:"jag gillar",en:"I like",ipa:"[ja kha liˀ]",cat:"Fraser",note:"⚠️ 'Kan lide' = gilla. Inget direkt svar i svenska."}, 
-  {da:"hvad synes du?",sv:"vad tycker du?",en:"what do you think?",ipa:"[va ˈsynˌəs du]",cat:"Fraser",note:"'Synes' = tycka (känslobaserat)."}, 
-  {da:"jeg ved det ikke",sv:"jag vet inte",en:"I don't know",ipa:"[ja ve de ˈegə]",cat:"Fraser",note:"Reduceras i tal: 'ja venné'."}, 
-  {da:"det er ikke noget",sv:"det är inget / inget att bry sig om",en:"it's nothing / no big deal",ipa:"[de eɐ̯ ˈegə ˈnɔəd]",cat:"Fraser",note:"'Det er ikke noget' = det är inget."}, 
-  {da:"har du det godt?",sv:"mår du bra?",en:"are you doing well?",ipa:"[hɑˀ du de ˈgɔd]",cat:"Fraser",note:"'Har du det godt?' = mår du bra?"}, 
-  {da:"jeg har det godt",sv:"jag mår bra",en:"I'm doing well",ipa:"[ja hɑˀ de ˈgɔd]",cat:"Fraser",note:"'Jeg har det godt' = jag mår bra."}, 
-  {da:"pas på",sv:"se upp / akta dig",en:"be careful, watch out",ipa:"[pas pɔ]",cat:"Fraser",note:"'Pas på!' = se upp!"}, 
-  {da:"hold da op",sv:"herre gud / oj",en:"good grief, oh my",ipa:"[hɔl da ˈɔb]",cat:"Fraser",note:"Utrop. 'Hold da op, det er stort!' = herre gud, det är stort!"}, 
-  {da:"for pokker",sv:"för tusan / fan",en:"damn it, for heaven's sake",ipa:"[fɒ ˈpˢhɔgɐ]",cat:"Fraser",note:"Milt svärord/utrop. 'For pokker da!' = för tusan!"}, 
-  {da:"sgu",sv:"ju / väl (markör)",en:"really, actually (emphatic particle)",ipa:"[ˈsgu]",cat:"Fraser",note:"⚠️ Extremt vanlig samtalspartikeln. 'Det er sgu rigtigt' = det är ju/väl riktigt. Svärdsbaserat men neutralt i tal."}, 
-  {da:"glæder mig til",sv:"ser fram emot",en:"looking forward to",ipa:"[ˈglɛˀˌɐ mɑj tel]",cat:"Fraser",note:"'Jeg glæder mig til det' = jag ser fram emot det."}, 
-  {da:"det passer",sv:"det stämmer",en:"that's right, that fits",ipa:"[de ˈphasˀɐ]",cat:"Fraser",note:"'Det passer godt' = det passar bra."}, 
-  {da:"bare rolig",sv:"lugna sig / lugna ner sig",en:"calm down, don't worry",ipa:"[baˀɐ ˈʁoˀli]",cat:"Fraser",note:"'Bare rolig!' = lugna dig! Kom ihåg: 'rolig' = lugn."}, 
-  {da:"gå ud fra",sv:"utgå ifrån / anta",en:"to assume, to go by",ipa:"[gɔ uð fʁa]",cat:"Fraser",note:"'Jeg går ud fra at...' = jag utgår ifrån att..."}, 
-  {da:"tage sig af",sv:"ta hand om",en:"to take care of",ipa:"[tˢæˀ si af]",cat:"Fraser",note:"'Tage sig af barnet' = ta hand om barnet."}, 
-  {da:"se frem til",sv:"se fram emot",en:"to look forward to",ipa:"[se fʁem tel]",cat:"Fraser",note:"'Jeg ser frem til at møde dig' = jag ser fram emot att träffa dig."}, 
-  {da:"falde til ro",sv:"lugna sig / slå sig till ro",en:"to settle down, to calm down",ipa:"[falˀ tel ˈʁoˀ]",cat:"Fraser",note:"'Fald til ro' = lugna dig."}, 
-  {da:"tage imod",sv:"ta emot",en:"to receive, to accept",ipa:"[tˢæˀ iˈmɔð]",cat:"Fraser",note:"'Tage imod et tilbud' = ta emot ett erbjudande."}, 
-  {da:"give op",sv:"ge upp",en:"to give up",ipa:"[giˀ ˈɔb]",cat:"Fraser",note:"'Giv ikke op!' = ge inte upp!"}, 
-  {da:"komme af med",sv:"bli av med",en:"to get rid of",ipa:"[komˀ af me]",cat:"Fraser",note:"'Komme af med sine problemer' = bli av med sina problem."}, 
-  {da:"gift",sv:"gift (giftig) / gift (vigd)",en:"married / poison",ipa:"[ˈgefd]",cat:"Falska vänner",note:"Samma dubbelbetydelse som svenska. T uttalas D."}, 
-  {da:"kold",sv:"kall",en:"cold",ipa:"[ˈkhɔl]",cat:"Falska vänner",note:"Nära svenska 'kall'. D tyst i slutet."}, 
-  {da:"varm",sv:"varm",en:"warm",ipa:"[ˈvɑˀm]",cat:"Falska vänner",note:"Identisk med svenska 'varm'. Stødtone."}, 
-  {da:"mørk",sv:"mörk",en:"dark",ipa:"[ˈmɶɐ̯g]",cat:"Falska vänner",note:"Nära svenska 'mörk'. Ø-vokal."}, 
-  {da:"lys",sv:"ljus",en:"light, bright",ipa:"[ˈlyˀs]",cat:"Falska vänner",note:"Nära svenska 'ljus'. Stødtone."}, 
-  {da:"tyk",sv:"tjock",en:"thick, fat",ipa:"[ˈtyˀg]",cat:"Falska vänner",note:"⚠️ Svenska 'tjock' = danska 'tyk'. K tyst."}, 
-  {da:"tynd",sv:"tunn",en:"thin",ipa:"[ˈtyˀn]",cat:"Falska vänner",note:"⚠️ Svenska 'tunn' = danska 'tynd'. D tyst."}, 
-  {da:"ren",sv:"ren / ren",en:"clean / pure",ipa:"[ˈʁeˀn]",cat:"Falska vänner",note:"Identisk med svenska 'ren'. Stødtone."}, 
-  {da:"beskidt",sv:"smutsig",en:"dirty",ipa:"[beˈsged]",cat:"Falska vänner",note:"⚠️ Svenska 'smutsig' = danska 'beskidt'. Helt annorlunda."}, 
-  {da:"halvt",sv:"hälften / halv",en:"half",ipa:"[ˈhald]",cat:"Falska vänner",note:"'Halvt og halvt' = hälften och hälften."}, 
-  {da:"hel",sv:"hel / hel",en:"whole, entire",ipa:"[ˈheˀl]",cat:"Falska vänner",note:"'Den hele dag' = hela dagen."}, 
-  {da:"slem",sv:"elak / stygg",en:"naughty, bad",ipa:"[ˈslem]",cat:"Falska vänner",note:"'Du er slem!' = du är stygg/elak."}, 
-  {da:"klæbrig",sv:"kladdig / klibbig",en:"sticky",ipa:"[ˈklɛbˀʁi]",cat:"Falska vänner",note:"'Det er klæbrigt' = det är kladdigt."}, 
-  {da:"rundt",sv:"rund / runt",en:"round",ipa:"[ˈʁɔnd]",cat:"Falska vänner",note:"'Et rundt bord' = ett runt bord."}, 
-  {da:"jo mere jo bedre",sv:"ju mer desto bättre",en:"the more the better",ipa:"[jo meɐ̯ jo ˈbeðˀʁˀə]",cat:"Frekventa ord",note:"'Jo mere jo bedre' = ju mer desto bättre."}, 
-  {da:"hvorimod",sv:"varemot / medan",en:"whereas, while",ipa:"[ˈvɒiˌmɔð]",cat:"Frekventa ord",note:"'Hvorimod det modsatte gælder...' = varemot det motsatta gäller..."}, 
-  {da:"trods",sv:"trots",en:"despite, in spite of",ipa:"[ˈtˢʁɔs]",cat:"Frekventa ord",note:"'Trods regnet gik vi ud' = trots regnet gick vi ut."}, 
-  {da:"skønt",sv:"fastän / trots att",en:"although, even though",ipa:"[ˈsgønd]",cat:"Frekventa ord",note:"'Skønt det regnede, gik vi' = fastän det regnade gick vi."}, 
-  {da:"nærmest",sv:"närmast / nästan",en:"nearest / practically",ipa:"[ˈnɛɐ̯ˌmˀəsd]",cat:"Frekventa ord",note:"'Det er nærmest umuligt' = det är nästan omöjligt."}, 
-  {da:"grine",sv:"skratta",en:"to laugh",ipa:"[ˈgʁiˀnˀ]",cat:"Uttal-fällor",note:"⚠️ FALSK VÄN! 'Grine' = skratta (ej gråta). 'Græde' = gråta."}, 
-  {da:"trække vejret",sv:"andas",en:"to breathe",ipa:"[ˈtˢʁɛgˀ ˈvɑjˀˌʁˀəð]",cat:"Uttal-fällor",note:"'Trækker du vejret?' = andas du? Bokstavligen 'dra andan'."}, 
-  {da:"holde op",sv:"sluta / hålla upp",en:"to stop, to quit",ipa:"[ˈhɔlˀ ˈɔb]",cat:"Uttal-fällor",note:"'Hold op med det!' = sluta med det!"}, 
-  {da:"finde ud af",sv:"ta reda på / lista ut",en:"to figure out",ipa:"[ˈfenˀ uð af]",cat:"Uttal-fällor",note:"'Jeg finder ud af det' = jag listar ut det."}, 
-  {da:"give mening",sv:"ge mening / vara logiskt",en:"to make sense",ipa:"[giˀ ˈmeˀneŋ]",cat:"Uttal-fällor",note:"'Det giver ikke mening' = det ger ingen mening."}, 
-  {da:"komme til",sv:"hinna",en:"to get to (happen)",ipa:"[ˈkomˀ tel]",cat:"Uttal-fällor",note:"'Kom til at gøre noget' = råka göra något (ofrivilligt)."}, 
-  {da:"tage fejl",sv:"ta fel / ha fel",en:"to be mistaken",ipa:"[tˢæˀ ˈfɑjl]",cat:"Uttal-fällor",note:"'Du tager fejl' = du tar fel."}, 
-  {da:"have det",sv:"må (det) / ha det (ställt)",en:"to be doing (health-wise)",ipa:"[hæˀ de]",cat:"Uttal-fällor",note:"'Har du det godt?' = mår du bra?"}, 
-  {da:"smide",sv:"kasta / slänga",en:"to throw, to toss",ipa:"[ˈsmiˀðˀˀ]",cat:"Verb",note:"'Smide ud' = kasta bort. 'Smid det' = kasta det."}, 
-  {da:"bede",sv:"be (om)",en:"to ask, to request",ipa:"[ˈbeˀðˀˀ]",cat:"Verb",note:"'Bede om hjælp' = be om hjälp."}, 
-  {da:"vælge",sv:"välja",en:"to choose",ipa:"[ˈvɛlˀˀ]",cat:"Verb",note:"'Vælge mellem to ting' = välja mellan två saker."}, 
-  {da:"mærke",sv:"märka / känna",en:"to notice / to feel",ipa:"[ˈmɛɐ̯gˀˀ]",cat:"Verb",note:"'Jeg mærkede det' = jag kände/märkte det."}, 
-  {da:"flov",sv:"generad / skamsen",en:"embarrassed",ipa:"[ˈfloˀw]",cat:"Falska vänner",note:"⚠️ Inget direkt i svenska. 'Jeg er flov' = jag är generad/skamsen. Centralt vardagsord."}, 
-  {da:"drilsk",sv:"retsam / bus-",en:"teasing, mischievous",ipa:"[ˈdʁelsg]",cat:"Falska vänner",note:"⚠️ 'Han er drilsk' = han är retsam. Inget direkt i svenska."}, 
-  {da:"tarvelig",sv:"tarvlig / vulgär",en:"cheap, tacky, rude",ipa:"[ˈtˢɑvəli]",cat:"Falska vänner",note:"⚠️ 'Det er tarveligt' = det är tarvligt/vulgärt. Nära svenska 'tarvlig' men bredare användning."}, 
-  {da:"myndig",sv:"myndig / bestämd",en:"authoritative / of legal age",ipa:"[ˈmøndi]",cat:"Falska vänner",note:"⚠️ 'Han er myndig' = han har uppnått myndig ålder. 'En myndig stemme' = en bestämd röst."}, 
-  {da:"ligegyldig",sv:"likgiltig / ointresserad",en:"indifferent, doesn't matter",ipa:"[ˈliˀˌeˌgylˀdi]",cat:"Falska vänner",note:"⚠️ 'Det er ligegyldigt' = det spelar ingen roll. Extremt vanligt och centralt danskt ord."}, 
-  {da:"overskud",sv:"ork / energi",en:"surplus energy, capacity",ipa:"[ˈoˀˌsgʁuð]",cat:"Falska vänner",note:"⚠️ 'Jeg har ikke overskud' = jag orkar inte / har inte energi. Annorlunda från svenska 'överskott'."}, 
-  {da:"ærgerlig",sv:"irriterad / ledsen",en:"annoyed, vexed",ipa:"[ˈɛɐ̯ˌgɐli]",cat:"Falska vänner",note:"⚠️ 'Jeg er ærgerlig' = jag är irriterad/ledsen. Nära svenska 'ärgerlig' men mer vardagligt."}, 
-  {da:"flot",sv:"snygg / fin / häftig",en:"great, stylish, impressive",ipa:"[ˈflɔd]",cat:"Falska vänner",note:"⚠️ 'Det er flot!' = det är snyggt/imponerande! Inget direkt i svenska. Extremt vanligt positivt ord."}, 
-  {da:"sjov",sv:"rolig / kul",en:"funny, fun",ipa:"[ˈʃoˀw]",cat:"Falska vänner",note:"⚠️ Danska 'sjov' = svenska 'rolig/kul'. Och svenska 'rolig' = danska 'rolig' (lugn). Klassisk förvirring."}, 
-  {da:"kikset",sv:"knäpp / kantig / klumpig",en:"awkward, nerdy, clumsy",ipa:"[ˈkhegˌsed]",cat:"Falska vänner",note:"⚠️ 'Han er kikset' = han är knäpp/kantig. Inget direkt i svenska. Vardagligt slang."}, 
-  {da:"frisk",sv:"frisk / kry",en:"healthy, well",ipa:"[ˈfʁesg]",cat:"Falska vänner",note:"Nära svenska 'frisk'. Men 'frisk luft' på danska = sval luft, inte nödvändigtvis hälsosam."}, 
-  {da:"rar",sv:"trevlig / snäll",en:"kind, nice",ipa:"[ˈʁaˀʌ]",cat:"Falska vänner",note:"⚠️ Svenska <strong>'rar'</strong> = konstig/underlig. Danska 'rar' = trevlig/snäll. Helt omvändt!"}, 
-  {da:"irriterende",sv:"irriterande / jobbig",en:"annoying, irritating",ipa:"[iʁiˈtˢeˀˌʁenˀ]",cat:"Falska vänner",note:"Nära svenska 'irriterande' men -ende vs -ande. Uttalsskillnaden tydlig i naturligt tal."}, 
-  {da:"da",sv:"ju / väl / då (partikel)",en:"(softening/confirming particle)",ipa:"[ˈda]",cat:"Frekventa ord",note:"⚠️ 'Kom da!' = kom nu då! 'Det er da ikke sandt' = det är ju inte sant. Obetont diskursord, extremt vanligt."}, 
-  {da:"jo da",sv:"javisst / jodå",en:"yes of course, sure",ipa:"[joˈda]",cat:"Frekventa ord",note:"'Jo da, det gør jeg' = javisst, det gör jag. Vanlig bekräftelse i tal."}, 
-  {da:"nå ja",sv:"nåja / jo just",en:"oh yes, right, of course",ipa:"[ˈnɔˀja]",cat:"Frekventa ord",note:"'Nå ja, det er rigtigt' = nåja, det stämmer. Vanlig reaktion när man erinrar sig något."}, 
-  {da:"skidt",sv:"skit / strunt",en:"rubbish, damn, doesn't matter",ipa:"[ˈsgid]",cat:"Frekventa ord",note:"⚠️ 'Skidt med det' = strunt i det. 'Åh skidt!' = oj fan! Vanligt utrop och fyllnadsord."}, 
-  {da:"orv",sv:"usch / herregud (utrop)",en:"oh wow, yikes (exclamation)",ipa:"[ˈɒv]",cat:"Frekventa ord",note:"⚠️ Vanligt danskt utrop av förvåning/avsmak. Inget direkt i svenska. 'Orv, det var grimt!'"}, 
-  {da:"gu",sv:"ju / väl / sannerligen",en:"really, indeed (emphatic particle)",ipa:"[ˈgu]",cat:"Frekventa ord",note:"⚠️ 'Det er gu rigtigt' = det stämmer ju. Kortform av 'sgu'. Obetont förstärkningsord i tal."}, 
-  {da:"vel",sv:"väl / eller hur",en:"right? surely? (seeking confirmation)",ipa:"[ˈvel]",cat:"Frekventa ord",note:"⚠️ 'Det er vel nok godt?' = det är väl bra? Söker bekräftelse. Nära svenska 'väl' i funktion."}, 
-  {da:"mon",sv:"månne / undrar",en:"I wonder, do you think...?",ipa:"[ˈmon]",cat:"Frekventa ord",note:"⚠️ 'Mon han kommer?' = månne han kommer? Reflekterande partikel utan direkt sv-motstycke."}, 
-  {da:"nysgerrig",sv:"nyfiken",en:"curious, nosy",ipa:"[ˈnyˀˌsgɛʁi]",cat:"Frekventa ord",note:"⚠️ Danska 'nysgerrig' = svenska 'nyfiken'. Helt annorlunda form. Vanligt vardagsord."}, 
-  {da:"tøve",sv:"tveka / dröja",en:"to hesitate, to linger",ipa:"[ˈtˢøˀwˀə]",cat:"Frekventa ord",note:"⚠️ 'Tøv ikke!' = tveka inte! Inget direkt i svenska."}, 
-  {da:"kvinder",sv:"kvinnor",en:"women",ipa:"[ˈkvenˀɐ]",cat:"Frekventa ord",note:"⚠️ Danska 'kvinder' = svenska 'kvinnor'. D mjukt. 'En kvinde' = en kvinna."}, 
-  {da:"børn",sv:"barn",en:"children",ipa:"[ˈbɶɐ̯ˀn]",cat:"Frekventa ord",note:"⚠️ Danska 'børn' = svenska 'barn'. Ø-vokal och svagt R gör det svårt att höra. Centralt ord."}, 
-  {da:"sådan set",sv:"egentligen / i och för sig",en:"in a way, when you think about it",ipa:"[ˈsɔˀðən ˈsed]",cat:"Uttal-fällor",note:"⚠️ 'Sådan set er det rigtigt' = i och för sig är det rätt. Vanlig fras i tal, svår att höra."}, 
-  {da:"hvad end",sv:"vad än / vad som än",en:"whatever",ipa:"[va ˈen]",cat:"Uttal-fällor",note:"⚠️ 'Hvad end du gør' = vad du än gör. H+d tysta. Uttalas 'va en'."}, 
-  {da:"nogen sinde",sv:"någonsin",en:"ever",ipa:"[ˈnoˀən ˈsenˀ]",cat:"Uttal-fällor",note:"⚠️ 'Har du nogen sinde prøvet det?' = har du någonsin provat det? G tyst, reduceras kraftigt."}, 
-  {da:"det samme",sv:"detsamma / samma sak",en:"the same (thing)",ipa:"[de ˈsamˀ]",cat:"Uttal-fällor",note:"⚠️ 'Det er det samme' = det är detsamma / spelar ingen roll. 'Det' → 'de', T tyst."}, 
-  {da:"hvad nu hvis",sv:"tänk om / vad händer om",en:"what if",ipa:"[va nu ves]",cat:"Uttal-fällor",note:"⚠️ 'Hvad nu hvis det går galt?' = tänk om det går fel? Alla tre orden reduceras i tal."}, 
-  {da:"om lidt",sv:"om lite / strax",en:"in a little while, shortly",ipa:"[ɔm ˈled]",cat:"Uttal-fällor",note:"⚠️ 'Jeg kommer om lidt' = jag kommer strax. 'Lidt' uttalas 'let'. Mycket vanlig fras."}, 
-  {da:"på en eller anden måde",sv:"på något vis / på ett eller annat sätt",en:"somehow",ipa:"[pɔ en elˈanˀ ˈmɔˀðə]",cat:"Uttal-fällor",note:"⚠️ Lång fras som sväljs i tal. 'Eller anden' → nästan 'elannen'. Extremt vanlig."}, 
-  {da:"i og med",sv:"i och med",en:"given that, seeing as",ipa:"[i ɔ me]",cat:"Uttal-fällor",note:"'I og med at du er her...' = i och med att du är här. Reduceras till 'i-o-me' i tal."}, 
-  {da:"ikke rigtig",sv:"inte riktigt / inte helt",en:"not quite, not really",ipa:"[ˈegə ˈʁegdi]",cat:"Uttal-fällor",note:"⚠️ Båda orden reduceras kraftigt. 'Det er ikke rigtig godt' = det är inte riktigt bra."}, 
-  {da:"indrømme",sv:"erkänna / medge",en:"to admit, to acknowledge",ipa:"[enˈdʁɔmˀ]",cat:"Divergent ordförråd",note:"⚠️ 'Jeg er nødt til at indrømme...' = jag måste erkänna... Inget direkt i svenska."}, 
-  {da:"skabe",sv:"skapa / orsaka",en:"to create, to cause",ipa:"[ˈsgæˀbˀ]",cat:"Divergent ordförråd",note:"'Skabe problemer' = orsaka problem. 'Skabe noget nyt' = skapa något nytt."}, 
-  {da:"hænde",sv:"hända",en:"to happen",ipa:"[ˈhɛnˀ]",cat:"Divergent ordförråd",note:"'Hvad er der hændt?' = vad har hänt? Nära svenska 'hända' men D mjukt."}, 
-  {da:"passe",sv:"passa / stämma / sköta",en:"to fit / to suit / to look after",ipa:"[ˈphasˀ]",cat:"Divergent ordförråd",note:"⚠️ Flertydig. 'Det passer' = det stämmer. 'Passe på' = se upp. 'Passe børn' = passa barn."}, 
-  {da:"lade",sv:"låta / lämna",en:"to let, to leave, to allow",ipa:"[ˈlæˀ]",cat:"Divergent ordförråd",note:"'Lad mig gøre det' = låt mig göra det. 'Lad være med det' = låt bli det."}, 
-  {da:"lad være",sv:"låt bli / sluta",en:"leave it, stop it, don't",ipa:"[la ˈvæˀɐ]",cat:"Divergent ordförråd",note:"⚠️ 'Lad nu være med det!' = låt bli! Idiomatisk och extremt vanlig uppmaning."}, 
-  {da:"ordne",sv:"ordna / fixa",en:"to sort out, to arrange",ipa:"[ˈɒˀnˀ]",cat:"Divergent ordförråd",note:"'Jeg ordner det' = jag fixar det / ordnar det."}, 
-  {da:"forkert",sv:"fel / felaktig",en:"wrong, incorrect",ipa:"[fɒˈkhɛɐ̯d]",cat:"Divergent ordförråd",note:"⚠️ 'Det er forkert' = det är fel. Inget direkt i svenska. Centralt vardagsord."}, 
-  {da:"netop",sv:"just / precis / exakt",en:"exactly, precisely, just now",ipa:"[ˈneˀdɔb]",cat:"Divergent ordförråd",note:"⚠️ 'Netop!' = precis! / just det! Också: 'netop nu' = just nu. Extremt vanligt i tal."}, 
-  {da:"tilsyneladende",sv:"till synes / uppenbarligen",en:"apparently, seemingly",ipa:"[telˈsynˌlæˀnˀ]",cat:"Divergent ordförråd",note:"⚠️ Långt ord som reduceras kraftigt i tal. 'Tilsyneladende er det rigtigt' = till synes är det rätt."}, 
-  {da:"undvære",sv:"undvara / klara sig utan",en:"to do without, to spare",ipa:"[ˈɔnˌvæˀɐ]",cat:"Divergent ordförråd",note:"⚠️ 'Kan du undvære den?' = kan du undvara den? Nära svenska 'undvara' men annorlunda."}, 
-  {da:"opføre sig",sv:"uppföra sig / bete sig",en:"to behave",ipa:"[ɔbˈføˀɐ si]",cat:"Divergent ordförråd",note:"'Opfør dig ordentligt!' = uppför dig ordentligt! Nära svenska 'uppföra sig'."}, 
-  {da:"rigtigt nok",sv:"visserligen / nog sant",en:"admittedly, true enough",ipa:"[ˈʁegdi nɔg]",cat:"Divergent ordförråd",note:"'Rigtigt nok er det svært' = visserligen är det svårt. Vanlig medgivande-fras."}, 
-  {da:"knokle",sv:"slita / jobba hårt",en:"to toil, to work hard",ipa:"[ˈknɔglˀ]",cat:"Verb",note:"⚠️ 'Jeg har knoklet hele dagen' = jag har slitit hela dagen. Inget direkt i svenska."}, 
-  {da:"drille",sv:"reta / driva med",en:"to tease, to poke fun at",ipa:"[ˈdʁelˀ]",cat:"Verb",note:"⚠️ 'Stop med at drille mig!' = sluta reta mig! Inget direkt i svenska."}, 
-  {da:"bakke op",sv:"stötta / backa upp",en:"to back up, to support",ipa:"[ˈbagˀ ˈɔb]",cat:"Verb",note:"'Jeg bakker dig op' = jag stöttar/backar upp dig."}, 
-  {da:"trives",sv:"trivas",en:"to thrive, to feel at home",ipa:"[ˈtˢʁiˀwˀs]",cat:"Verb",note:"Nära svenska 'trivas'. V uttalas W. 'Jeg trives godt her' = jag trivs bra här."}, 
-  {da:"hygge sig",sv:"ha det mysigt / ha trevligt",en:"to enjoy oneself, to have a cozy time",ipa:"[ˈhygˀ si]",cat:"Verb",note:"⚠️ 'Vi hygger os' = vi har det mysigt. Reflexiv form av 'hygge'. Centralt kulturellt verb."}, 
-  {da:"nå frem",sv:"komma fram / nå fram",en:"to arrive, to reach",ipa:"[ˈnɔˀ fʁem]",cat:"Verb",note:"'Hvornår når du frem?' = när kommer du fram?"}, 
-  {da:"styre",sv:"styra / kontrollera",en:"to control, to steer, to manage",ipa:"[ˈsdyˀɐ]",cat:"Verb",note:"'Styre sine følelser' = styra sina känslor. Nära svenska 'styra'."}, 
-  {da:"tælle",sv:"räkna",en:"to count",ipa:"[ˈtˢɛlˀ]",cat:"Verb",note:"⚠️ 'Tælle til ti' = räkna till tio. Uttalas 'tell'. Inget att associera med 'räkna'."}, 
-  {da:"undskylde",sv:"ursäkta / be om förlåtelse",en:"to apologize, to excuse",ipa:"[ˈɔnsˌgylˀ]",cat:"Verb",note:"'Undskyld mig' = ursäkta mig. Verb av 'undskyld'. Uttalas 'onskyel'."}, 
-  {da:"bestemme sig",sv:"bestämma sig",en:"to make up one's mind",ipa:"[beˈsdemˀ si]",cat:"Verb",note:"'Jeg har bestemt mig' = jag har bestämt mig."}, 
-  {da:"vænne sig til",sv:"vänja sig vid",en:"to get used to",ipa:"[ˈvɛnˀ si tel]",cat:"Verb",note:"⚠️ 'Man vænner sig til det' = man vänjer sig vid det. 'Til' vs svenska 'vid'."}, 
-  {da:"give slip",sv:"släppa taget",en:"to let go",ipa:"[giˀ ˈsleb]",cat:"Verb",note:"'Det er svært at give slip' = det är svårt att släppa taget."}, 
-  {da:"brage",sv:"braka / smälla",en:"to crash, to roar, to make a loud noise",ipa:"[ˈbʁæˀ]",cat:"Verb",note:"'Det bragede' = det brakade/smällde. Nära svenska 'braka'."}, 
-  {da:"det går nok",sv:"det ordnar sig",en:"it'll be fine, it'll work out",ipa:"[de gɔˀ nɔg]",cat:"Fraser",note:"⚠️ Extremt vanlig danska tröstfras. 'Det går nok' = det ordnar sig nog. Typiskt danskt."}, 
-  {da:"hvad så med det",sv:"vad är det med det / vad så",en:"so what, what about it",ipa:"[va sɔ me de]",cat:"Fraser",note:"'Hvad så med det?' = vad är det med det? Vanlig motfråga i samtal."}, 
-  {da:"det kan godt være",sv:"det kan hända / möjligen",en:"that may well be, possibly",ipa:"[de kha goˀ ˈvæˀɐ]",cat:"Fraser",note:"⚠️ 'Det kan godt være' = det kan hända. 'Godt' som förstärkare är typiskt danskt."}, 
-  {da:"nu om stunder",sv:"nuförtiden / numera",en:"nowadays, these days",ipa:"[nu ɔm ˈsdɔnˀɐ]",cat:"Fraser",note:"⚠️ 'Nu om stunder er det anderledes' = nuförtiden är det annorlunda. Inget direkt i svenska."}, 
-  {da:"for alt i verden",sv:"för allt i världen",en:"for the life of me / absolutely not",ipa:"[fɒ ald i ˈvæɐ̯ˀn]",cat:"Fraser",note:"'Jeg vil ikke for alt i verden' = jag vill inte för allt i världen."}, 
-  {da:"i tide",sv:"i tid / i rätt tid",en:"in time, timely",ipa:"[i ˈtˢiˀðˀ]",cat:"Fraser",note:"'Kom i tide!' = kom i tid! 'Vi nåede det i tide' = vi hann i tid."}, 
-  {da:"hvad der sker",sv:"vad som händer",en:"what happens, what's going on",ipa:"[va deɐ̯ ˈsgeˀɐ]",cat:"Fraser",note:"⚠️ 'Hvad der sker' = vad som händer. Relativsatskonstruktion skiljer sig från svenska."}, 
-  {da:"det er op til dig",sv:"det är upp till dig",en:"it's up to you",ipa:"[de eɐ̯ ˈɔb tel di]",cat:"Fraser",note:"'Det er op til dig' = det är upp till dig."}, 
-  {da:"ingen af delene",sv:"ingendera / ingen av dem",en:"neither (of them)",ipa:"[ˈenˀˌgən af ˈdeˀlˀˌnˀ]",cat:"Fraser",note:"⚠️ 'Ingen af delene' = ingendera. Inget direkt i svenska."}, 
-  {da:"for sent",sv:"för sent",en:"too late",ipa:"[fɒ ˈsenˀd]",cat:"Fraser",note:"'Det er for sent nu' = det är för sent nu."}, 
-  {da:"vred",sv:"arg / ilsken",en:"angry",ipa:"[ˈvʁeˀð]",cat:"Divergent ordförråd",note:"⚠️ Dansk 'vred' = arg/ilsken. D mjukt. 'Han er vred' = han är arg."}, 
-  {da:"sjælden",sv:"sällan / sällsynt",en:"rarely, seldom / rare",ipa:"[ˈʃɛlˀən]",cat:"Divergent ordförråd",note:"⚠️ 'Det sker sjælden' = det händer sällan. SJ-ljud. Kan vara adjektiv ('sjælden fugl' = sällsynt fågel)."}, 
-  {da:"yndling",sv:"favorit",en:"favourite",ipa:"[ˈønˀleŋ]",cat:"Divergent ordförråd",note:"⚠️ Dansk 'yndling' = svenska 'favorit'. 'Min yndlingsfilm' = min favoritfilm. Ø-vokal."}, 
-  {da:"ked af det",sv:"ledsen / bedrövad",en:"sad, upset",ipa:"[keð af de]",cat:"Divergent ordförråd",note:"⚠️ 'Jeg er ked af det' = jag är ledsen. Flerordigt uttryck utan direkt sv-motstycke. D mjukt."}, 
-  {da:"tillykke",sv:"grattis / lycka till",en:"congratulations",ipa:"[tiˈlygˀə]",cat:"Divergent ordförråd",note:"⚠️ 'Tillykke!' = grattis! 'Tillykke med fødselsdagen' = grattis på födelsedagen. Intet att associera."}, 
-  {da:"omhyggelig",sv:"noggrann / omsorgsfull",en:"careful, thorough, meticulous",ipa:"[ɔmˈhygˀəli]",cat:"Divergent ordförråd",note:"⚠️ 'Vær omhyggelig' = var noggrann. Inget direkt i svenska. Vanligt vardagsord."}, 
-  {da:"uheld",sv:"otur / olycka",en:"bad luck, mishap",ipa:"[ˈuˌhɛlˀ]",cat:"Divergent ordförråd",note:"⚠️ 'Det var uheld' = det var otur/ett missöde. Mot. 'heldig' = lyckosam."}, 
-  {da:"heldig",sv:"lyckosam / ha tur",en:"lucky, fortunate",ipa:"[ˈheldi]",cat:"Divergent ordförråd",note:"'Du er heldig!' = du har tur! Nær svenska 'lycklig' i funktion men annorlunda form."}, 
-  {da:"ulækkert",sv:"äckligt / otrevligt",en:"disgusting, gross, unpleasant",ipa:"[uˈlɛgˀəd]",cat:"Divergent ordförråd",note:"⚠️ 'Det er ulækkert' = det är äckligt. Vardaglig negativ reaktion. Inget direkt i svenska."}, 
-  {da:"brokke sig",sv:"gnälla / klaga",en:"to moan, to whine, to complain",ipa:"[ˈbʁɔgˀə si]",cat:"Verb",note:"⚠️ 'Stop med at brokke dig!' = sluta gnälla! Reflexiv. Inget direkt i svenska."}, 
-  {da:"pæn",sv:"snygg / fin / ordentlig",en:"nice-looking, neat, proper",ipa:"[ˈpɛˀn]",cat:"Divergent ordförråd",note:"⚠️ 'Hun er pæn' = hon är snygg/fin. 'Opfør dig pænt' = uppför dig ordentligt. Mångtydigt."}, 
-  {da:"frygtelig",sv:"fruktansvärd / hemsk",en:"terrible, awful, dreadful",ipa:"[ˈfʁøgdəli]",cat:"Divergent ordförråd",note:"⚠️ 'Det er frygteligt' = det är fruktansvärt/hemskt. Nær svenska 'fruktansvärd' i funktion."}, 
-  {da:"skæbne",sv:"öde / ödet",en:"fate, destiny",ipa:"[ˈsgɛˀbnə]",cat:"Divergent ordförråd",note:"Nær svenska 'öde'. 'Det var skæbnen' = det var ödet. Æ-vokal + mjukt B."}, 
-  {da:"besvime",sv:"svimma / svimma av",en:"to faint, to pass out",ipa:"[beˈsviˀmə]",cat:"Verb",note:"⚠️ 'Hun besvimede' = hon svimmade av. Nær svenska 'svimma' men med be-prefix."}, 
-  {da:"misundelig",sv:"avundsjuk",en:"jealous, envious",ipa:"[miˈsɔnəli]",cat:"Divergent ordförråd",note:"⚠️ Dansk 'misundelig' = svenska 'avundsjuk'. Helt annorlunda form. 'Jeg er misundelig' = jag är avundsjuk."}, 
-  {da:"stædig",sv:"envis / seg",en:"stubborn, persistent",ipa:"[ˈsdɛˀdi]",cat:"Divergent ordförråd",note:"⚠️ 'Han er stædig' = han är envis. Nær svenska 'seg' i vardagsspråk. D mjukt."}, 
-  {da:"hyppig",sv:"frekvent / ofta förekommande",en:"frequent, common",ipa:"[ˈhøbi]",cat:"Divergent ordförråd",note:"⚠️ 'Det er hyppigt' = det är vanligt/frekvent. Inget direkt i svenska. PP uttalas B."}, 
-  {da:"nærig",sv:"snål / sniken",en:"stingy, miserly",ipa:"[ˈnɛˀʁi]",cat:"Divergent ordförråd",note:"⚠️ 'Han er nærig' = han är snål. Inget direkt i svenska. Vardagligt."}, 
-  {da:"sjusket",sv:"slarvigt / ostädat",en:"sloppy, slovenly, messy",ipa:"[ˈʃɔsgəd]",cat:"Divergent ordförråd",note:"⚠️ 'Det er sjusket arbejde' = det är slarvigt arbete. SJ-ljud. Inget direkt i svenska."}, 
-  {da:"vrøvl",sv:"nonsens / struntprat",en:"nonsense, rubbish",ipa:"[ˈvʁøˀl]",cat:"Divergent ordförråd",note:"⚠️ 'Det er vrøvl!' = det är nonsens/struntprat! Ø-vokal. Inget direkt i svenska."}, 
-  {da:"hente",sv:"hämta",en:"to fetch, to pick up",ipa:"[ˈhɛndˀə]",cat:"Verb",note:"⚠️ 'Hent mig!' = hämta mig! Nära svenska 'hämta' men helt annorlunda form."}, 
-  {da:"sært",sv:"konstigt / märkligt",en:"strange, odd (neuter)",ipa:"[ˈsɛɐ̯d]",cat:"Divergent ordförråd",note:"⚠️ 'Det er sært' = det är konstigt/märkligt. Neutrum af 'sær'. Vanligt utrop. Æ-vokal."}, 
-];
 
-// ─── SM-2 SRS ─────────────────────────────────────────────────
-const SRS_KEY="dansk_srs_v2";
-let srsData={};
-function loadSRS(){try{srsData=JSON.parse(localStorage.getItem(SRS_KEY))||{};}catch(e){srsData={};}}
-function saveSRS(){try{localStorage.setItem(SRS_KEY,JSON.stringify(srsData));}catch(e){}}
-function getCard(da){if(!srsData[da])srsData[da]={interval:0,reps:0,ef:2.5,nextDue:0,lapses:0};return srsData[da];}
-function rateCard(da,rating){
-  const c=getCard(da),now=Date.now(),DAY=86400000;
+<!-- ════════════ GLOSSARY -->
+<div class="screen" id="screen-glossary">
+  <input class="gloss-search" id="glossSearch" placeholder="Sök mening eller fokusord…" oninput="renderGlossary()">
+  <div id="glossList"></div>
+</div>
+
+<script>
+const SENTENCES=[{"da": "Det var egentlig ret roligt derude", "sv": "Det var egentligen ganska lugnt därutanför", "word": "rolig (lugn!), ret"}, {"da": "Han er virkelig flov over det", "sv": "Han är verkligen generad över det", "word": "flov (generad!)"}, {"da": "Det er simpelthen for flot!", "sv": "Det är helt enkelt för häftigt/snyggt!", "word": "flot (snygg/häftig!)"}, {"da": "Den film var virkelig sjov", "sv": "Den filmen var verkligen rolig/kul", "word": "sjov (rolig/kul!)"}, {"da": "Jeg er lidt ærgerlig over det", "sv": "Jag är lite irriterad/ledsen över det", "word": "ærgerlig (irriterad!)"}, {"da": "Han var slet ikke flink ved hende", "sv": "Han var inte alls snäll mot henne", "word": "flink (snäll!)"}, {"da": "Det er simpelthen tarveligt at sige", "sv": "Det är helt enkelt tarvligt/vulgärt att säga", "word": "tarveligt (tarvligt!)"}, {"da": "Jeg synes det er lidt grim", "sv": "Jag tycker det är lite fult", "word": "grim (ful!)"}, {"da": "Er du ikke lidt skuffet?", "sv": "Är du inte lite besviken?", "word": "skuffet (besviken!)"}, {"da": "Det er ligegyldigt hvad de siger", "sv": "Det spelar ingen roll vad de säger", "word": "ligegyldigt"}, {"da": "Jeg har simpelthen ikke overskud til det", "sv": "Jag orkar helt enkelt inte med det", "word": "overskud (ork!)"}, {"da": "Han er virkelig myndig i sin tone", "sv": "Han är verkligen bestämd i sin ton", "word": "myndig (bestämd!)"}, {"da": "Ej, det er da ikke sandt!", "sv": "Nej, det är ju inte sant!", "word": "da (ju/väl - partikel!)"}, {"da": "Det er jo det, jeg hele tiden siger", "sv": "Det är ju det jag hela tiden säger", "word": "jo (ju!)"}, {"da": "Det er vel ikke så slemt?", "sv": "Det är väl inte så illa?", "word": "vel (väl - partikel!)"}, {"da": "Mon det bliver godt vejr i morgen?", "sv": "Månne det blir fint väder imorgon?", "word": "mon (månne!)"}, {"da": "Åh skidt, jeg glemte det helt", "sv": "Åh fan, jag glömde det helt", "word": "skidt (fan/strunt!)"}, {"da": "Orv, det var grimt at se på", "sv": "Usch, det var fult att se på", "word": "orv (usch/herregud!)"}, {"da": "Det er gu nok rigtigt", "sv": "Det stämmer ju nog", "word": "gu (ju/sannerligen - partikel!)"}, {"da": "Er du nysgerrig efter at prøve det?", "sv": "Är du nyfiken på att prova det?", "word": "nysgerrig (nyfiken!)"}, {"da": "Tøv ikke, bare gå i gang", "sv": "Tveka inte, bara sätt igång", "word": "tøv (tveka!)"}, {"da": "Der er mange kvinder til mødet", "sv": "Det är många kvinnor på mötet", "word": "kvinder (kvinnor!)"}, {"da": "Børnene leger ude i haven", "sv": "Barnen leker ute i trädgården", "word": "børn (barn - uttal!)"}, {"da": "Nå ja, det havde jeg glemt", "sv": "Nåja, det hade jag glömt", "word": "nå ja"}, {"da": "Jo da, det kan jeg godt", "sv": "Javisst, det kan jag", "word": "jo da (javisst!)"}, {"da": "Det er sådan set ikke så slemt", "sv": "Det är egentligen inte så illa", "word": "sådan set (egentligen/i och för sig!)"}, {"da": "Hvad end du beslutter, støtter jeg dig", "sv": "Vad du än beslutar stöttar jag dig", "word": "hvad end (vad än!)"}, {"da": "Har du nogen sinde set noget lignende?", "sv": "Har du någonsin sett något liknande?", "word": "nogen sinde (någonsin!)"}, {"da": "Det er det samme for mig", "sv": "Det är detsamma för mig / spelar ingen roll", "word": "det samme (detsamma!)"}, {"da": "Hvad nu hvis det ikke virker?", "sv": "Tänk om det inte fungerar?", "word": "hvad nu hvis (tänk om!)"}, {"da": "Jeg kommer om lidt, vent lige", "sv": "Jag kommer strax, vänta lite", "word": "om lidt (om lite/strax!)"}, {"da": "Det giver på en eller anden måde mening", "sv": "Det ger på något vis mening", "word": "på en eller anden måde (på något vis!)"}, {"da": "I og med at du er her, kan vi begynde", "sv": "I och med att du är här kan vi börja", "word": "i og med (i och med)"}, {"da": "Det er ikke rigtig det jeg mente", "sv": "Det är inte riktigt det jag menade", "word": "ikke rigtig (inte riktigt - reduceras!)"}, {"da": "Af og til savner jeg det", "sv": "Då och då saknar jag det", "word": "af og til (då och då!)"}, {"da": "Jeg er nødt til at indrømme, at du har ret", "sv": "Jag måste erkänna att du har rätt", "word": "indrømme (erkänna!)"}, {"da": "Det kan skabe problemer senere", "sv": "Det kan orsaka problem senare", "word": "skabe (skapa/orsaka!)"}, {"da": "Hvad er der hændt med ham?", "sv": "Vad har hänt med honom?", "word": "hændt (hänt!)"}, {"da": "Det passer ikke rigtig med mine planer", "sv": "Det passar inte riktigt med mina planer", "word": "passer (passar/stämmer!)"}, {"da": "Lad mig prøve at forklare det", "sv": "Låt mig försöka förklara det", "word": "lad (låt!)"}, {"da": "Lad nu være med at drille ham", "sv": "Låt nu bli att reta honom", "word": "lad være (låt bli!)"}, {"da": "Det er forkert at sige det sådan", "sv": "Det är fel att säga det så", "word": "forkert (fel!)"}, {"da": "Netop! Det er præcis hvad jeg mener", "sv": "Precis! Det är exakt vad jag menar", "word": "netop (precis/just det!)"}, {"da": "Tilsyneladende er alt i orden", "sv": "Till synes är allt i ordning", "word": "tilsyneladende (till synes!)"}, {"da": "Kan du undvære bilen i en uge?", "sv": "Kan du undvara bilen en vecka?", "word": "undvære (undvara!)"}, {"da": "Opfør dig ordentligt!", "sv": "Uppför dig ordentligt!", "word": "opføre sig (uppföra sig!)"}, {"da": "Rigtigt nok er det ikke let", "sv": "Visserligen är det inte lätt", "word": "rigtigt nok (visserligen!)"}, {"da": "Jeg kan mærke at noget er galt", "sv": "Jag kan känna att något är fel", "word": "mærke (känna/märka!)"}, {"da": "Pludselig ændrede alt sig", "sv": "Plötsligt förändrades allt", "word": "pludselig (plötsligt - G tyst!)"}, {"da": "Han har knoklet hele ugen", "sv": "Han har slitit hela veckan", "word": "knoklet (slitit!)"}, {"da": "Stop med at drille din lillebror", "sv": "Sluta reta din lillebror", "word": "drille (reta!)"}, {"da": "Jeg bakker dig op hele vejen", "sv": "Jag stöttar dig hela vägen", "word": "bakker op (stöttar!)"}, {"da": "Vi trives godt her i byen", "sv": "Vi trivs bra här i staden", "word": "trives (trivs!)"}, {"da": "Vi hygger os med et godt selskab", "sv": "Vi har det mysigt med ett bra sällskap", "word": "hygger os (har det mysigt!)"}, {"da": "Hvornår når du frem til stationen?", "sv": "När kommer du fram till stationen?", "word": "når frem (kommer fram!)"}, {"da": "Han kan ikke styre sit temperament", "sv": "Han kan inte styra sitt humör", "word": "styre (styra!)"}, {"da": "Tæl til ti, før du svarer", "sv": "Räkna till tio innan du svarar", "word": "tæl (räkna!)"}, {"da": "Jeg har bestemt mig for at prøve", "sv": "Jag har bestämt mig för att prova", "word": "bestemt mig (bestämt mig!)"}, {"da": "Man vænner sig til det med tiden", "sv": "Man vänjer sig vid det med tiden", "word": "vænner sig til (vänjer sig vid!)"}, {"da": "Det er svært at give slip på gamle vaner", "sv": "Det är svårt att släppa taget om gamla vanor", "word": "give slip (släppa taget!)"}, {"da": "Det bragede da de kørte ind i hinanden", "sv": "Det brakade när de körde in i varandra", "word": "bragede (brakade!)"}, {"da": "Det går nok, bare rolig", "sv": "Det ordnar sig, lugna dig", "word": "det går nok (det ordnar sig!) + rolig (lugn!)"}, {"da": "Det kan godt være, men jeg er ikke sikker", "sv": "Det kan hända, men jag är inte säker", "word": "det kan godt være (det kan hända!)"}, {"da": "Nu om stunder er alting dyrere", "sv": "Nuförtiden är allting dyrare", "word": "nu om stunder (nuförtiden!)"}, {"da": "Det er op til dig at beslutte", "sv": "Det är upp till dig att bestämma", "word": "op til dig (upp till dig!)"}, {"da": "Ingen af delene fungerer for mig", "sv": "Ingendera fungerar för mig", "word": "ingen af delene (ingendera!)"}, {"da": "Vi nåede det heldigvis i tide", "sv": "Vi hann lyckligtvis i tid", "word": "i tide (i tid!)"}, {"da": "Jeg vil ikke for alt i verden miste det", "sv": "Jag vill inte för allt i världen förlora det", "word": "for alt i verden"}, {"da": "Hvad der sker, sker", "sv": "Vad som händer, händer", "word": "hvad der sker (vad som händer!)"}, {"da": "Hvad så med det, vi prøver alligevel", "sv": "Vad är det med det, vi försöker ändå", "word": "hvad så med det + alligevel"}, {"da": "Jeg er egentlig ret tilfreds, sådan set", "sv": "Jag är egentligen ganska nöjd, i och för sig", "word": "egentlig + ret + sådan set"}, {"da": "Det er da ikke det samme som at give op", "sv": "Det är ju inte detsamma som att ge upp", "word": "da (partikel) + det samme"}, {"da": "Mon vi kan nå frem i tide?", "sv": "Månne vi kan komma fram i tid?", "word": "mon + nå frem + i tide"}, {"da": "Lad være med det, det giver ingen mening", "sv": "Låt bli det, det ger ingen mening", "word": "lad være + give mening"}, {"da": "Rigtigt nok er han flov, men det er hans egen skyld", "sv": "Visserligen är han generad, men det är hans eget fel", "word": "rigtigt nok + flov"}, {"da": "Hvad nu hvis vi bare hygger os i stedet?", "sv": "Tänk om vi bara har det mysigt istället?", "word": "hvad nu hvis + hygger os"}, {"da": "Det er op til dig, men jeg bakker dig op", "sv": "Det är upp till dig, men jag stöttar dig", "word": "op til dig + bakker op"}, {"da": "Tilsyneladende er han slet ikke klar endnu", "sv": "Till synes är han inte alls klar ännu", "word": "tilsyneladende + slet ikke"}, {"da": "Det er jo ligegyldigt, det er det samme", "sv": "Det är ju ingen roll, det är detsamma", "word": "ligegyldigt + det samme + jo"}, {"da": "Om lidt finder vi ud af hvad der sker", "sv": "Om lite tar vi reda på vad som händer", "word": "om lidt + finde ud af + hvad der sker"}, {"da": "Jeg savner dig virkelig meget", "sv": "Jag saknar dig verkligen mycket", "word": "savner (saknar!) + meget (uttal: majed)"}, {"da": "Hvad betyder det egentlig?", "sv": "Vad betyder det egentligen?", "word": "betyder + egentlig (reduceras i tal)"}, {"da": "Kan du forklare det en gang til?", "sv": "Kan du förklara det en gång till?", "word": "forklare (förklara)"}, {"da": "Jeg glemte fuldstændig at ringe", "sv": "Jag glömde fullständigt att ringa", "word": "glemte (glömde!) + fuldstændig"}, {"da": "Han nyder virkelig sit arbejde", "sv": "Han njuter verkligen av sitt arbete", "word": "nyder (njuter av!)"}, {"da": "Prøv at forestille dig det", "sv": "Försök föreställa dig det", "word": "forestille sig (föreställa sig!)"}, {"da": "Jeg håber du får det bedre snart", "sv": "Jag hoppas du mår bättre snart", "word": "håber (hoppas!) + snart"}, {"da": "Hun er begyndt at lære dansk", "sv": "Hon har börjat lära sig danska", "word": "begyndt (börjat!) — note: started"}, {"da": "Det lykkedes os til sidst", "sv": "Det lyckades oss till slut", "word": "lykkedes (lyckades!) + til sidst"}, {"da": "Jeg gider simpelthen ikke mere", "sv": "Jag orkar helt enkelt inte mer", "word": "gider ikke (orkar inte!) + simpelthen"}, {"da": "Vi skal nok finde ud af det", "sv": "Vi ska nog lista ut det", "word": "nok (nog/säkert) + finde ud af"}, {"da": "Han ved godt hvad han laver", "sv": "Han vet precis vad han håller på med", "word": "ved godt (vet precis) — 'godt' som förstärkare"}, {"da": "Kan du ikke bare lade mig være?", "sv": "Kan du inte bara låta mig vara?", "word": "lade mig være (låta mig vara!) + bare"}, {"da": "Det er svært at undgå", "sv": "Det är svårt att undvika", "word": "undgå (undvika!)"}, {"da": "Hun plejede at cykle til arbejde", "sv": "Hon brukade cykla till jobbet", "word": "plejede (brukade!) — ingen svensk nutidsform"}, {"da": "Hvad er forskellen på de to?", "sv": "Vad är skillnaden mellan de två?", "word": "forskellen (skillnaden!)"}, {"da": "Der er mange muligheder her", "sv": "Det finns många möjligheter här", "word": "muligheder (möjligheter!)"}, {"da": "Det er et godt spørgsmål", "sv": "Det är en bra fråga", "word": "spørgsmål (fråga!)"}, {"da": "Vi er på ferie i næste uge", "sv": "Vi är på semester nästa vecka", "word": "ferie (semester!)"}, {"da": "Det er et godt tilbud", "sv": "Det är ett bra erbjudande", "word": "tilbud (erbjudande!)"}, {"da": "Lægen sagde det var ingenting", "sv": "Läkaren sa att det var ingenting", "word": "lægen (läkaren!) + sagde (sa!)"}, {"da": "Kom ind i stuen og sæt dig", "sv": "Kom in i vardagsrummet och sätt dig", "word": "stuen (vardagsrummet!) + sæt dig"}, {"da": "Nøglen ligger på køkkenbordet", "sv": "Nyckeln ligger på köksbordet", "word": "nøglen (nyckeln!) + køkken (kök!)"}, {"da": "Tag en dyne og en pude med", "sv": "Ta med en täcke och en kudde", "word": "dyne (täcke!) + pude (kudde!)"}, {"da": "Det var en kedelig forestilling", "sv": "Det var en tråkig föreställning", "word": "kedelig (tråkig!) — falsk ven"}, {"da": "Vejret er skiftevis sol og regn", "sv": "Vädret är omväxlande sol och regn", "word": "vejret (vädret!) + skiftevis"}, {"da": "Hvad koster det på tilbud?", "sv": "Vad kostar det på rea?", "word": "tilbud (rea!) — helt annorlunda"}, {"da": "Jeg er nødt til at gå til lægen", "sv": "Jag måste gå till läkaren", "word": "lægen (läkaren!) + nødt til (måste)"}, {"da": "Det er da meningen at man prøver", "sv": "Det är ju meningen att man försöker", "word": "da (ju! — partikel i påståenden)"}, {"da": "Du ved da godt hvad jeg mener", "sv": "Du vet ju precis vad jag menar", "word": "da + ved godt (vet precis)"}, {"da": "Det er vel det bedste vi kan gøre", "sv": "Det är väl det bästa vi kan göra", "word": "vel (väl — söker bekräftelse)"}, {"da": "Mon han overhovedet kommer?", "sv": "Månne han överhuvudtaget kommer?", "word": "mon (månne!) + overhovedet"}, {"da": "Det er gu ikke nemt", "sv": "Det är ju/verkligen inte lätt", "word": "gu (ju/sannerligen — förstärkare)"}, {"da": "Nå da, hvis du siger det", "sv": "Nåja, om du säger det", "word": "nå da (nåja då) — kombination"}, {"da": "Det er vel nok det rigtige at gøre", "sv": "Det är väl nog det rätta att göra", "word": "vel nok (väl nog — dubbel partikel)"}, {"da": "Jeg kan slet ikke forstå hvad de siger", "sv": "Jag kan inte alls förstå vad de säger", "word": "slet ikke + hvad (va) — reduktion"}, {"da": "Det ved jeg ikke noget om", "sv": "Det vet jag ingenting om", "word": "ved ikke + noget — båda reduceras kraftigt"}, {"da": "Har du nogen sinde oplevet noget lignende?", "sv": "Har du någonsin upplevt något liknande?", "word": "nogen sinde (någonsin!) + noget (noe)"}, {"da": "Det er ikke noget jeg tænker over", "sv": "Det är inget jag tänker på", "word": "ikke noget — 'ej noe' i tal"}, {"da": "Hvad sagde han egentlig?", "sv": "Vad sa han egentligen?", "word": "sagde (sa! — uttalas sæde) + egentlig"}, {"da": "Jeg troede det var anderledes", "sv": "Jag trodde det var annorlunda", "word": "troede (trodde! — uttalas trode)"}, {"da": "Der er ikke noget at gøre ved det", "sv": "Det finns ingenting att göra åt det", "word": "ikke noget at gøre ved (ingenting att göra åt)"}, {"da": "Det er hverken fugl eller fisk", "sv": "Det är varken fågel eller fisk", "word": "hverken (varken! — H tyst)"}, {"da": "Det tager tid at vænne sig til", "sv": "Det tar tid att vänja sig vid", "word": "vænne sig til (vänja sig vid!) + tid"}, {"da": "Giv det en chance, det er det værd", "sv": "Ge det en chans, det är det värt", "word": "giv (ge! — G→J) + det værd (det värt)"}, {"da": "Hvad tænkte du på?", "sv": "Vad tänkte du på?", "word": "hvad (va!) + tænkte — fortidsform"}, {"da": "Det er simpelthen ikke til at forstå", "sv": "Det är helt enkelt omöjligt att förstå", "word": "simpelthen (helt enkelt) + ikke til at forstå"}, {"da": "Jeg synes du skal tage dig sammen", "sv": "Jag tycker du ska ta dig i kragen", "word": "synes (tycker — känslobaserat) + tage sig sammen"}, {"da": "Han blev vred og gik sin vej", "sv": "Han blev arg och gick sin väg", "word": "vred (arg!)"}, {"da": "Det sker sjælden at han er sent på den", "sv": "Det händer sällan att han är sen", "word": "sjælden (sällan/sällsynt!) — SJ-ljud"}, {"da": "Hvad er din yndlingsfilm?", "sv": "Vad är din favoritfilm?", "word": "yndlings- (favorit!) — Ø-vokal"}, {"da": "Jeg er virkelig ked af det", "sv": "Jag är verkligen ledsen", "word": "ked af det (ledsen!) — flerordigt"}, {"da": "Tillykke med din nye job!", "sv": "Grattis till ditt nya jobb!", "word": "tillykke (grattis!) — inget att associera"}, {"da": "Vær omhyggelig når du gør det", "sv": "Var noggrann när du gör det", "word": "omhyggelig (noggrann!) — gör uttalas 'jör'"}, {"da": "Det var rent uheld at det gik galt", "sv": "Det var ren otur att det gick fel", "word": "uheld (otur/olycka!)"}, {"da": "Du er heldig som har det så godt", "sv": "Du har tur som har det så bra", "word": "heldig (ha tur/lyckosam!)"}, {"da": "Nej, det er simpelthen ulækkert", "sv": "Nej, det är helt enkelt äckligt", "word": "ulækkert (äckligt!) + simpelthen"}, {"da": "Stop med at brokke dig over alt", "sv": "Sluta gnälla om allt", "word": "brokke dig (gnälla!) — reflexivt"}, {"da": "Hun er både pæn og klog", "sv": "Hon är både snygg och klok", "word": "pæn (snygg/fin!) — mångtydigt"}, {"da": "Det var en frygtelig oplevelse", "sv": "Det var en fruktansvärd upplevelse", "word": "frygtelig (fruktansvärd/hemsk!)"}, {"da": "Man kan ikke flygte fra sin skæbne", "sv": "Man kan inte fly sitt öde", "word": "skæbne (öde!) — Æ-vokal"}, {"da": "Hun besvimede af varmen", "sv": "Hon svimmade av värmen", "word": "besvimede (svimmade av!) — be-prefix"}, {"da": "Jeg er lidt misundelig på dig", "sv": "Jag är lite avundsjuk på dig", "word": "misundelig (avundsjuk!) — helt annorlunda"}, {"da": "Han er så stædig at det er umuligt", "sv": "Han är så envis att det är omöjligt", "word": "stædig (envis!) — D mjukt"}, {"da": "Det er et hyppigt problem her", "sv": "Det är ett vanligt/frekvent problem här", "word": "hyppigt (vanligt/frekvent!) — PP = B"}, {"da": "Han er for nærig til at betale", "sv": "Han är för snål för att betala", "word": "nærig (snål!) — vardagligt"}, {"da": "Det der arbejde er simpelthen sjusket", "sv": "Det där arbetet är helt enkelt slarvigt", "word": "sjusket (slarvigt!) — SJ-ljud"}, {"da": "Det er rent vrøvl det du siger", "sv": "Det är rent nonsens det du säger", "word": "vrøvl (nonsens/struntprat!) — Ø-vokal"}, {"da": "Kan du hente børnene fra skole?", "sv": "Kan du hämta barnen från skolan?", "word": "hente (hämta!) — helt annorlunda form"}, {"da": "Det er sært at han ikke har ringet", "sv": "Det är konstigt att han inte har ringt", "word": "sært (konstigt/märkligt!) — Æ-vokal"}];
+
+
+// ─── SM-2 (sentences) ─────────────────────────────────────────
+const HARD_SRS_KEY = "dansk_hard_v1";
+let hardSRSData = {};
+function loadHardSRS(){ try{ hardSRSData=JSON.parse(localStorage.getItem(HARD_SRS_KEY))||{}; }catch(e){ hardSRSData={}; } }
+function saveHardSRS(){ try{ localStorage.setItem(HARD_SRS_KEY,JSON.stringify(hardSRSData)); }catch(e){} }
+function getHardCard(key){
+  if(!hardSRSData[key]) hardSRSData[key]={interval:0,reps:0,ef:2.5,nextDue:0,lapses:0};
+  return hardSRSData[key];
+}
+function rateHardCard(key,rating){
+  const c=getHardCard(key),now=Date.now(),DAY=86400000;
   if(rating===0){c.reps=0;c.interval=1;c.lapses++;c.nextDue=now+DAY;}
   else{
     const q=[null,3,4,5][rating];
@@ -772,14 +277,14 @@ function rateCard(da,rating){
     if(rating===1)c.interval=Math.max(1,Math.round(c.interval*0.6));
     c.reps++;c.nextDue=now+c.interval*DAY;
   }
-  saveSRS();
+  saveHardSRS();
 }
-function getIntervalLabel(da,rating){
-  const c=getCard(da),DAY=86400000;
+function getHardIntervalLabel(key,rating){
+  const c=getHardCard(key);
   if(rating===0)return"1d";
-  let interval;
   const q=[null,3,4,5][rating];
   const ef=Math.max(1.3,c.ef+0.1-(5-q)*(0.08+(5-q)*0.02));
+  let interval;
   if(c.reps===0)interval=1;
   else if(c.reps===1)interval=4;
   else interval=Math.round(c.interval*ef);
@@ -789,30 +294,33 @@ function getIntervalLabel(da,rating){
   if(interval<30)return Math.round(interval/7)+"v";
   return Math.round(interval/30)+"mån";
 }
-function getSRSStatus(da){
-  const c=getCard(da),now=Date.now();
+function getHardStatus(key){
+  const c=getHardCard(key),now=Date.now();
   if(c.reps===0&&c.nextDue===0)return"new";
   if(c.nextDue<=now)return c.reps<3?"learning":"due";
   return"known";
 }
-function getDueCounts(){
+function getHardDueCounts(){
   let n=0,l=0,d=0,k=0;
-  WORDS.forEach(w=>{const s=getSRSStatus(w.da);if(s==="new")n++;else if(s==="learning")l++;else if(s==="due")d++;else k++;});
+  SENTENCES.forEach(s=>{
+    const st=getHardStatus(s.da);
+    if(st==="new")n++;else if(st==="learning")l++;else if(st==="due")d++;else k++;
+  });
   return{new:n,learning:l,due:d,known:k};
 }
-function getDueWords(limit){
+function getHardDueQueue(limit){
   const now=Date.now();
-  const nw=WORDS.filter(w=>getSRSStatus(w.da)==="new").slice(0,5);
-  const dw=WORDS.filter(w=>{const c=getCard(w.da);return c.nextDue<=now&&c.reps>=3;}).sort((a,b)=>getCard(a.da).nextDue-getCard(b.da).nextDue);
-  const lw=WORDS.filter(w=>{const c=getCard(w.da);return c.nextDue<=now&&c.reps>0&&c.reps<3;});
-  return[...lw,...dw,...nw].slice(0,limit||20).sort(()=>Math.random()-0.3);
+  const nw=SENTENCES.filter(s=>getHardStatus(s.da)==="new").slice(0,5);
+  const dw=SENTENCES.filter(s=>{const c=getHardCard(s.da);return c.nextDue<=now&&c.reps>=3;})
+            .sort((a,b)=>getHardCard(a.da).nextDue-getHardCard(b.da).nextDue);
+  const lw=SENTENCES.filter(s=>{const c=getHardCard(s.da);return c.nextDue<=now&&c.reps>0&&c.reps<3;});
+  return[...lw,...dw,...nw].slice(0,limit||15).sort(()=>Math.random()-0.3);
 }
 
-// ─── STATE ────────────────────────────────────────────────────
-let streak=0,srsQueue=[],srsQIndex=0,srsRevealed=false,srsSessionCorrect=0,srsSessionTotal=0;
-let browseCategory="Alla",browseIndex=0,browseWords=[],browseRevealed=false;
-let quizWords=[],quizIndex=0,quizCorrect=0,quizWrong=0,quizType="da-sv",quizAnswered=false;
-const CATEGORIES=["Alla",...new Set(WORDS.map(w=>w.cat))];
+// ─── STATE ─────────────────────────────────────────────────────
+let streak=0;
+let sentenceWords=[],sentenceIndex=0,sentenceCorrect=0,sentenceWrong=0,sentenceAnswered=false;
+let hardQueue=[],hardQIndex=0,hardRevealed=false,hardSessionCorrect=0,hardSessionTotal=0;
 
 // ─── AUDIO MAP ─────────────────────────────────────────────────
 const AUDIO_MAP = {
@@ -2113,187 +1621,23 @@ function speak(text, lang, btnId) {
   else { speakTTS(text, lang, btnId); }
 }
 
-// ─── TABS ─────────────────────────────────────────────────────
+// ─── TABS ──────────────────────────────────────────────────────
 function switchTab(tab){
-  ["srs","browse","quiz","sentence","glossary"].forEach((t,i)=>{
+  ["sentence","hard","glossary"].forEach((t,i)=>{
     document.querySelectorAll(".tab")[i].classList.toggle("active",t===tab);
     document.getElementById("screen-"+t).classList.toggle("active",t===tab);
   });
-  if(tab==="quiz"&&quizWords.length===0)startQuiz();
   if(tab==="sentence"&&sentenceWords.length===0)startSentenceQuiz();
+  if(tab==="hard")renderHardDash();
+  if(tab==="glossary")renderGlossary();
 }
 
-// ─── SRS SCREEN ───────────────────────────────────────────────
-function renderSRSDash(){
-  const c=getDueCounts();
-  document.getElementById("srsDash").innerHTML=`
-    <div class="srs-tile new"><div class="srs-tile-num">${c.new}</div><div class="srs-tile-label">Nya</div></div>
-    <div class="srs-tile learning"><div class="srs-tile-num">${c.learning}</div><div class="srs-tile-label">Lär</div></div>
-    <div class="srs-tile due"><div class="srs-tile-num">${c.due}</div><div class="srs-tile-label">Repetition</div></div>
-    <div class="srs-tile known"><div class="srs-tile-num">${c.known}</div><div class="srs-tile-label">Kan</div></div>`;
-}
-function escQ(s){return s.replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
-function renderSRSStudy(){
-  const area=document.getElementById("srsStudyArea");
-  if(srsQIndex>=srsQueue.length){
-    renderSRSDash();
-    const c=getDueCounts();
-    const total=c.new+c.learning+c.due;
-    if(srsSessionTotal===0&&total===0){
-      area.innerHTML=`<div class="done-panel"><div class="done-emoji">🎉</div><div class="done-title">Allt klart!</div><div class="done-sub">Du har inga fler ord att repetera idag.<br>Kom tillbaka imorgon!</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${WORDS.filter(w=>getSRSStatus(w.da)==="known").length}</div><div class="done-stat-label">Kända ord</div></div><div class="done-stat"><div class="done-stat-num">${WORDS.length}</div><div class="done-stat-label">Totalt</div></div></div><div class="reset-link" onclick="resetSRS()">Återställ framsteg</div></div>`;
-      return;
-    }
-    area.innerHTML=`<div class="done-panel"><div class="done-emoji">✅</div><div class="done-title">Session klar!</div><div class="done-sub">${total>0?`Det finns ${total} ord kvar att öva.`:"Allt repeterat för nu!"}</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${srsSessionCorrect}</div><div class="done-stat-label">Bra svar</div></div><div class="done-stat"><div class="done-stat-num">${srsSessionTotal}</div><div class="done-stat-label">Totalt</div></div></div>${total>0?`<button class="restart-btn" onclick="startSRSSession()">Fortsätt öva →</button>`:""}<div class="reset-link" onclick="resetSRS()">Återställ framsteg</div></div>`;
-    return;
-  }
-  const w=srsQueue[srsQIndex];
-  const st=getSRSStatus(w.da);
-  const bmap={new:"badge-new",learning:"badge-review",due:"badge-due",known:"badge-due"};
-  const blbl={new:"Nytt",learning:"Lär",due:"Repetition",known:"Repetition"};
-  area.innerHTML=`
-    <div class="study-header">
-      <div class="study-mode-label">🇩🇰 Upprepningsövning</div>
-      <div class="study-count">${srsQIndex+1} / ${srsQueue.length}</div>
-    </div>
-    <div class="srs-card" id="srsCard" onclick="revealSRS()">
-      <div class="card-badge ${bmap[st]}">${blbl[st]}</div>
-      <div class="card-label">🇩🇰 Danska</div>
-      <button class="audio-btn" id="srsAudioBtn" onclick="event.stopPropagation();speak('${escQ(w.da)}','da-DK','srsAudioBtn')">🔊</button>
-      <div class="card-word">${w.da}</div>
-      <div class="card-ipa">${w.ipa||""}</div>
-      <div class="card-cat-tag">${w.cat}</div>
-      <div class="tap-hint" id="srsTapHint">Tryck för att visa</div>
-      <div class="card-reveal" id="srsReveal">
-        <div class="card-swedish"><strong>🇸🇪 Svenska:</strong> ${w.sv}</div>
-        <div class="card-meaning">${w.en}</div>
-        ${w.note?`<div class="card-note">${w.note}</div>`:""}
-      </div>
-    </div>
-    <div id="srsRatings" style="display:none">
-      <div class="srs-ratings">
-        <button class="rating-btn r-again" onclick="rateSRS(0)"><span class="r-emoji">😬</span><span class="r-label">Igen</span><span class="r-interval">${getIntervalLabel(w.da,0)}</span></button>
-        <button class="rating-btn r-hard" onclick="rateSRS(1)"><span class="r-emoji">😅</span><span class="r-label">Svårt</span><span class="r-interval">${getIntervalLabel(w.da,1)}</span></button>
-        <button class="rating-btn r-good" onclick="rateSRS(2)"><span class="r-emoji">🙂</span><span class="r-label">Bra</span><span class="r-interval">${getIntervalLabel(w.da,2)}</span></button>
-        <button class="rating-btn r-easy" onclick="rateSRS(3)"><span class="r-emoji">😎</span><span class="r-label">Lätt</span><span class="r-interval">${getIntervalLabel(w.da,3)}</span></button>
-      </div>
-    </div>`;
-  srsRevealed=false;
-  setTimeout(()=>speak(w.da,"da-DK","srsAudioBtn"),300);
-}
-function revealSRS(){
-  if(srsRevealed)return;
-  srsRevealed=true;
-  document.getElementById("srsReveal").classList.add("shown");
-  document.getElementById("srsTapHint").style.display="none";
-  document.getElementById("srsRatings").style.display="";
-}
-function rateSRS(rating){
-  const w=srsQueue[srsQIndex];
-  rateCard(w.da,rating);
-  srsSessionTotal++;
-  if(rating>=2){srsSessionCorrect++;streak++;}else{streak=0;}
-  document.getElementById("streakBadge").textContent="🔥 "+streak;
-  srsQIndex++;renderSRSStudy();
-}
-function startSRSSession(){
-  srsQueue=getDueWords(20);srsQIndex=0;srsSessionCorrect=0;srsSessionTotal=0;
-  renderSRSDash();renderSRSStudy();
-}
-function resetSRS(){
-  if(confirm("Återställa alla framsteg?")){srsData={};saveSRS();srsQueue=[];srsQIndex=0;srsSessionCorrect=0;srsSessionTotal=0;startSRSSession();}
-}
-
-// ─── BROWSE ───────────────────────────────────────────────────
-function buildBrowseCategories(){
-  document.getElementById("browseCategories").innerHTML=CATEGORIES.map(c=>`<div class="cat-pill${c===browseCategory?" active":""}" onclick="selectBrowseCategory('${c}')">${c}</div>`).join("");
-}
-function selectBrowseCategory(cat){browseCategory=cat;browseIndex=0;browseRevealed=false;buildBrowseCategories();applyBrowseFilter();renderBrowseCard();}
-function applyBrowseFilter(){
-  browseWords=browseCategory==="Alla"?[...WORDS]:WORDS.filter(w=>w.cat===browseCategory);
-  for(let i=browseWords.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[browseWords[i],browseWords[j]]=[browseWords[j],browseWords[i]];}
-}
-function renderBrowseCard(){
-  if(!browseWords.length)return;
-  const w=browseWords[browseIndex];browseRevealed=false;
-  document.getElementById("browseWord").textContent=w.da;
-  document.getElementById("browseIpa").textContent=w.ipa||"";
-  document.getElementById("browseCatTag").textContent=w.cat;
-  document.getElementById("browseTapHint").style.display="";
-  document.getElementById("browseReveal").classList.remove("shown");
-  document.getElementById("browseSwedish").innerHTML=`<strong>🇸🇪 Svenska:</strong> ${w.sv}`;
-  document.getElementById("browseMeaning").textContent=w.en;
-  document.getElementById("browseNote").innerHTML=w.note||"";
-  const pct=((browseIndex+1)/browseWords.length)*100;
-  document.getElementById("browseProgress").style.width=pct+"%";
-  document.getElementById("browseProgressText").textContent=`${browseIndex+1} / ${browseWords.length}`;
-}
-function revealBrowse(){if(!browseRevealed){browseRevealed=true;document.getElementById("browseReveal").classList.add("shown");document.getElementById("browseTapHint").style.display="none";}}
-function speakBrowse(){const w=browseWords[browseIndex];if(w)speak(w.da,"da-DK","browseAudioBtn");}
-function nextBrowse(){browseIndex=(browseIndex+1)%browseWords.length;renderBrowseCard();}
-function prevBrowse(){browseIndex=(browseIndex-1+browseWords.length)%browseWords.length;renderBrowseCard();}
-
-// ─── QUIZ (audio-only) ────────────────────────────────────────
-function startQuiz(){quizWords=[...WORDS].sort(()=>Math.random()-0.5).slice(0,20);quizIndex=0;quizCorrect=0;quizWrong=0;quizAnswered=false;document.getElementById("quizArea").style.display="";document.getElementById("quizResult").style.display="none";updateQuizScore();renderQuizQ();}
-function updateQuizScore(){document.getElementById("qCorrect").textContent=quizCorrect;document.getElementById("qWrong").textContent=quizWrong;document.getElementById("qLeft").textContent=quizWords.length-quizIndex;}
-function speakQuizWord(){const w=quizWords[quizIndex];if(w)speak(w.da,"da-DK","quizAudioBtn");}
-function renderQuizQ(){
-  if(quizIndex>=quizWords.length){showQuizResult();return;}
-  const w=quizWords[quizIndex];quizAnswered=false;
-  document.getElementById("qLabel").textContent="Vad betyder ordet du hör?";
-  document.getElementById("quizFeedback").textContent="";
-  document.getElementById("quizFeedback").className="quiz-feedback";
-  document.getElementById("quizNextBtn").classList.remove("visible");
-  document.getElementById("quizAudioBtn").classList.remove("speaking");
-  // Four options: correct sv + 3 distractors
-  const correct=w.sv;
-  const pool=WORDS.filter(x=>x.sv!==w.sv);
-  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.sv);
-  const opts=[...dist,correct].sort(()=>Math.random()-0.5);
-  document.getElementById("quizOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerQuiz(this,'${escQ(opt)}','${escQ(correct)}')">${opt}</button>`).join("");
-  updateQuizScore();
-  // Auto-play after short delay
-  setTimeout(()=>speak(w.da,"da-DK","quizAudioBtn"),400);
-}
-function answerQuiz(btn,chosen,correct){
-  if(quizAnswered)return;quizAnswered=true;
-  const w=quizWords[quizIndex];
-  document.querySelectorAll("#quizOptions .option-btn").forEach(b=>b.classList.add("locked"));
-  const wordLine=`<div class="quiz-word-reveal"><span class="qwr-da">${w.da}</span>${w.ipa?`<span class="qwr-ipa">${w.ipa}</span>`:''}</div>`;
-  if(chosen===correct){
-    btn.classList.add("correct");quizCorrect++;streak++;
-    document.getElementById("quizFeedback").innerHTML="✓ Rätt! "+wordLine;
-    document.getElementById("quizFeedback").className="quiz-feedback correct-fb";
-  } else {
-    btn.classList.add("wrong");streak=0;quizWrong++;
-    document.querySelectorAll("#quizOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});
-    document.getElementById("quizFeedback").innerHTML="✗ Fel – rätt: "+correct+" "+wordLine;
-    document.getElementById("quizFeedback").className="quiz-feedback wrong-fb";
-  }
-  document.getElementById("streakBadge").textContent="🔥 "+streak;
-  document.getElementById("quizNextBtn").classList.add("visible");updateQuizScore();quizIndex++;
-}
-function nextQuizQ(){renderQuizQ();}
-function showQuizResult(){
-  document.getElementById("quizArea").style.display="none";document.getElementById("quizResult").style.display="";
-  const pct=Math.round((quizCorrect/quizWords.length)*100);
-  document.getElementById("rCorrect").textContent=quizCorrect+"/"+quizWords.length;document.getElementById("rPct").textContent=pct+"%";
-  let emoji="😐",title="Inte illa",sub="Fortsätt öva!";
-  if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Perfekt hörförståelse!";}
-  else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Örat börjar känna igen danskan.";}
-  else if(pct>=50){emoji="📚";title="På god väg";sub="Fokusera på uttal-fällorna.";}
-  else{emoji="💪";title="Fortsätt kämpa!";sub="Det danska ljudet är svårt – men det sätter sig!";}
-  document.getElementById("resultEmoji").textContent=emoji;document.getElementById("resultTitle").textContent=title;document.getElementById("resultSubtitle").textContent=sub;
-}
-
-// ─── SENTENCE QUIZ ─────────────────────────────────────────────
-const SENTENCES=[{"da": "Det var egentlig ret roligt derude", "sv": "Det var egentligen ganska lugnt därutanför", "word": "rolig (lugn!), ret"}, {"da": "Han er virkelig flov over det", "sv": "Han är verkligen generad över det", "word": "flov (generad!)"}, {"da": "Det er simpelthen for flot!", "sv": "Det är helt enkelt för häftigt/snyggt!", "word": "flot (snygg/häftig!)"}, {"da": "Den film var virkelig sjov", "sv": "Den filmen var verkligen rolig/kul", "word": "sjov (rolig/kul!)"}, {"da": "Jeg er lidt ærgerlig over det", "sv": "Jag är lite irriterad/ledsen över det", "word": "ærgerlig (irriterad!)"}, {"da": "Han var slet ikke flink ved hende", "sv": "Han var inte alls snäll mot henne", "word": "flink (snäll!)"}, {"da": "Det er simpelthen tarveligt at sige", "sv": "Det är helt enkelt tarvligt/vulgärt att säga", "word": "tarveligt (tarvligt!)"}, {"da": "Jeg synes det er lidt grim", "sv": "Jag tycker det är lite fult", "word": "grim (ful!)"}, {"da": "Er du ikke lidt skuffet?", "sv": "Är du inte lite besviken?", "word": "skuffet (besviken!)"}, {"da": "Det er ligegyldigt hvad de siger", "sv": "Det spelar ingen roll vad de säger", "word": "ligegyldigt"}, {"da": "Jeg har simpelthen ikke overskud til det", "sv": "Jag orkar helt enkelt inte med det", "word": "overskud (ork!)"}, {"da": "Han er virkelig myndig i sin tone", "sv": "Han är verkligen bestämd i sin ton", "word": "myndig (bestämd!)"}, {"da": "Ej, det er da ikke sandt!", "sv": "Nej, det är ju inte sant!", "word": "da (ju/väl - partikel!)"}, {"da": "Det er jo det, jeg hele tiden siger", "sv": "Det är ju det jag hela tiden säger", "word": "jo (ju!)"}, {"da": "Det er vel ikke så slemt?", "sv": "Det är väl inte så illa?", "word": "vel (väl - partikel!)"}, {"da": "Mon det bliver godt vejr i morgen?", "sv": "Månne det blir fint väder imorgon?", "word": "mon (månne!)"}, {"da": "Åh skidt, jeg glemte det helt", "sv": "Åh fan, jag glömde det helt", "word": "skidt (fan/strunt!)"}, {"da": "Orv, det var grimt at se på", "sv": "Usch, det var fult att se på", "word": "orv (usch/herregud!)"}, {"da": "Det er gu nok rigtigt", "sv": "Det stämmer ju nog", "word": "gu (ju/sannerligen - partikel!)"}, {"da": "Er du nysgerrig efter at prøve det?", "sv": "Är du nyfiken på att prova det?", "word": "nysgerrig (nyfiken!)"}, {"da": "Tøv ikke, bare gå i gang", "sv": "Tveka inte, bara sätt igång", "word": "tøv (tveka!)"}, {"da": "Der er mange kvinder til mødet", "sv": "Det är många kvinnor på mötet", "word": "kvinder (kvinnor!)"}, {"da": "Børnene leger ude i haven", "sv": "Barnen leker ute i trädgården", "word": "børn (barn - uttal!)"}, {"da": "Nå ja, det havde jeg glemt", "sv": "Nåja, det hade jag glömt", "word": "nå ja"}, {"da": "Jo da, det kan jeg godt", "sv": "Javisst, det kan jag", "word": "jo da (javisst!)"}, {"da": "Det er sådan set ikke så slemt", "sv": "Det är egentligen inte så illa", "word": "sådan set (egentligen/i och för sig!)"}, {"da": "Hvad end du beslutter, støtter jeg dig", "sv": "Vad du än beslutar stöttar jag dig", "word": "hvad end (vad än!)"}, {"da": "Har du nogen sinde set noget lignende?", "sv": "Har du någonsin sett något liknande?", "word": "nogen sinde (någonsin!)"}, {"da": "Det er det samme for mig", "sv": "Det är detsamma för mig / spelar ingen roll", "word": "det samme (detsamma!)"}, {"da": "Hvad nu hvis det ikke virker?", "sv": "Tänk om det inte fungerar?", "word": "hvad nu hvis (tänk om!)"}, {"da": "Jeg kommer om lidt, vent lige", "sv": "Jag kommer strax, vänta lite", "word": "om lidt (om lite/strax!)"}, {"da": "Det giver på en eller anden måde mening", "sv": "Det ger på något vis mening", "word": "på en eller anden måde (på något vis!)"}, {"da": "I og med at du er her, kan vi begynde", "sv": "I och med att du är här kan vi börja", "word": "i og med (i och med)"}, {"da": "Det er ikke rigtig det jeg mente", "sv": "Det är inte riktigt det jag menade", "word": "ikke rigtig (inte riktigt - reduceras!)"}, {"da": "Af og til savner jeg det", "sv": "Då och då saknar jag det", "word": "af og til (då och då!)"}, {"da": "Jeg er nødt til at indrømme, at du har ret", "sv": "Jag måste erkänna att du har rätt", "word": "indrømme (erkänna!)"}, {"da": "Det kan skabe problemer senere", "sv": "Det kan orsaka problem senare", "word": "skabe (skapa/orsaka!)"}, {"da": "Hvad er der hændt med ham?", "sv": "Vad har hänt med honom?", "word": "hændt (hänt!)"}, {"da": "Det passer ikke rigtig med mine planer", "sv": "Det passar inte riktigt med mina planer", "word": "passer (passar/stämmer!)"}, {"da": "Lad mig prøve at forklare det", "sv": "Låt mig försöka förklara det", "word": "lad (låt!)"}, {"da": "Lad nu være med at drille ham", "sv": "Låt nu bli att reta honom", "word": "lad være (låt bli!)"}, {"da": "Det er forkert at sige det sådan", "sv": "Det är fel att säga det så", "word": "forkert (fel!)"}, {"da": "Netop! Det er præcis hvad jeg mener", "sv": "Precis! Det är exakt vad jag menar", "word": "netop (precis/just det!)"}, {"da": "Tilsyneladende er alt i orden", "sv": "Till synes är allt i ordning", "word": "tilsyneladende (till synes!)"}, {"da": "Kan du undvære bilen i en uge?", "sv": "Kan du undvara bilen en vecka?", "word": "undvære (undvara!)"}, {"da": "Opfør dig ordentligt!", "sv": "Uppför dig ordentligt!", "word": "opføre sig (uppföra sig!)"}, {"da": "Rigtigt nok er det ikke let", "sv": "Visserligen är det inte lätt", "word": "rigtigt nok (visserligen!)"}, {"da": "Jeg kan mærke at noget er galt", "sv": "Jag kan känna att något är fel", "word": "mærke (känna/märka!)"}, {"da": "Pludselig ændrede alt sig", "sv": "Plötsligt förändrades allt", "word": "pludselig (plötsligt - G tyst!)"}, {"da": "Han har knoklet hele ugen", "sv": "Han har slitit hela veckan", "word": "knoklet (slitit!)"}, {"da": "Stop med at drille din lillebror", "sv": "Sluta reta din lillebror", "word": "drille (reta!)"}, {"da": "Jeg bakker dig op hele vejen", "sv": "Jag stöttar dig hela vägen", "word": "bakker op (stöttar!)"}, {"da": "Vi trives godt her i byen", "sv": "Vi trivs bra här i staden", "word": "trives (trivs!)"}, {"da": "Vi hygger os med et godt selskab", "sv": "Vi har det mysigt med ett bra sällskap", "word": "hygger os (har det mysigt!)"}, {"da": "Hvornår når du frem til stationen?", "sv": "När kommer du fram till stationen?", "word": "når frem (kommer fram!)"}, {"da": "Han kan ikke styre sit temperament", "sv": "Han kan inte styra sitt humör", "word": "styre (styra!)"}, {"da": "Tæl til ti, før du svarer", "sv": "Räkna till tio innan du svarar", "word": "tæl (räkna!)"}, {"da": "Jeg har bestemt mig for at prøve", "sv": "Jag har bestämt mig för att prova", "word": "bestemt mig (bestämt mig!)"}, {"da": "Man vænner sig til det med tiden", "sv": "Man vänjer sig vid det med tiden", "word": "vænner sig til (vänjer sig vid!)"}, {"da": "Det er svært at give slip på gamle vaner", "sv": "Det är svårt att släppa taget om gamla vanor", "word": "give slip (släppa taget!)"}, {"da": "Det bragede da de kørte ind i hinanden", "sv": "Det brakade när de körde in i varandra", "word": "bragede (brakade!)"}, {"da": "Det går nok, bare rolig", "sv": "Det ordnar sig, lugna dig", "word": "det går nok (det ordnar sig!) + rolig (lugn!)"}, {"da": "Det kan godt være, men jeg er ikke sikker", "sv": "Det kan hända, men jag är inte säker", "word": "det kan godt være (det kan hända!)"}, {"da": "Nu om stunder er alting dyrere", "sv": "Nuförtiden är allting dyrare", "word": "nu om stunder (nuförtiden!)"}, {"da": "Det er op til dig at beslutte", "sv": "Det är upp till dig att bestämma", "word": "op til dig (upp till dig!)"}, {"da": "Ingen af delene fungerer for mig", "sv": "Ingendera fungerar för mig", "word": "ingen af delene (ingendera!)"}, {"da": "Vi nåede det heldigvis i tide", "sv": "Vi hann lyckligtvis i tid", "word": "i tide (i tid!)"}, {"da": "Jeg vil ikke for alt i verden miste det", "sv": "Jag vill inte för allt i världen förlora det", "word": "for alt i verden"}, {"da": "Hvad der sker, sker", "sv": "Vad som händer, händer", "word": "hvad der sker (vad som händer!)"}, {"da": "Hvad så med det, vi prøver alligevel", "sv": "Vad är det med det, vi försöker ändå", "word": "hvad så med det + alligevel"}, {"da": "Jeg er egentlig ret tilfreds, sådan set", "sv": "Jag är egentligen ganska nöjd, i och för sig", "word": "egentlig + ret + sådan set"}, {"da": "Det er da ikke det samme som at give op", "sv": "Det är ju inte detsamma som att ge upp", "word": "da (partikel) + det samme"}, {"da": "Mon vi kan nå frem i tide?", "sv": "Månne vi kan komma fram i tid?", "word": "mon + nå frem + i tide"}, {"da": "Lad være med det, det giver ingen mening", "sv": "Låt bli det, det ger ingen mening", "word": "lad være + give mening"}, {"da": "Rigtigt nok er han flov, men det er hans egen skyld", "sv": "Visserligen är han generad, men det är hans eget fel", "word": "rigtigt nok + flov"}, {"da": "Hvad nu hvis vi bare hygger os i stedet?", "sv": "Tänk om vi bara har det mysigt istället?", "word": "hvad nu hvis + hygger os"}, {"da": "Det er op til dig, men jeg bakker dig op", "sv": "Det är upp till dig, men jag stöttar dig", "word": "op til dig + bakker op"}, {"da": "Tilsyneladende er han slet ikke klar endnu", "sv": "Till synes är han inte alls klar ännu", "word": "tilsyneladende + slet ikke"}, {"da": "Det er jo ligegyldigt, det er det samme", "sv": "Det är ju ingen roll, det är detsamma", "word": "ligegyldigt + det samme + jo"}, {"da": "Om lidt finder vi ud af hvad der sker", "sv": "Om lite tar vi reda på vad som händer", "word": "om lidt + finde ud af + hvad der sker"}, {"da": "Jeg savner dig virkelig meget", "sv": "Jag saknar dig verkligen mycket", "word": "savner (saknar!) + meget (uttal: majed)"}, {"da": "Hvad betyder det egentlig?", "sv": "Vad betyder det egentligen?", "word": "betyder + egentlig (reduceras i tal)"}, {"da": "Kan du forklare det en gang til?", "sv": "Kan du förklara det en gång till?", "word": "forklare (förklara)"}, {"da": "Jeg glemte fuldstændig at ringe", "sv": "Jag glömde fullständigt att ringa", "word": "glemte (glömde!) + fuldstændig"}, {"da": "Han nyder virkelig sit arbejde", "sv": "Han njuter verkligen av sitt arbete", "word": "nyder (njuter av!)"}, {"da": "Prøv at forestille dig det", "sv": "Försök föreställa dig det", "word": "forestille sig (föreställa sig!)"}, {"da": "Jeg håber du får det bedre snart", "sv": "Jag hoppas du mår bättre snart", "word": "håber (hoppas!) + snart"}, {"da": "Hun er begyndt at lære dansk", "sv": "Hon har börjat lära sig danska", "word": "begyndt (börjat!) — note: started"}, {"da": "Det lykkedes os til sidst", "sv": "Det lyckades oss till slut", "word": "lykkedes (lyckades!) + til sidst"}, {"da": "Jeg gider simpelthen ikke mere", "sv": "Jag orkar helt enkelt inte mer", "word": "gider ikke (orkar inte!) + simpelthen"}, {"da": "Vi skal nok finde ud af det", "sv": "Vi ska nog lista ut det", "word": "nok (nog/säkert) + finde ud af"}, {"da": "Han ved godt hvad han laver", "sv": "Han vet precis vad han håller på med", "word": "ved godt (vet precis) — 'godt' som förstärkare"}, {"da": "Kan du ikke bare lade mig være?", "sv": "Kan du inte bara låta mig vara?", "word": "lade mig være (låta mig vara!) + bare"}, {"da": "Det er svært at undgå", "sv": "Det är svårt att undvika", "word": "undgå (undvika!)"}, {"da": "Hun plejede at cykle til arbejde", "sv": "Hon brukade cykla till jobbet", "word": "plejede (brukade!) — ingen svensk nutidsform"}, {"da": "Hvad er forskellen på de to?", "sv": "Vad är skillnaden mellan de två?", "word": "forskellen (skillnaden!)"}, {"da": "Der er mange muligheder her", "sv": "Det finns många möjligheter här", "word": "muligheder (möjligheter!)"}, {"da": "Det er et godt spørgsmål", "sv": "Det är en bra fråga", "word": "spørgsmål (fråga!)"}, {"da": "Vi er på ferie i næste uge", "sv": "Vi är på semester nästa vecka", "word": "ferie (semester!)"}, {"da": "Det er et godt tilbud", "sv": "Det är ett bra erbjudande", "word": "tilbud (erbjudande!)"}, {"da": "Lægen sagde det var ingenting", "sv": "Läkaren sa att det var ingenting", "word": "lægen (läkaren!) + sagde (sa!)"}, {"da": "Kom ind i stuen og sæt dig", "sv": "Kom in i vardagsrummet och sätt dig", "word": "stuen (vardagsrummet!) + sæt dig"}, {"da": "Nøglen ligger på køkkenbordet", "sv": "Nyckeln ligger på köksbordet", "word": "nøglen (nyckeln!) + køkken (kök!)"}, {"da": "Tag en dyne og en pude med", "sv": "Ta med en täcke och en kudde", "word": "dyne (täcke!) + pude (kudde!)"}, {"da": "Det var en kedelig forestilling", "sv": "Det var en tråkig föreställning", "word": "kedelig (tråkig!) — falsk ven"}, {"da": "Vejret er skiftevis sol og regn", "sv": "Vädret är omväxlande sol och regn", "word": "vejret (vädret!) + skiftevis"}, {"da": "Hvad koster det på tilbud?", "sv": "Vad kostar det på rea?", "word": "tilbud (rea!) — helt annorlunda"}, {"da": "Jeg er nødt til at gå til lægen", "sv": "Jag måste gå till läkaren", "word": "lægen (läkaren!) + nødt til (måste)"}, {"da": "Det er da meningen at man prøver", "sv": "Det är ju meningen att man försöker", "word": "da (ju! — partikel i påståenden)"}, {"da": "Du ved da godt hvad jeg mener", "sv": "Du vet ju precis vad jag menar", "word": "da + ved godt (vet precis)"}, {"da": "Det er vel det bedste vi kan gøre", "sv": "Det är väl det bästa vi kan göra", "word": "vel (väl — söker bekräftelse)"}, {"da": "Mon han overhovedet kommer?", "sv": "Månne han överhuvudtaget kommer?", "word": "mon (månne!) + overhovedet"}, {"da": "Det er gu ikke nemt", "sv": "Det är ju/verkligen inte lätt", "word": "gu (ju/sannerligen — förstärkare)"}, {"da": "Nå da, hvis du siger det", "sv": "Nåja, om du säger det", "word": "nå da (nåja då) — kombination"}, {"da": "Det er vel nok det rigtige at gøre", "sv": "Det är väl nog det rätta att göra", "word": "vel nok (väl nog — dubbel partikel)"}, {"da": "Jeg kan slet ikke forstå hvad de siger", "sv": "Jag kan inte alls förstå vad de säger", "word": "slet ikke + hvad (va) — reduktion"}, {"da": "Det ved jeg ikke noget om", "sv": "Det vet jag ingenting om", "word": "ved ikke + noget — båda reduceras kraftigt"}, {"da": "Har du nogen sinde oplevet noget lignende?", "sv": "Har du någonsin upplevt något liknande?", "word": "nogen sinde (någonsin!) + noget (noe)"}, {"da": "Det er ikke noget jeg tænker over", "sv": "Det är inget jag tänker på", "word": "ikke noget — 'ej noe' i tal"}, {"da": "Hvad sagde han egentlig?", "sv": "Vad sa han egentligen?", "word": "sagde (sa! — uttalas sæde) + egentlig"}, {"da": "Jeg troede det var anderledes", "sv": "Jag trodde det var annorlunda", "word": "troede (trodde! — uttalas trode)"}, {"da": "Der er ikke noget at gøre ved det", "sv": "Det finns ingenting att göra åt det", "word": "ikke noget at gøre ved (ingenting att göra åt)"}, {"da": "Det er hverken fugl eller fisk", "sv": "Det är varken fågel eller fisk", "word": "hverken (varken! — H tyst)"}, {"da": "Det tager tid at vænne sig til", "sv": "Det tar tid att vänja sig vid", "word": "vænne sig til (vänja sig vid!) + tid"}, {"da": "Giv det en chance, det er det værd", "sv": "Ge det en chans, det är det värt", "word": "giv (ge! — G→J) + det værd (det värt)"}, {"da": "Hvad tænkte du på?", "sv": "Vad tänkte du på?", "word": "hvad (va!) + tænkte — fortidsform"}, {"da": "Det er simpelthen ikke til at forstå", "sv": "Det är helt enkelt omöjligt att förstå", "word": "simpelthen (helt enkelt) + ikke til at forstå"}, {"da": "Jeg synes du skal tage dig sammen", "sv": "Jag tycker du ska ta dig i kragen", "word": "synes (tycker — känslobaserat) + tage sig sammen"}, {"da": "Han blev vred og gik sin vej", "sv": "Han blev arg och gick sin väg", "word": "vred (arg!)"}, {"da": "Det sker sjælden at han er sent på den", "sv": "Det händer sällan att han är sen", "word": "sjælden (sällan/sällsynt!) — SJ-ljud"}, {"da": "Hvad er din yndlingsfilm?", "sv": "Vad är din favoritfilm?", "word": "yndlings- (favorit!) — Ø-vokal"}, {"da": "Jeg er virkelig ked af det", "sv": "Jag är verkligen ledsen", "word": "ked af det (ledsen!) — flerordigt"}, {"da": "Tillykke med din nye job!", "sv": "Grattis till ditt nya jobb!", "word": "tillykke (grattis!) — inget att associera"}, {"da": "Vær omhyggelig når du gør det", "sv": "Var noggrann när du gör det", "word": "omhyggelig (noggrann!) — gör uttalas 'jör'"}, {"da": "Det var rent uheld at det gik galt", "sv": "Det var ren otur att det gick fel", "word": "uheld (otur/olycka!)"}, {"da": "Du er heldig som har det så godt", "sv": "Du har tur som har det så bra", "word": "heldig (ha tur/lyckosam!)"}, {"da": "Nej, det er simpelthen ulækkert", "sv": "Nej, det är helt enkelt äckligt", "word": "ulækkert (äckligt!) + simpelthen"}, {"da": "Stop med at brokke dig over alt", "sv": "Sluta gnälla om allt", "word": "brokke dig (gnälla!) — reflexivt"}, {"da": "Hun er både pæn og klog", "sv": "Hon är både snygg och klok", "word": "pæn (snygg/fin!) — mångtydigt"}, {"da": "Det var en frygtelig oplevelse", "sv": "Det var en fruktansvärd upplevelse", "word": "frygtelig (fruktansvärd/hemsk!)"}, {"da": "Man kan ikke flygte fra sin skæbne", "sv": "Man kan inte fly sitt öde", "word": "skæbne (öde!) — Æ-vokal"}, {"da": "Hun besvimede af varmen", "sv": "Hon svimmade av värmen", "word": "besvimede (svimmade av!) — be-prefix"}, {"da": "Jeg er lidt misundelig på dig", "sv": "Jag är lite avundsjuk på dig", "word": "misundelig (avundsjuk!) — helt annorlunda"}, {"da": "Han er så stædig at det er umuligt", "sv": "Han är så envis att det är omöjligt", "word": "stædig (envis!) — D mjukt"}, {"da": "Det er et hyppigt problem her", "sv": "Det är ett vanligt/frekvent problem här", "word": "hyppigt (vanligt/frekvent!) — PP = B"}, {"da": "Han er for nærig til at betale", "sv": "Han är för snål för att betala", "word": "nærig (snål!) — vardagligt"}, {"da": "Det der arbejde er simpelthen sjusket", "sv": "Det där arbetet är helt enkelt slarvigt", "word": "sjusket (slarvigt!) — SJ-ljud"}, {"da": "Det er rent vrøvl det du siger", "sv": "Det är rent nonsens det du säger", "word": "vrøvl (nonsens/struntprat!) — Ø-vokal"}, {"da": "Kan du hente børnene fra skole?", "sv": "Kan du hämta barnen från skolan?", "word": "hente (hämta!) — helt annorlunda form"}, {"da": "Det er sært at han ikke har ringet", "sv": "Det är konstigt att han inte har ringt", "word": "sært (konstigt/märkligt!) — Æ-vokal"}];
-
-let sentenceWords=[],sentenceIndex=0,sentenceCorrect=0,sentenceWrong=0,sentenceAnswered=false;
-
+// ─── SENTENCE QUIZ (multiple choice) ───────────────────────────
 function startSentenceQuiz(){
   sentenceWords=[...SENTENCES].sort(()=>Math.random()-0.5).slice(0,15);
   sentenceIndex=0;sentenceCorrect=0;sentenceWrong=0;sentenceAnswered=false;
-  document.getElementById("sentenceArea").style.display="";document.getElementById("sentenceResult").style.display="none";
+  document.getElementById("sentenceArea").style.display="";
+  document.getElementById("sentenceResult").style.display="none";
   updateSentenceScore();renderSentenceQ();
 }
 function updateSentenceScore(){
@@ -2311,7 +1655,6 @@ function renderSentenceQ(){
   document.getElementById("sentenceReveal").style.display="none";
   document.getElementById("sentenceAudioBtn").classList.remove("speaking");
   document.getElementById("sentenceWordBadge").innerHTML="";
-  // Build options: correct sv + 3 other sentence translations
   const correct=s.sv;
   const pool=SENTENCES.filter(x=>x.sv!==s.sv);
   const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.sv);
@@ -2330,40 +1673,135 @@ function answerSentence(btn,chosen,correct,da){
   rev.style.display="";
   if(chosen===correct){btn.classList.add("correct");sentenceCorrect++;streak++;document.getElementById("sentenceFeedback").textContent="✓ Rätt!";document.getElementById("sentenceFeedback").className="quiz-feedback correct-fb";}
   else{btn.classList.add("wrong");streak=0;sentenceWrong++;document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("sentenceFeedback").textContent="✗ Fel!";document.getElementById("sentenceFeedback").className="quiz-feedback wrong-fb";}
-  document.getElementById("streakBadge").textContent="🔥 "+streak;document.getElementById("sentenceNextBtn").classList.add("visible");updateSentenceScore();sentenceIndex++;
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  document.getElementById("sentenceNextBtn").classList.add("visible");updateSentenceScore();sentenceIndex++;
 }
 function nextSentenceQ(){renderSentenceQ();}
 function showSentenceResult(){
   document.getElementById("sentenceArea").style.display="none";document.getElementById("sentenceResult").style.display="";
   const pct=Math.round((sentenceCorrect/sentenceWords.length)*100);
-  document.getElementById("srCorrect").textContent=sentenceCorrect+"/"+sentenceWords.length;document.getElementById("srPct").textContent=pct+"%";
+  document.getElementById("srCorrect").textContent=sentenceCorrect+"/"+sentenceWords.length;
+  document.getElementById("srPct").textContent=pct+"%";
   let emoji="😐",title="Inte illa",sub="Fortsätt öva!";
   if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Du förstår danska meningar!";}
   else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Kontexten börjar ge sig.";}
   else if(pct>=50){emoji="📚";title="På god väg";sub="Lyssna aktivt på reduktioner.";}
   else{emoji="💪";title="Håll ut!";sub="Meningarna är hårda – men det lönar sig.";}
-  document.getElementById("sResultEmoji").textContent=emoji;document.getElementById("sResultTitle").textContent=title;document.getElementById("sResultSubtitle").textContent=sub;
+  document.getElementById("sResultEmoji").textContent=emoji;
+  document.getElementById("sResultTitle").textContent=title;
+  document.getElementById("sResultSubtitle").textContent=sub;
 }
 
-// ─── GLOSSARY ─────────────────────────────────────────────────
+// ─── HARD MODE (SM-2 self-rate) ─────────────────────────────────
+function renderHardDash(){
+  const c=getHardDueCounts();
+  document.getElementById("hardDash").innerHTML=`
+    <div class="hard-tile new"><div class="hard-tile-num">${c.new}</div><div class="hard-tile-label">Nya</div></div>
+    <div class="hard-tile learning"><div class="hard-tile-num">${c.learning}</div><div class="hard-tile-label">Lär</div></div>
+    <div class="hard-tile due"><div class="hard-tile-num">${c.due}</div><div class="hard-tile-label">Repetition</div></div>
+    <div class="hard-tile known"><div class="hard-tile-num">${c.known}</div><div class="hard-tile-label">Kan</div></div>`;
+}
+function renderHardStudy(){
+  const area=document.getElementById("hardStudyArea");
+  if(hardQIndex>=hardQueue.length){
+    renderHardDash();
+    const c=getHardDueCounts();
+    const total=c.new+c.learning+c.due;
+    if(hardSessionTotal===0&&total===0){
+      area.innerHTML=`<div class="done-panel"><div class="done-emoji">🎉</div><div class="done-title">Allt klart!</div><div class="done-sub">Inga meningar att repetera idag.<br>Kom tillbaka imorgon!</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${SENTENCES.filter(s=>getHardStatus(s.da)==="known").length}</div><div class="done-stat-label">Kända</div></div><div class="done-stat"><div class="done-stat-num">${SENTENCES.length}</div><div class="done-stat-label">Totalt</div></div></div><div class="reset-link" onclick="resetHardSRS()">Återställ framsteg</div></div>`;
+      return;
+    }
+    area.innerHTML=`<div class="done-panel"><div class="done-emoji">✅</div><div class="done-title">Session klar!</div><div class="done-sub">${total>0?`${total} meningar kvar att öva.`:"Allt repeterat för nu!"}</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${hardSessionCorrect}</div><div class="done-stat-label">Bra svar</div></div><div class="done-stat"><div class="done-stat-num">${hardSessionTotal}</div><div class="done-stat-label">Totalt</div></div></div>${total>0?`<button class="restart-btn" onclick="startHardSession()">Fortsätt →</button>`:""}<div class="reset-link" onclick="resetHardSRS()">Återställ framsteg</div></div>`;
+    return;
+  }
+  const s=hardQueue[hardQIndex];
+  const st=getHardStatus(s.da);
+  const bmap={new:"badge-new",learning:"badge-review",due:"badge-due",known:"badge-due"};
+  const blbl={new:"Nytt",learning:"Lär",due:"Repetition",known:"Repetition"};
+  hardRevealed=false;
+  area.innerHTML=`
+    <div class="hard-card" id="hardCard" onclick="revealHard()">
+      <div class="hard-card-badge ${bmap[st]}">${blbl[st]}</div>
+      <div class="hard-card-count">${hardQIndex+1} / ${hardQueue.length}</div>
+      <button class="audio-btn" id="hardAudioBtn" onclick="event.stopPropagation();speak('${escQ(s.da)}','da-DK','hardAudioBtn')">🔊</button>
+      <div class="hard-tap-hint" id="hardTapHint">Tryck för att visa översättning</div>
+      <div class="hard-reveal" id="hardReveal">
+        <div class="hard-da">🇩🇰 ${s.da}</div>
+        <div class="hard-sv">🇸🇪 ${s.sv}</div>
+        ${s.word?`<div class="hard-note">Fokusord: ${s.word}</div>`:""}
+      </div>
+    </div>
+    <div id="hardRatings" style="display:none">
+      <div class="hard-ratings">
+        <button class="rating-btn r-again" onclick="rateHard(0)"><span class="r-emoji">😬</span><span class="r-label">Igen</span><span class="r-interval">${getHardIntervalLabel(s.da,0)}</span></button>
+        <button class="rating-btn r-hard" onclick="rateHard(1)"><span class="r-emoji">😅</span><span class="r-label">Svårt</span><span class="r-interval">${getHardIntervalLabel(s.da,1)}</span></button>
+        <button class="rating-btn r-good" onclick="rateHard(2)"><span class="r-emoji">🙂</span><span class="r-label">Bra</span><span class="r-interval">${getHardIntervalLabel(s.da,2)}</span></button>
+        <button class="rating-btn r-easy" onclick="rateHard(3)"><span class="r-emoji">😎</span><span class="r-label">Lätt</span><span class="r-interval">${getHardIntervalLabel(s.da,3)}</span></button>
+      </div>
+    </div>`;
+  setTimeout(()=>speak(s.da,"da-DK","hardAudioBtn"),400);
+}
+function revealHard(){
+  if(hardRevealed)return;
+  hardRevealed=true;
+  document.getElementById("hardReveal").classList.add("shown");
+  document.getElementById("hardTapHint").style.display="none";
+  document.getElementById("hardRatings").style.display="";
+}
+function rateHard(rating){
+  const s=hardQueue[hardQIndex];
+  rateHardCard(s.da,rating);
+  hardSessionTotal++;
+  if(rating>=2){hardSessionCorrect++;streak++;}else{streak=0;}
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  hardQIndex++;renderHardStudy();
+}
+function startHardSession(){
+  hardQueue=getHardDueQueue(15);
+  hardQIndex=0;hardSessionCorrect=0;hardSessionTotal=0;
+  renderHardDash();renderHardStudy();
+}
+function resetHardSRS(){
+  if(confirm("Återställa alla framsteg för svårt läge?")){
+    hardSRSData={};saveHardSRS();
+    hardQueue=[];hardQIndex=0;hardSessionCorrect=0;hardSessionTotal=0;
+    startHardSession();
+  }
+}
+
+// ─── GLOSSARY ───────────────────────────────────────────────────
 function renderGlossary(){
-  const q=document.getElementById("glossarySearch").value.toLowerCase();
-  const filtered=WORDS.filter(w=>w.da.toLowerCase().includes(q)||w.sv.toLowerCase().includes(q)||w.en.toLowerCase().includes(q));
-  const groups={};filtered.forEach(w=>{if(!groups[w.cat])groups[w.cat]=[];groups[w.cat].push(w);});
-  const container=document.getElementById("glossaryList");
-  if(!filtered.length){container.innerHTML='<p style="color:var(--muted);padding:20px 0;text-align:center">Inga ord hittades.</p>';return;}
+  const q=document.getElementById("glossSearch").value.toLowerCase();
+  const filtered=SENTENCES.filter(s=>
+    s.da.toLowerCase().includes(q)||
+    s.sv.toLowerCase().includes(q)||
+    (s.word&&s.word.toLowerCase().includes(q))
+  );
+  const container=document.getElementById("glossList");
+  if(!filtered.length){container.innerHTML='<p style="color:var(--muted);padding:20px 0;text-align:center">Inga meningar hittades.</p>';return;}
   const dc={new:"dot-new",learning:"dot-learning",due:"dot-due",known:"dot-known"};
-  container.innerHTML=Object.entries(groups).map(([cat,words])=>`
-    <div class="glossary-group-label">${cat}</div>
-    ${words.map(w=>`<div class="glossary-item"><div class="g-word">${w.da}</div><div class="g-details"><div class="g-meaning">${w.en}</div><div class="g-swedish">🇸🇪 ${w.sv}</div></div><div class="g-srs-dot ${dc[getSRSStatus(w.da)]}"></div><button class="g-audio-btn" onclick="speak('${escQ(w.da)}','da-DK')">🔊</button></div>`).join("")}
-  `).join("");
+  container.innerHTML=filtered.map(s=>`
+    <div class="gloss-item">
+      <div class="gloss-row">
+        <div style="flex:1">
+          <div class="gloss-da">${s.da}</div>
+          <div class="gloss-sv">${s.sv}</div>
+          ${s.word?`<div class="gloss-focus">🎯 ${s.word}</div>`:""}
+        </div>
+        <div class="gloss-srs ${dc[getHardStatus(s.da)]}"></div>
+        <button class="gloss-audio" onclick="speak('${escQ(s.da)}','da-DK')">🔊</button>
+      </div>
+    </div>`).join("");
 }
 
-// ─── INIT ─────────────────────────────────────────────────────
+// ─── HELPERS ────────────────────────────────────────────────────
+function escQ(s){return s.replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
+
+// ─── INIT ────────────────────────────────────────────────────────
 window.onload=()=>{
-  loadSRS();
-  buildBrowseCategories();applyBrowseFilter();renderBrowseCard();
-  renderGlossary();startSRSSession();
+  loadHardSRS();
+  startSentenceQuiz();
+  renderGlossary();
   initVoices();
 };
 </script>

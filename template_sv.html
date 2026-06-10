@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Svensk Øvelse</title>
+<title>Dansk Øvelse</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -151,7 +151,46 @@
   .sentence-word-badge strong { color:var(--dark); font-style:normal; }
   .sentence-reveal { background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:12px; font-size:13px; color:var(--mid); line-height:1.5; }
   .sentence-reveal .da-text { font-family:"Playfair Display",serif; font-size:16px; color:var(--dark); margin-bottom:4px; }
+
+  /* ─── HARD MODE ─── */
+  .hard-dash { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:18px; }
+  .hard-tile { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:10px 6px; text-align:center; }
+  .hard-tile-num { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; line-height:1; }
+  .hard-tile-label { font-size:10px; color:var(--muted); margin-top:3px; }
+  .hard-tile.new .hard-tile-num { color:var(--srs-new); }
+  .hard-tile.learning .hard-tile-num { color:var(--srs-learn); }
+  .hard-tile.due .hard-tile-num { color:var(--srs-due); }
+  .hard-tile.known .hard-tile-num { color:var(--srs-ok); }
+  .hard-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:28px 22px; text-align:center; min-height:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,0.06); position:relative; margin-bottom:16px; }
+  .hard-card-badge { position:absolute; top:12px; right:14px; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; border-radius:20px; font-weight:600; }
+  .hard-card-count { position:absolute; top:12px; left:14px; font-size:11px; color:var(--muted); }
+  .hard-focus { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+  .hard-reveal { width:100%; border-top:1px solid var(--border); padding-top:16px; margin-top:12px; display:none; }
+  .hard-reveal.shown { display:block; }
+  .hard-da { font-family:'Playfair Display',serif; font-size:18px; color:var(--dark); margin-bottom:8px; line-height:1.4; }
+  .hard-sv { font-size:14px; color:var(--mid); margin-bottom:10px; }
+  .hard-note { font-size:11px; color:var(--muted); font-style:italic; background:var(--cream); border-radius:8px; padding:7px 10px; text-align:left; }
+  .hard-tap-hint { font-size:11px; color:var(--muted); margin-top:10px; }
+  .hard-ratings { display:flex; gap:8px; margin-top:14px; }
+  /* ─── GLOSSARY ─── */
+  .gloss-search { width:100%; padding:11px 14px; border-radius:12px; border:1.5px solid var(--border); background:var(--card-bg); font-family:'DM Sans',sans-serif; font-size:13px; color:var(--dark); margin-bottom:14px; outline:none; }
+  .gloss-search:focus { border-color:var(--dark); }
+  .gloss-group-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); padding:10px 0 6px; border-bottom:1px solid var(--border); margin-bottom:6px; }
+  .gloss-item { padding:12px 0; border-bottom:1px solid var(--border); }
+  .gloss-item:last-child { border-bottom:none; }
+  .gloss-da { font-family:'Playfair Display',serif; font-size:17px; color:var(--dark); margin-bottom:3px; line-height:1.3; }
+  .gloss-sv { font-size:13px; color:var(--mid); margin-bottom:3px; }
+  .gloss-focus { font-size:11px; color:var(--muted); font-style:italic; }
+  .gloss-row { display:flex; align-items:flex-start; gap:8px; }
+  .gloss-audio { flex-shrink:0; width:32px; height:32px; border-radius:50%; background:var(--cream); border:1.5px solid var(--border); font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; margin-top:2px; }
+  .gloss-audio:active { background:var(--dark); color:var(--cream); }
+  .gloss-srs { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:6px; }
+  .dot-new { background:var(--srs-new); }
+  .dot-learning { background:var(--srs-learn); }
+  .dot-due { background:var(--srs-due); }
+  .dot-known { background:var(--srs-ok); }
 </style>
+
 </head>
 <body>
 <div class="header">
@@ -162,73 +201,13 @@
   <div class="streak-badge" id="streakBadge">🔥 0</div>
 </div>
 <div class="tabs">
-  <div class="tab active"  onclick="switchTab('srs')">Gentagelse</div>
-  <div class="tab"         onclick="switchTab('browse')">Gennemse</div>
-  <div class="tab"         onclick="switchTab('quiz')">Lyd-quiz</div>
-  <div class="tab"         onclick="switchTab('sentence')">Sætninger</div>
+  <div class="tab active"  onclick="switchTab('sentence')">Sætninger</div>
+  <div class="tab"         onclick="switchTab('hard')">Sætninger Svær</div>
   <div class="tab"         onclick="switchTab('glossary')">Ordliste</div>
 </div>
-<div class="screen active" id="screen-srs">
-  <div class="srs-dash" id="srsDash"></div>
-  <div id="srsStudyArea"></div>
-</div>
-<div class="screen" id="screen-browse">
-  <div class="categories" id="browseCategories"></div>
-  <div class="progress-row">
-    <div class="progress-bar"><div class="progress-fill" id="browseProgress" style="width:0%"></div></div>
-    <div class="progress-text" id="browseProgressText">0 / 0</div>
-  </div>
-  <div>
-    <div class="srs-card" id="browseCard" onclick="revealBrowse()">
-      <div class="card-label">🇸🇪 Svenska</div>
-      <button class="audio-btn" id="browseAudioBtn" onclick="event.stopPropagation();speakBrowse()">&#128266;</button>
-      <div class="card-word" id="browseWord">—</div>
-      <div class="card-ipa" id="browseIpa"></div>
-      <div class="card-cat-tag" id="browseCatTag"></div>
-      <div class="tap-hint" id="browseTapHint">Tryk for at se</div>
-      <div class="card-reveal" id="browseReveal">
-        <div class="card-swedish" id="browseSwedish"></div>
-        <div class="card-meaning" id="browseMeaning"></div>
-        <div class="card-note" id="browseNote"></div>
-      </div>
-    </div>
-  </div>
-  <div class="card-nav">
-    <button class="nav-btn" onclick="prevBrowse()">← Forrige</button>
-    <button class="nav-btn primary" onclick="nextBrowse()">Næste →</button>
-  </div>
-</div>
-<div class="screen" id="screen-quiz">
-  <div class="score-panel">
-    <div class="score-item"><div class="score-num" id="qCorrect">0</div><div class="score-label">Rigtigt</div></div>
-    <div class="score-item"><div class="score-num" id="qWrong">0</div><div class="score-label">Forkert</div></div>
-    <div class="score-item"><div class="score-num" id="qLeft">0</div><div class="score-label">Tilbage</div></div>
-  </div>
-  <div id="quizArea">
-    <div class="quiz-question-label" id="qLabel">Hvad betyder det ord du hører?</div>
-    <div class="quiz-audio-big">
-      <button class="audio-btn-big" id="quizAudioBtn" onclick="speakQuizWord()">🔊</button>
-      <div class="quiz-audio-hint">Tryk for at høre igen</div>
-    </div>
-    <div class="quiz-options" id="quizOptions"></div>
-    <div class="quiz-feedback" id="quizFeedback"></div>
-    <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuizQ()">Næste spørgsmål →</button>
-  </div>
-  <div id="quizResult" style="display:none">
-    <div class="result-screen">
-      <div class="result-emoji" id="resultEmoji">🎉</div>
-      <div class="result-title" id="resultTitle">Bra jobbat!</div>
-      <div class="result-subtitle" id="resultSubtitle"></div>
-      <div class="result-stats">
-        <div class="result-stat"><div class="result-stat-num" id="rCorrect">—</div><div class="result-stat-label">Rigtigt</div></div>
-        <div class="result-stat"><div class="result-stat-num" id="rPct">—</div><div class="result-stat-label">Procent</div></div>
-      </div>
-      <button class="restart-btn" onclick="startQuiz()">Spil igen →</button>
-    </div>
-  </div>
-</div>
 
-<div class="screen" id="screen-sentence">
+<!-- ════════════ SENTENCE QUIZ (multiple choice) -->
+<div class="screen active" id="screen-sentence">
   <div class="score-panel">
     <div class="score-item"><div class="score-num" id="sqCorrect">0</div><div class="score-label">Rigtigt</div></div>
     <div class="score-item"><div class="score-num" id="sqWrong">0</div><div class="score-label">Forkert</div></div>
@@ -260,21 +239,33 @@
   </div>
 </div>
 
-<div class="screen" id="screen-glossary">
-  <input class="glossary-search" id="glossarySearch" placeholder="Sök ord…" oninput="renderGlossary()">
-  <div id="glossaryList"></div>
+<!-- ════════════ HARD MODE (SM-2 self-rate) -->
+<div class="screen" id="screen-hard">
+  <div class="hard-dash" id="hardDash"></div>
+  <div id="hardStudyArea"></div>
 </div>
-<script>
-/*WORDS_PLACEHOLDER*/
 
-// ─── SM-2 SRS ─────────────────────────────────────────────────
-const SRS_KEY="svensk_srs_v1";
-let srsData={};
-function loadSRS(){try{srsData=JSON.parse(localStorage.getItem(SRS_KEY))||{};}catch(e){srsData={};}}
-function saveSRS(){try{localStorage.setItem(SRS_KEY,JSON.stringify(srsData));}catch(e){}}
-function getCard(da){if(!srsData[da])srsData[da]={interval:0,reps:0,ef:2.5,nextDue:0,lapses:0};return srsData[da];}
-function rateCard(da,rating){
-  const c=getCard(da),now=Date.now(),DAY=86400000;
+<!-- ════════════ GLOSSARY -->
+<div class="screen" id="screen-glossary">
+  <input class="gloss-search" id="glossSearch" placeholder="Søg sætning eller fokusord…" oninput="renderGlossary()">
+  <div id="glossList"></div>
+</div>
+
+<script>
+/*SENTENCES_PLACEHOLDER*/
+
+
+// ─── SM-2 (sentences) ─────────────────────────────────────────
+const HARD_SRS_KEY = "svensk_hard_v1";
+let hardSRSData = {};
+function loadHardSRS(){ try{ hardSRSData=JSON.parse(localStorage.getItem(HARD_SRS_KEY))||{}; }catch(e){ hardSRSData={}; } }
+function saveHardSRS(){ try{ localStorage.setItem(HARD_SRS_KEY,JSON.stringify(hardSRSData)); }catch(e){} }
+function getHardCard(key){
+  if(!hardSRSData[key]) hardSRSData[key]={interval:0,reps:0,ef:2.5,nextDue:0,lapses:0};
+  return hardSRSData[key];
+}
+function rateHardCard(key,rating){
+  const c=getHardCard(key),now=Date.now(),DAY=86400000;
   if(rating===0){c.reps=0;c.interval=1;c.lapses++;c.nextDue=now+DAY;}
   else{
     const q=[null,3,4,5][rating];
@@ -286,14 +277,14 @@ function rateCard(da,rating){
     if(rating===1)c.interval=Math.max(1,Math.round(c.interval*0.6));
     c.reps++;c.nextDue=now+c.interval*DAY;
   }
-  saveSRS();
+  saveHardSRS();
 }
-function getIntervalLabel(da,rating){
-  const c=getCard(da),DAY=86400000;
+function getHardIntervalLabel(key,rating){
+  const c=getHardCard(key);
   if(rating===0)return"1d";
-  let interval;
   const q=[null,3,4,5][rating];
   const ef=Math.max(1.3,c.ef+0.1-(5-q)*(0.08+(5-q)*0.02));
+  let interval;
   if(c.reps===0)interval=1;
   else if(c.reps===1)interval=4;
   else interval=Math.round(c.interval*ef);
@@ -303,31 +294,35 @@ function getIntervalLabel(da,rating){
   if(interval<30)return Math.round(interval/7)+"v";
   return Math.round(interval/30)+"mån";
 }
-function getSRSStatus(da){
-  const c=getCard(da),now=Date.now();
+function getHardStatus(key){
+  const c=getHardCard(key),now=Date.now();
   if(c.reps===0&&c.nextDue===0)return"new";
   if(c.nextDue<=now)return c.reps<3?"learning":"due";
   return"known";
 }
-function getDueCounts(){
+function getHardDueCounts(){
   let n=0,l=0,d=0,k=0;
-  WORDS.forEach(w=>{const s=getSRSStatus(w.da);if(s==="new")n++;else if(s==="learning")l++;else if(s==="due")d++;else k++;});
+  SENTENCES.forEach(s=>{
+    const st=getHardStatus(s.da);
+    if(st==="new")n++;else if(st==="learning")l++;else if(st==="due")d++;else k++;
+  });
   return{new:n,learning:l,due:d,known:k};
 }
-function getDueWords(limit){
+function getHardDueQueue(limit){
   const now=Date.now();
-  const nw=WORDS.filter(w=>getSRSStatus(w.da)==="new").slice(0,5);
-  const dw=WORDS.filter(w=>{const c=getCard(w.da);return c.nextDue<=now&&c.reps>=3;}).sort((a,b)=>getCard(a.da).nextDue-getCard(b.da).nextDue);
-  const lw=WORDS.filter(w=>{const c=getCard(w.da);return c.nextDue<=now&&c.reps>0&&c.reps<3;});
-  return[...lw,...dw,...nw].slice(0,limit||20).sort(()=>Math.random()-0.3);
+  const nw=SENTENCES.filter(s=>getHardStatus(s.da)==="new").slice(0,5);
+  const dw=SENTENCES.filter(s=>{const c=getHardCard(s.da);return c.nextDue<=now&&c.reps>=3;})
+            .sort((a,b)=>getHardCard(a.da).nextDue-getHardCard(b.da).nextDue);
+  const lw=SENTENCES.filter(s=>{const c=getHardCard(s.da);return c.nextDue<=now&&c.reps>0&&c.reps<3;});
+  return[...lw,...dw,...nw].slice(0,limit||15).sort(()=>Math.random()-0.3);
 }
 
-// ─── STATE ────────────────────────────────────────────────────
-let streak=0,srsQueue=[],srsQIndex=0,srsRevealed=false,srsSessionCorrect=0,srsSessionTotal=0;
-let browseCategory="Alla",browseIndex=0,browseWords=[],browseRevealed=false;
-let quizWords=[],quizIndex=0,quizCorrect=0,quizWrong=0,quizType="da-sv",quizAnswered=false;
-const CATEGORIES=["Alla",...new Set(WORDS.map(w=>w.cat))];
+// ─── STATE ─────────────────────────────────────────────────────
+let streak=0;
+let sentenceWords=[],sentenceIndex=0,sentenceCorrect=0,sentenceWrong=0,sentenceAnswered=false;
+let hardQueue=[],hardQIndex=0,hardRevealed=false,hardSessionCorrect=0,hardSessionTotal=0;
 
+// ─── SPEECH ─────────────────────────────────────────────────────
 // ─── SPEECH ───────────────────────────────────────────────────
 let _daVoice = null;
 let _voiceWarningShown = false;
@@ -335,7 +330,7 @@ let _voiceWarningShown = false;
 function getBestDanishVoice() {
   if (_daVoice) return _daVoice;
   const voices = window.speechSynthesis.getVoices();
-  // Priority: exact sv-SE > any sv- > name contains "swedish" > name contains "alva/oskar"
+  // Priority: exact sv-SE > any sv- > name contains "swedish" > name contains "svenska"
   const exact   = voices.find(v => v.lang === 'sv-SE');
   const prefix  = voices.find(v => v.lang.toLowerCase().startsWith('sv'));
   const byName  = voices.find(v => v.name.toLowerCase().includes('swedish') || v.name.toLowerCase().includes('svenska'));
@@ -353,9 +348,9 @@ function showVoiceBanner(voice) {
     document.body.appendChild(banner);
   }
   if (voice) {
-    banner.innerHTML = `<span>🔊 Stemme: <strong>${voice.name}</strong> (${voice.lang})</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
+    banner.innerHTML = `<span>🔊 Röst: <strong>${voice.name}</strong> (${voice.lang})</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
   } else {
-    banner.innerHTML = `<span>⚠️ Ingen dansk röst hittades. Installer "Swedish" under Systemindstillinger → Tillgänglighet → Tal → Röster (Mac) eller Inställningar → Tid & språk → Tal (Windows).</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
+    banner.innerHTML = `<span>⚠️ Ingen dansk röst hittades. Installera "Danish" under Systeminställningar → Tillgänglighet → Tal → Röster (Mac) eller Inställningar → Tid & språk → Tal (Windows).</span><button onclick="document.getElementById('voiceBanner').style.display='none'" style="background:none;border:none;color:#9A8E85;cursor:pointer;font-size:16px;">×</button>`;
   }
 }
 
@@ -388,189 +383,24 @@ function speak(text, lang, btnId) {
   window.speechSynthesis.speak(utt);
 }
 
-// ─── TABS ─────────────────────────────────────────────────────
+
+// ─── TABS ──────────────────────────────────────────────────────
 function switchTab(tab){
-  ["srs","browse","quiz","sentence","glossary"].forEach((t,i)=>{
+  ["sentence","hard","glossary"].forEach((t,i)=>{
     document.querySelectorAll(".tab")[i].classList.toggle("active",t===tab);
     document.getElementById("screen-"+t).classList.toggle("active",t===tab);
   });
-  if(tab==="quiz"&&quizWords.length===0)startQuiz();
   if(tab==="sentence"&&sentenceWords.length===0)startSentenceQuiz();
+  if(tab==="hard")renderHardDash();
+  if(tab==="glossary")renderGlossary();
 }
 
-// ─── SRS SCREEN ───────────────────────────────────────────────
-function renderSRSDash(){
-  const c=getDueCounts();
-  document.getElementById("srsDash").innerHTML=`
-    <div class="srs-tile new"><div class="srs-tile-num">${c.new}</div><div class="srs-tile-label">Nya</div></div>
-    <div class="srs-tile learning"><div class="srs-tile-num">${c.learning}</div><div class="srs-tile-label">Lär</div></div>
-    <div class="srs-tile due"><div class="srs-tile-num">${c.due}</div><div class="srs-tile-label">Repetition</div></div>
-    <div class="srs-tile known"><div class="srs-tile-num">${c.known}</div><div class="srs-tile-label">Kan</div></div>`;
-}
-function escQ(s){return s.replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
-function renderSRSStudy(){
-  const area=document.getElementById("srsStudyArea");
-  if(srsQIndex>=srsQueue.length){
-    renderSRSDash();
-    const c=getDueCounts();
-    const total=c.new+c.learning+c.due;
-    if(srsSessionTotal===0&&total===0){
-      area.innerHTML=`<div class="done-panel"><div class="done-emoji">🎉</div><div class="done-title">Allt klart!</div><div class="done-sub">Du har inga fler ord att repetera idag.<br>Kom tillbaka imorgon!</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${WORDS.filter(w=>getSRSStatus(w.da)==="known").length}</div><div class="done-stat-label">Kända ord</div></div><div class="done-stat"><div class="done-stat-num">${WORDS.length}</div><div class="done-stat-label">Totalt</div></div></div><div class="reset-link" onclick="resetSRS()">Återställ framsteg</div></div>`;
-      return;
-    }
-    area.innerHTML=`<div class="done-panel"><div class="done-emoji">✅</div><div class="done-title">Session klar!</div><div class="done-sub">${total>0?`Det finns ${total} ord kvar att öva.`:"Allt repeterat för nu!"}</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${srsSessionCorrect}</div><div class="done-stat-label">Bra svar</div></div><div class="done-stat"><div class="done-stat-num">${srsSessionTotal}</div><div class="done-stat-label">Totalt</div></div></div>${total>0?`<button class="restart-btn" onclick="startSRSSession()">Fortsätt öva →</button>`:""}<div class="reset-link" onclick="resetSRS()">Återställ framsteg</div></div>`;
-    return;
-  }
-  const w=srsQueue[srsQIndex];
-  const st=getSRSStatus(w.da);
-  const bmap={new:"badge-new",learning:"badge-review",due:"badge-due",known:"badge-due"};
-  const blbl={new:"Nyt",learning:"Lær",due:"Gentagelse",known:"Gentagelse"};
-  area.innerHTML=`
-    <div class="study-header">
-      <div class="study-mode-label">🇸🇪 Gentagelsesøvning</div>
-      <div class="study-count">${srsQIndex+1} / ${srsQueue.length}</div>
-    </div>
-    <div class="srs-card" id="srsCard" onclick="revealSRS()">
-      <div class="card-badge ${bmap[st]}">${blbl[st]}</div>
-      <div class="card-label">🇸🇪 Svenska</div>
-      <button class="audio-btn" id="srsAudioBtn" onclick="event.stopPropagation();speak('${escQ(w.sv)}','sv-SE','srsAudioBtn')">🔊</button>
-      <div class="card-word">${w.sv}</div>
-      <div class="card-ipa">${w.ipa||""}</div>
-      <div class="card-cat-tag">${w.cat}</div>
-      <div class="tap-hint" id="srsTapHint">Tryck för att visa</div>
-      <div class="card-reveal" id="srsReveal">
-        <div class="card-swedish"><strong>🇩🇰 Dansk:</strong> ${w.da}</div>
-        <div class="card-meaning">${w.en}</div>
-        ${w.note?`<div class="card-note">${w.note}</div>`:""}
-      </div>
-    </div>
-    <div id="srsRatings" style="display:none">
-      <div class="srs-ratings">
-        <button class="rating-btn r-again" onclick="rateSRS(0)"><span class="r-emoji">😬</span><span class="r-label">Igen</span><span class="r-interval">${getIntervalLabel(w.da,0)}</span></button>
-        <button class="rating-btn r-hard" onclick="rateSRS(1)"><span class="r-emoji">😅</span><span class="r-label">Svårt</span><span class="r-interval">${getIntervalLabel(w.da,1)}</span></button>
-        <button class="rating-btn r-good" onclick="rateSRS(2)"><span class="r-emoji">🙂</span><span class="r-label">Bra</span><span class="r-interval">${getIntervalLabel(w.da,2)}</span></button>
-        <button class="rating-btn r-easy" onclick="rateSRS(3)"><span class="r-emoji">😎</span><span class="r-label">Lätt</span><span class="r-interval">${getIntervalLabel(w.da,3)}</span></button>
-      </div>
-    </div>`;
-  srsRevealed=false;
-  setTimeout(()=>speak(w.sv,"sv-SE","srsAudioBtn"),300);
-}
-function revealSRS(){
-  if(srsRevealed)return;
-  srsRevealed=true;
-  document.getElementById("srsReveal").classList.add("shown");
-  document.getElementById("srsTapHint").style.display="none";
-  document.getElementById("srsRatings").style.display="";
-}
-function rateSRS(rating){
-  const w=srsQueue[srsQIndex];
-  rateCard(w.da,rating);
-  srsSessionTotal++;
-  if(rating>=2){srsSessionCorrect++;streak++;}else{streak=0;}
-  document.getElementById("streakBadge").textContent="🔥 "+streak;
-  srsQIndex++;renderSRSStudy();
-}
-function startSRSSession(){
-  srsQueue=getDueWords(20);srsQIndex=0;srsSessionCorrect=0;srsSessionTotal=0;
-  renderSRSDash();renderSRSStudy();
-}
-function resetSRS(){
-  if(confirm("Nulstille alle fremskridt?")){srsData={};saveSRS();srsQueue=[];srsQIndex=0;srsSessionCorrect=0;srsSessionTotal=0;startSRSSession();}
-}
-
-// ─── BROWSE ───────────────────────────────────────────────────
-function buildBrowseCategories(){
-  document.getElementById("browseCategories").innerHTML=CATEGORIES.map(c=>`<div class="cat-pill${c===browseCategory?" active":""}" onclick="selectBrowseCategory('${c}')">${c}</div>`).join("");
-}
-function selectBrowseCategory(cat){browseCategory=cat;browseIndex=0;browseRevealed=false;buildBrowseCategories();applyBrowseFilter();renderBrowseCard();}
-function applyBrowseFilter(){
-  browseWords=browseCategory==="Alla"?[...WORDS]:WORDS.filter(w=>w.cat===browseCategory);
-  for(let i=browseWords.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[browseWords[i],browseWords[j]]=[browseWords[j],browseWords[i]];}
-}
-function renderBrowseCard(){
-  if(!browseWords.length)return;
-  const w=browseWords[browseIndex];browseRevealed=false;
-  document.getElementById("browseWord").textContent=w.sv;
-  document.getElementById("browseIpa").textContent=w.ipa||"";
-  document.getElementById("browseCatTag").textContent=w.cat;
-  document.getElementById("browseTapHint").style.display="";
-  document.getElementById("browseReveal").classList.remove("shown");
-  document.getElementById("browseSwedish").innerHTML=`<strong>🇩🇰 Dansk:</strong> ${w.da}`;
-  document.getElementById("browseMeaning").textContent=w.en;
-  document.getElementById("browseNote").innerHTML=w.note||"";
-  const pct=((browseIndex+1)/browseWords.length)*100;
-  document.getElementById("browseProgress").style.width=pct+"%";
-  document.getElementById("browseProgressText").textContent=`${browseIndex+1} / ${browseWords.length}`;
-}
-function revealBrowse(){if(!browseRevealed){browseRevealed=true;document.getElementById("browseReveal").classList.add("shown");document.getElementById("browseTapHint").style.display="none";}}
-function speakBrowse(){const w=browseWords[browseIndex];if(w)speak(w.sv,"sv-SE","browseAudioBtn");}
-function nextBrowse(){browseIndex=(browseIndex+1)%browseWords.length;renderBrowseCard();}
-function prevBrowse(){browseIndex=(browseIndex-1+browseWords.length)%browseWords.length;renderBrowseCard();}
-
-// ─── QUIZ (audio-only) ────────────────────────────────────────
-function startQuiz(){quizWords=[...WORDS].sort(()=>Math.random()-0.5).slice(0,20);quizIndex=0;quizCorrect=0;quizWrong=0;quizAnswered=false;document.getElementById("quizArea").style.display="";document.getElementById("quizResult").style.display="none";updateQuizScore();renderQuizQ();}
-function updateQuizScore(){document.getElementById("qCorrect").textContent=quizCorrect;document.getElementById("qWrong").textContent=quizWrong;document.getElementById("qLeft").textContent=quizWords.length-quizIndex;}
-function speakQuizWord(){const w=quizWords[quizIndex];if(w)speak(w.sv,"sv-SE","quizAudioBtn");}
-function renderQuizQ(){
-  if(quizIndex>=quizWords.length){showQuizResult();return;}
-  const w=quizWords[quizIndex];quizAnswered=false;
-  document.getElementById("qLabel").textContent="Hvad betyder det ord du hører?";
-  document.getElementById("quizFeedback").textContent="";
-  document.getElementById("quizFeedback").className="quiz-feedback";
-  document.getElementById("quizNextBtn").classList.remove("visible");
-  document.getElementById("quizAudioBtn").classList.remove("speaking");
-  // Four options: correct sv + 3 distractors
-  const correct=w.da;
-  const pool=WORDS.filter(x=>x.da!==w.da);
-  const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.da);
-  const opts=[...dist,correct].sort(()=>Math.random()-0.5);
-  document.getElementById("quizOptions").innerHTML=opts.map(opt=>`<button class="option-btn" onclick="answerQuiz(this,'${escQ(opt)}','${escQ(correct)}')">${opt}</button>`).join("");
-  updateQuizScore();
-  // Auto-play after short delay
-  setTimeout(()=>speak(w.sv,"sv-SE","quizAudioBtn"),400);
-}
-function answerQuiz(btn,chosen,correct){
-  if(quizAnswered)return;quizAnswered=true;
-  const w=quizWords[quizIndex];
-  document.querySelectorAll("#quizOptions .option-btn").forEach(b=>b.classList.add("locked"));
-  const wordLine=`<div class="quiz-word-reveal"><span class="qwr-da">${w.sv}</span>${w.ipa?`<span class="qwr-ipa">${w.ipa}</span>`:''}</div>`;
-  if(chosen===correct){
-    btn.classList.add("correct");quizCorrect++;streak++;
-    document.getElementById("quizFeedback").innerHTML="✓ Rätt! "+wordLine;
-    document.getElementById("quizFeedback").className="quiz-feedback correct-fb";
-  } else {
-    btn.classList.add("wrong");streak=0;quizWrong++;
-    document.querySelectorAll("#quizOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});
-    document.getElementById("quizFeedback").innerHTML="✗ Fel – rätt: "+correct+" "+wordLine;
-    document.getElementById("quizFeedback").className="quiz-feedback wrong-fb";
-  }
-  document.getElementById("streakBadge").textContent="🔥 "+streak;
-  document.getElementById("quizNextBtn").classList.add("visible");updateQuizScore();quizIndex++;
-}
-function nextQuizQ(){renderQuizQ();}
-function showQuizResult(){
-  document.getElementById("quizArea").style.display="none";document.getElementById("quizResult").style.display="";
-  const pct=Math.round((quizCorrect/quizWords.length)*100);
-  document.getElementById("rCorrect").textContent=quizCorrect+"/"+quizWords.length;document.getElementById("rPct").textContent=pct+"%";
-  let emoji="😐",title="Ikke dårligt",sub="Bliv ved med at øve!";
-  if(pct>=90){emoji="🏆";title="Fremragende!";sub="Perfekt lytte-forståelse!";}
-  else if(pct>=75){emoji="🎉";title="Godt arbejde!";sub="Øret begynder at genkende svensk.";}
-  else if(pct>=50){emoji="📚";title="På god vej";sub="Fokuser på udtale-faldgruber.";}
-  else{emoji="💪";title="Bliv ved!";sub="Det svenske lydbillede er svært – men det sætter sig!";}
-  document.getElementById("resultEmoji").textContent=emoji;document.getElementById("resultTitle").textContent=title;document.getElementById("resultSubtitle").textContent=sub;
-}
-
-// ─── SENTENCE QUIZ ─────────────────────────────────────────────
-
-
-/*SENTENCES_PLACEHOLDER*/
-
-let sentenceWords=[],sentenceIndex=0,sentenceCorrect=0,sentenceWrong=0,sentenceAnswered=false;
-
+// ─── SENTENCE QUIZ (multiple choice) ───────────────────────────
 function startSentenceQuiz(){
   sentenceWords=[...SENTENCES].sort(()=>Math.random()-0.5).slice(0,15);
   sentenceIndex=0;sentenceCorrect=0;sentenceWrong=0;sentenceAnswered=false;
-  document.getElementById("sentenceArea").style.display="";document.getElementById("sentenceResult").style.display="none";
+  document.getElementById("sentenceArea").style.display="";
+  document.getElementById("sentenceResult").style.display="none";
   updateSentenceScore();renderSentenceQ();
 }
 function updateSentenceScore(){
@@ -588,7 +418,6 @@ function renderSentenceQ(){
   document.getElementById("sentenceReveal").style.display="none";
   document.getElementById("sentenceAudioBtn").classList.remove("speaking");
   document.getElementById("sentenceWordBadge").innerHTML="";
-  // Build options: correct sv + 3 other sentence translations
   const correct=s.da;
   const pool=SENTENCES.filter(x=>x.da!==s.da);
   const dist=pool.sort(()=>Math.random()-0.5).slice(0,3).map(x=>x.da);
@@ -605,42 +434,137 @@ function answerSentence(btn,chosen,correct,da){
   const rev=document.getElementById("sentenceReveal");
   rev.innerHTML=`<div class="da-text">🇸🇪 ${da}</div><div>🇩🇰 ${correct}</div>`;
   rev.style.display="";
-  if(chosen===correct){btn.classList.add("correct");sentenceCorrect++;streak++;document.getElementById("sentenceFeedback").textContent="✓ Rätt!";document.getElementById("sentenceFeedback").className="quiz-feedback correct-fb";}
-  else{btn.classList.add("wrong");streak=0;sentenceWrong++;document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("sentenceFeedback").textContent="✗ Fel!";document.getElementById("sentenceFeedback").className="quiz-feedback wrong-fb";}
-  document.getElementById("streakBadge").textContent="🔥 "+streak;document.getElementById("sentenceNextBtn").classList.add("visible");updateSentenceScore();sentenceIndex++;
+  if(chosen===correct){btn.classList.add("correct");sentenceCorrect++;streak++;document.getElementById("sentenceFeedback").textContent="✓ Rigtigt!";document.getElementById("sentenceFeedback").className="quiz-feedback correct-fb";}
+  else{btn.classList.add("wrong");streak=0;sentenceWrong++;document.querySelectorAll("#sentenceOptions .option-btn").forEach(b=>{if(b.textContent.trim()===correct)b.classList.add("correct");});document.getElementById("sentenceFeedback").textContent="✗ Forkert!";document.getElementById("sentenceFeedback").className="quiz-feedback wrong-fb";}
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  document.getElementById("sentenceNextBtn").classList.add("visible");updateSentenceScore();sentenceIndex++;
 }
 function nextSentenceQ(){renderSentenceQ();}
 function showSentenceResult(){
   document.getElementById("sentenceArea").style.display="none";document.getElementById("sentenceResult").style.display="";
   const pct=Math.round((sentenceCorrect/sentenceWords.length)*100);
-  document.getElementById("srCorrect").textContent=sentenceCorrect+"/"+sentenceWords.length;document.getElementById("srPct").textContent=pct+"%";
-  let emoji="😐",title="Inte illa",sub="Fortsätt öva!";
-  if(pct>=90){emoji="🏆";title="Utmärkt!";sub="Du forstår svenske sætninger!";}
-  else if(pct>=75){emoji="🎉";title="Bra jobbat!";sub="Kontexten börjar ge sig.";}
-  else if(pct>=50){emoji="📚";title="På god väg";sub="Lyssna aktivt på reduktioner.";}
-  else{emoji="💪";title="Håll ut!";sub="Meningarna är hårda – men det lönar sig.";}
-  document.getElementById("sResultEmoji").textContent=emoji;document.getElementById("sResultTitle").textContent=title;document.getElementById("sResultSubtitle").textContent=sub;
+  document.getElementById("srCorrect").textContent=sentenceCorrect+"/"+sentenceWords.length;
+  document.getElementById("srPct").textContent=pct+"%";
+  let emoji="😐",title="Ikke dårligt",sub="Bliv ved med at øve!";
+  if(pct>=90){emoji="🏆";title="Fremragende!";sub="Du forstår svenske sætninger!";}
+  else if(pct>=75){emoji="🎉";title="Godt arbejde!";sub="Konteksten begynder at give sig.";}
+  else if(pct>=50){emoji="📚";title="På god vej";sub="Lyt aktivt efter reduktioner.";}
+  else{emoji="💪";title="Bliv ved!";sub="Sætningerne er svære – men det betaler sig.";}
+  document.getElementById("sResultEmoji").textContent=emoji;
+  document.getElementById("sResultTitle").textContent=title;
+  document.getElementById("sResultSubtitle").textContent=sub;
 }
 
-// ─── GLOSSARY ─────────────────────────────────────────────────
+// ─── HARD MODE (SM-2 self-rate) ─────────────────────────────────
+function renderHardDash(){
+  const c=getHardDueCounts();
+  document.getElementById("hardDash").innerHTML=`
+    <div class="hard-tile new"><div class="hard-tile-num">${c.new}</div><div class="hard-tile-label">Nya</div></div>
+    <div class="hard-tile learning"><div class="hard-tile-num">${c.learning}</div><div class="hard-tile-label">Lär</div></div>
+    <div class="hard-tile due"><div class="hard-tile-num">${c.due}</div><div class="hard-tile-label">Repetition</div></div>
+    <div class="hard-tile known"><div class="hard-tile-num">${c.known}</div><div class="hard-tile-label">Kan</div></div>`;
+}
+function renderHardStudy(){
+  const area=document.getElementById("hardStudyArea");
+  if(hardQIndex>=hardQueue.length){
+    renderHardDash();
+    const c=getHardDueCounts();
+    const total=c.new+c.learning+c.due;
+    if(hardSessionTotal===0&&total===0){
+      area.innerHTML=`<div class="done-panel"><div class="done-emoji">🎉</div><div class="done-title">Alt klart!</div><div class="done-sub">Ingen sætninger at gentage i dag.<br>Kom tilbage i morgen!</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${SENTENCES.filter(s=>getHardStatus(s.da)==="known").length}</div><div class="done-stat-label">Kända</div></div><div class="done-stat"><div class="done-stat-num">${SENTENCES.length}</div><div class="done-stat-label">Totalt</div></div></div><div class="reset-link" onclick="resetHardSRS()">Nulstil fremskridt</div></div>`;
+      return;
+    }
+    area.innerHTML=`<div class="done-panel"><div class="done-emoji">✅</div><div class="done-title">Session færdig!</div><div class="done-sub">${total>0?`${total} sætninger tilbage at øve.`:"Alt gentaget for nu!"}</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${hardSessionCorrect}</div><div class="done-stat-label">Bra svar</div></div><div class="done-stat"><div class="done-stat-num">${hardSessionTotal}</div><div class="done-stat-label">Totalt</div></div></div>${total>0?`<button class="restart-btn" onclick="startHardSession()">Fortsæt →</button>`:""}<div class="reset-link" onclick="resetHardSRS()">Nulstil fremskridt</div></div>`;
+    return;
+  }
+  const s=hardQueue[hardQIndex];
+  const st=getHardStatus(s.da);
+  const bmap={new:"badge-new",learning:"badge-review",due:"badge-due",known:"badge-due"};
+  const blbl={new:"Nyt",learning:"Lær",due:"Gentagelse",known:"Gentagelse"};
+  hardRevealed=false;
+  area.innerHTML=`
+    <div class="hard-card" id="hardCard" onclick="revealHard()">
+      <div class="hard-card-badge ${bmap[st]}">${blbl[st]}</div>
+      <div class="hard-card-count">${hardQIndex+1} / ${hardQueue.length}</div>
+      <button class="audio-btn" id="hardAudioBtn" onclick="event.stopPropagation();speak('${escQ(s.sv)}','sv-SE','hardAudioBtn')">🔊</button>
+      <div class="hard-tap-hint" id="hardTapHint">Tryk for at se oversættelse</div>
+      <div class="hard-reveal" id="hardReveal">
+        <div class="hard-da">🇸🇪 ${s.sv}</div>
+        <div class="hard-sv">🇩🇰 ${s.da}</div>
+        ${s.word?`<div class="hard-note">Fokusord: ${s.word}</div>`:""}
+      </div>
+    </div>
+    <div id="hardRatings" style="display:none">
+      <div class="hard-ratings">
+        <button class="rating-btn r-again" onclick="rateHard(0)"><span class="r-emoji">😬</span><span class="r-label">Igen</span><span class="r-interval">${getHardIntervalLabel(s.da,0)}</span></button>
+        <button class="rating-btn r-hard" onclick="rateHard(1)"><span class="r-emoji">😅</span><span class="r-label">Svårt</span><span class="r-interval">${getHardIntervalLabel(s.da,1)}</span></button>
+        <button class="rating-btn r-good" onclick="rateHard(2)"><span class="r-emoji">🙂</span><span class="r-label">Bra</span><span class="r-interval">${getHardIntervalLabel(s.da,2)}</span></button>
+        <button class="rating-btn r-easy" onclick="rateHard(3)"><span class="r-emoji">😎</span><span class="r-label">Lätt</span><span class="r-interval">${getHardIntervalLabel(s.da,3)}</span></button>
+      </div>
+    </div>`;
+  setTimeout(()=>speak(s.sv,"sv-SE","hardAudioBtn"),400);
+}
+function revealHard(){
+  if(hardRevealed)return;
+  hardRevealed=true;
+  document.getElementById("hardReveal").classList.add("shown");
+  document.getElementById("hardTapHint").style.display="none";
+  document.getElementById("hardRatings").style.display="";
+}
+function rateHard(rating){
+  const s=hardQueue[hardQIndex];
+  rateHardCard(s.da,rating);
+  hardSessionTotal++;
+  if(rating>=2){hardSessionCorrect++;streak++;}else{streak=0;}
+  document.getElementById("streakBadge").textContent="🔥 "+streak;
+  hardQIndex++;renderHardStudy();
+}
+function startHardSession(){
+  hardQueue=getHardDueQueue(15);
+  hardQIndex=0;hardSessionCorrect=0;hardSessionTotal=0;
+  renderHardDash();renderHardStudy();
+}
+function resetHardSRS(){
+  if(confirm("Nulstille alle fremskridt for svær tilstand?")){
+    hardSRSData={};saveHardSRS();
+    hardQueue=[];hardQIndex=0;hardSessionCorrect=0;hardSessionTotal=0;
+    startHardSession();
+  }
+}
+
+// ─── GLOSSARY ───────────────────────────────────────────────────
 function renderGlossary(){
-  const q=document.getElementById("glossarySearch").value.toLowerCase();
-  const filtered=WORDS.filter(w=>w.da.toLowerCase().includes(q)||w.sv.toLowerCase().includes(q)||w.en.toLowerCase().includes(q));
-  const groups={};filtered.forEach(w=>{if(!groups[w.cat])groups[w.cat]=[];groups[w.cat].push(w);});
-  const container=document.getElementById("glossaryList");
-  if(!filtered.length){container.innerHTML='<p style="color:var(--muted);padding:20px 0;text-align:center">Inga ord hittades.</p>';return;}
+  const q=document.getElementById("glossSearch").value.toLowerCase();
+  const filtered=SENTENCES.filter(s=>
+    s.da.toLowerCase().includes(q)||
+    s.sv.toLowerCase().includes(q)||
+    (s.word&&s.word.toLowerCase().includes(q))
+  );
+  const container=document.getElementById("glossList");
+  if(!filtered.length){container.innerHTML='<p style="color:var(--muted);padding:20px 0;text-align:center">Inga meningar hittades.</p>';return;}
   const dc={new:"dot-new",learning:"dot-learning",due:"dot-due",known:"dot-known"};
-  container.innerHTML=Object.entries(groups).map(([cat,words])=>`
-    <div class="glossary-group-label">${cat}</div>
-    ${words.map(w=>`<div class="glossary-item"><div class="g-word">${w.da}</div><div class="g-details"><div class="g-meaning">${w.en}</div><div class="g-swedish">🇸🇪 ${w.sv}</div></div><div class="g-srs-dot ${dc[getSRSStatus(w.da)]}"></div><button class="g-audio-btn" onclick="speak('${escQ(w.sv)}','sv-SE')">🔊</button></div>`).join("")}
-  `).join("");
+  container.innerHTML=filtered.map(s=>`
+    <div class="gloss-item">
+      <div class="gloss-row">
+        <div style="flex:1">
+          <div class="gloss-da">${s.da}</div>
+          <div class="gloss-sv">${s.sv}</div>
+          ${s.word?`<div class="gloss-focus">🎯 ${s.word}</div>`:""}
+        </div>
+        <div class="gloss-srs ${dc[getHardStatus(s.da)]}"></div>
+        <button class="gloss-audio" onclick="speak('${escQ(s.sv)}','sv-SE')">🔊</button>
+      </div>
+    </div>`).join("");
 }
 
-// ─── INIT ─────────────────────────────────────────────────────
+// ─── HELPERS ────────────────────────────────────────────────────
+function escQ(s){return s.replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
+
+// ─── INIT ────────────────────────────────────────────────────────
 window.onload=()=>{
-  loadSRS();
-  buildBrowseCategories();applyBrowseFilter();renderBrowseCard();
-  renderGlossary();startSRSSession();
+  loadHardSRS();
+  startSentenceQuiz();
+  renderGlossary();
   initVoices();
 };
 </script>

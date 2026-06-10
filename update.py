@@ -332,7 +332,7 @@ function speak(text, lang, btnId) {{
 """
 
 
-def build_html(lang: str, words: list, sentences: list, audio_map: dict):
+def build_html(lang: str, sentences: list, audio_map: dict):
     cfg = FILES[lang]
     template_path = os.path.join(BASE_DIR, cfg["template"])
     output_path = os.path.join(BASE_DIR, cfg["output"])
@@ -364,15 +364,13 @@ def build_html(lang: str, words: list, sentences: list, audio_map: dict):
         if am_end != -1:
             template = template[:am_start] + audio_map_to_js(audio_map) + template[am_end+1:]
 
-    # Inject WORDS and SENTENCES
-    html = (template
-            .replace('/*WORDS_PLACEHOLDER*/', words_to_js(words))
-            .replace('/*SENTENCES_PLACEHOLDER*/', sentences_to_js(sentences)))
+    # Inject SENTENCES
+    html = template.replace('/*SENTENCES_PLACEHOLDER*/', sentences_to_js(sentences))
 
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
 
-    print(f"  ✓ {cfg['output']} rebuilt ({len(words)} words, {len(sentences)} sentences)")
+    print(f"  ✓ {cfg['output']} rebuilt ({len(sentences)} sentences)")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -409,7 +407,7 @@ def run(lang: str, api_key: str, no_audio: bool):
         save_audio_map(audio_map)
 
         print(f"\n── Building {cfg['output']} ─────────────────────────────────")
-        build_html(lg, words, sentences, audio_map)
+        build_html(lg, sentences, audio_map)
 
     print(f"\n✓ Done. {total_new} new audio files generated.")
     print("\nPush to GitHub:")
