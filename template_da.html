@@ -255,66 +255,62 @@
 /*SENTENCES_PLACEHOLDER*/
 
 
-// ─── SM-2 (sentences) ─────────────────────────────────────────
-const HARD_SRS_KEY = "dansk_hard_v1";
-let hardSRSData = {};
-function loadHardSRS(){ try{ hardSRSData=JSON.parse(localStorage.getItem(HARD_SRS_KEY))||{}; }catch(e){ hardSRSData={}; } }
-function saveHardSRS(){ try{ localStorage.setItem(HARD_SRS_KEY,JSON.stringify(hardSRSData)); }catch(e){} }
-function getHardCard(key){
-  if(!hardSRSData[key]) hardSRSData[key]={interval:0,reps:0,ef:2.5,nextDue:0,lapses:0};
-  return hardSRSData[key];
+// ─── DIFFICULTY TRACKER ────────────────────────────────────────
+// Ratings: 0=Mycket svårt, 1=Svårt, 2=Okej, 3=Lätt
+// Each sentence stores: { difficulty: 0-3, lastSeen: timestamp }
+// New (never seen) sentences have no entry.
+const HARD_KEY = "dansk_hard_v2";
+let hardData = {};
+function loadHardSRS(){ try{ hardData=JSON.parse(localStorage.getItem(HARD_KEY))||{}; }catch(e){ hardData={}; } }
+function saveHardSRS(){ try{ localStorage.setItem(HARD_KEY,JSON.stringify(hardData)); }catch(e){} }
+
+function getHardEntry(key){
+  return hardData[key] || null;
 }
-function rateHardCard(key,rating){
-  const c=getHardCard(key),now=Date.now(),DAY=86400000;
-  if(rating===0){c.reps=0;c.interval=1;c.lapses++;c.nextDue=now+DAY;}
-  else{
-    const q=[null,3,4,5][rating];
-    c.ef=Math.max(1.3,c.ef+0.1-(5-q)*(0.08+(5-q)*0.02));
-    if(c.reps===0)c.interval=1;
-    else if(c.reps===1)c.interval=4;
-    else c.interval=Math.round(c.interval*c.ef);
-    if(rating===3)c.interval=Math.round(c.interval*1.3);
-    if(rating===1)c.interval=Math.max(1,Math.round(c.interval*0.6));
-    c.reps++;c.nextDue=now+c.interval*DAY;
-  }
+function rateHardCard(key, rating){
+  // rating: 0=Mycket svårt, 1=Svårt, 2=Okej, 3=Lätt
+  hardData[key] = { difficulty: rating, lastSeen: Date.now() };
   saveHardSRS();
 }
-function getHardIntervalLabel(key,rating){
-  const c=getHardCard(key);
-  if(rating===0)return"1d";
-  const q=[null,3,4,5][rating];
-  const ef=Math.max(1.3,c.ef+0.1-(5-q)*(0.08+(5-q)*0.02));
-  let interval;
-  if(c.reps===0)interval=1;
-  else if(c.reps===1)interval=4;
-  else interval=Math.round(c.interval*ef);
-  if(rating===3)interval=Math.round(interval*1.3);
-  if(rating===1)interval=Math.max(1,Math.round(interval*0.6));
-  if(interval<7)return interval+"d";
-  if(interval<30)return Math.round(interval/7)+"v";
-  return Math.round(interval/30)+"mån";
-}
 function getHardStatus(key){
-  const c=getHardCard(key),now=Date.now();
-  if(c.reps===0&&c.nextDue===0)return"new";
-  if(c.nextDue<=now)return c.reps<3?"learning":"due";
-  return"known";
+  const e = getHardEntry(key);
+  if(!e) return "new";
+  return ["very_hard","hard","okay","easy"][e.difficulty];
 }
 function getHardDueCounts(){
-  let n=0,l=0,d=0,k=0;
+  let n=0, vh=0, h=0, ok=0, easy=0;
   SENTENCES.forEach(s=>{
-    const st=getHardStatus(s.da);
-    if(st==="new")n++;else if(st==="learning")l++;else if(st==="due")d++;else k++;
+    const st = getHardStatus(s.da);
+    if(st==="new") n++;
+    else if(st==="very_hard") vh++;
+    else if(st==="hard") h++;
+    else if(st==="okay") ok++;
+    else easy++;
   });
-  return{new:n,learning:l,due:d,known:k};
+  return {new:n, very_hard:vh, hard:h, okay:ok, easy:easy};
 }
 function getHardDueQueue(limit){
-  const now=Date.now();
-  const nw=SENTENCES.filter(s=>getHardStatus(s.da)==="new").slice(0,5);
-  const dw=SENTENCES.filter(s=>{const c=getHardCard(s.da);return c.nextDue<=now&&c.reps>=3;})
-            .sort((a,b)=>getHardCard(a.da).nextDue-getHardCard(b.da).nextDue);
-  const lw=SENTENCES.filter(s=>{const c=getHardCard(s.da);return c.nextDue<=now&&c.reps>0&&c.reps<3;});
-  return[...lw,...dw,...nw].slice(0,limit||15).sort(()=>Math.random()-0.3);
+  // Priority: new > very_hard > hard > okay > easy
+  // Within each bucket: longest ago seen first (lastSeen ascending)
+  const byStatus = {new:[], very_hard:[], hard:[], okay:[], easy:[]};
+  SENTENCES.forEach(s=>{
+    const st = getHardStatus(s.da);
+    byStatus[st].push(s);
+  });
+  const sortByAge = arr => arr.sort((a,b)=>{
+    const ea = getHardEntry(a.da), eb = getHardEntry(b.da);
+    const ta = ea ? ea.lastSeen : 0;
+    const tb = eb ? eb.lastSeen : 0;
+    return ta - tb; // oldest first
+  });
+  const ordered = [
+    ...byStatus.new,
+    ...sortByAge(byStatus.very_hard),
+    ...sortByAge(byStatus.hard),
+    ...sortByAge(byStatus.okay),
+    ...sortByAge(byStatus.easy),
+  ];
+  return ordered.slice(0, limit||20);
 }
 
 // ─── STATE ─────────────────────────────────────────────────────
@@ -459,22 +455,29 @@ function showSentenceResult(){
 function renderHardDash(){
   const c=getHardDueCounts();
   document.getElementById("hardDash").innerHTML=`
-    <div class="hard-tile new"><div class="hard-tile-num">${c.new}</div><div class="hard-tile-label">Nya</div></div>
-    <div class="hard-tile learning"><div class="hard-tile-num">${c.learning}</div><div class="hard-tile-label">Lär</div></div>
-    <div class="hard-tile due"><div class="hard-tile-num">${c.due}</div><div class="hard-tile-label">Repetition</div></div>
-    <div class="hard-tile known"><div class="hard-tile-num">${c.known}</div><div class="hard-tile-label">Kan</div></div>`;
+    <div class="hard-tile new"><div class="hard-tile-num">${c.new}</div><div class="hard-tile-label">Ny</div></div>
+    <div class="hard-tile due"><div class="hard-tile-num">${c.very_hard+c.hard}</div><div class="hard-tile-label">Svår</div></div>
+    <div class="hard-tile learning"><div class="hard-tile-num">${c.okay}</div><div class="hard-tile-label">Okej</div></div>
+    <div class="hard-tile known"><div class="hard-tile-num">${c.easy}</div><div class="hard-tile-label">Lätt</div></div>`;
 }
 function renderHardStudy(){
   const area=document.getElementById("hardStudyArea");
   if(hardQIndex>=hardQueue.length){
+    // Always refresh dashboard when session ends
     renderHardDash();
-    const c=getHardDueCounts();
-    const total=c.new+c.learning+c.due;
-    if(hardSessionTotal===0&&total===0){
-      area.innerHTML=`<div class="done-panel"><div class="done-emoji">🎉</div><div class="done-title">Allt klart!</div><div class="done-sub">Inga meningar att repetera idag.<br>Kom tillbaka imorgon!</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${SENTENCES.filter(s=>getHardStatus(s.da)==="known").length}</div><div class="done-stat-label">Kända</div></div><div class="done-stat"><div class="done-stat-num">${SENTENCES.length}</div><div class="done-stat-label">Totalt</div></div></div><div class="reset-link" onclick="resetHardSRS()">Återställ framsteg</div></div>`;
-      return;
-    }
-    area.innerHTML=`<div class="done-panel"><div class="done-emoji">✅</div><div class="done-title">Session klar!</div><div class="done-sub">${total>0?`${total} meningar kvar att öva.`:"Allt repeterat för nu!"}</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${hardSessionCorrect}</div><div class="done-stat-label">Bra svar</div></div><div class="done-stat"><div class="done-stat-num">${hardSessionTotal}</div><div class="done-stat-label">Totalt</div></div></div>${total>0?`<button class="restart-btn" onclick="startHardSession()">Fortsätt →</button>`:""}<div class="reset-link" onclick="resetHardSRS()">Återställ framsteg</div></div>`;
+    const counts=getHardDueCounts();
+    const dueNow=counts.due+counts.learning;
+    const hasNew=counts.new>0;
+    const known=SENTENCES.filter(s=>getHardStatus(s.da)==="known").length;
+    // Session complete — always show Fortsätt since nothing is ever excluded
+    const parts=[];
+    if(counts.new>0)parts.push(`${counts.new} nya`);
+    if(counts.very_hard>0)parts.push(`${counts.very_hard} mycket svåra`);
+    if(counts.hard>0)parts.push(`${counts.hard} svåra`);
+    if(counts.okay>0)parts.push(`${counts.okay} okej`);
+    if(counts.easy>0)parts.push(`${counts.easy} lätta`);
+    const remaining=parts.length>0?parts.join(", "):"";
+    area.innerHTML=`<div class="done-panel"><div class="done-emoji">✅</div><div class="done-title">Session klar!</div><div class="done-sub">${remaining}.</div><div class="done-stats"><div class="done-stat"><div class="done-stat-num">${hardSessionCorrect}</div><div class="done-stat-label">Bra svar</div></div><div class="done-stat"><div class="done-stat-num">${hardSessionTotal}</div><div class="done-stat-label">Totalt</div></div></div><button class="restart-btn" onclick="startHardSession()">Fortsätt →</button><div class="reset-link" onclick="resetHardSRS()">Återställ framsteg</div></div>`;
     return;
   }
   const s=hardQueue[hardQIndex];
@@ -496,10 +499,10 @@ function renderHardStudy(){
     </div>
     <div id="hardRatings" style="display:none">
       <div class="hard-ratings">
-        <button class="rating-btn r-again" onclick="rateHard(0)"><span class="r-emoji">😬</span><span class="r-label">Igen</span><span class="r-interval">${getHardIntervalLabel(s.da,0)}</span></button>
-        <button class="rating-btn r-hard" onclick="rateHard(1)"><span class="r-emoji">😅</span><span class="r-label">Svårt</span><span class="r-interval">${getHardIntervalLabel(s.da,1)}</span></button>
-        <button class="rating-btn r-good" onclick="rateHard(2)"><span class="r-emoji">🙂</span><span class="r-label">Bra</span><span class="r-interval">${getHardIntervalLabel(s.da,2)}</span></button>
-        <button class="rating-btn r-easy" onclick="rateHard(3)"><span class="r-emoji">😎</span><span class="r-label">Lätt</span><span class="r-interval">${getHardIntervalLabel(s.da,3)}</span></button>
+        <button class="rating-btn r-again" onclick="rateHard(0)"><span class="r-emoji">😰</span><span class="r-label">Mycket svårt</span></button>
+        <button class="rating-btn r-hard" onclick="rateHard(1)"><span class="r-emoji">😬</span><span class="r-label">Svårt</span></button>
+        <button class="rating-btn r-good" onclick="rateHard(2)"><span class="r-emoji">🙂</span><span class="r-label">Okej</span></button>
+        <button class="rating-btn r-easy" onclick="rateHard(3)"><span class="r-emoji">😎</span><span class="r-label">Lätt</span></button>
       </div>
     </div>`;
   setTimeout(()=>speak(s.da,"da-DK","hardAudioBtn"),400);
@@ -525,7 +528,7 @@ function startHardSession(){
   renderHardDash();renderHardStudy();
 }
 function resetHardSRS(){
-  if(confirm("Återställa alla framsteg för svårt läge?")){
+  if(confirm("Återställa alla svårighetsbetyg?")){
     hardSRSData={};saveHardSRS();
     hardQueue=[];hardQIndex=0;hardSessionCorrect=0;hardSessionTotal=0;
     startHardSession();
@@ -542,7 +545,7 @@ function renderGlossary(){
   );
   const container=document.getElementById("glossList");
   if(!filtered.length){container.innerHTML='<p style="color:var(--muted);padding:20px 0;text-align:center">Inga meningar hittades.</p>';return;}
-  const dc={new:"dot-new",learning:"dot-learning",due:"dot-due",known:"dot-known"};
+  const dc={new:"dot-new",very_hard:"dot-due",hard:"dot-due",okay:"dot-learning",easy:"dot-known"};
   container.innerHTML=filtered.map(s=>`
     <div class="gloss-item">
       <div class="gloss-row">
